@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fifteen">15dp</dimen>
+
+    <dimen name="twenty">20dp</dimen>
+
+    <!-- Dimens for splash -->
+    <dimen name="widthSplash">210dp</dimen>
+    <dimen name="heightSplash">250dp</dimen>
+</resources>

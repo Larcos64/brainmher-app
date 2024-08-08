@@ -1,8 +1,10 @@
-package com.example.brainmher;
+package com.uan.brainmher;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.brainmher.R;
 
 public class MainActivity extends AppCompatActivity {
 

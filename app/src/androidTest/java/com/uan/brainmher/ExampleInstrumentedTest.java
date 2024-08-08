@@ -1,4 +1,4 @@
-package com.example.brainmher;
+package com.uan.brainmher;
 
 import android.content.Context;
 

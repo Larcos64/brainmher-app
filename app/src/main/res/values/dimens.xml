@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Dimens of 5  -->
+    <dimen name="five">5dp</dimen>
     <dimen name="fifteen">15dp</dimen>
+    <dimen name="twentyFive">25dp</dimen>
+    <dimen name="thirtyFive">35dp</dimen>
+    <dimen name="fortyFive">45dp</dimen>
+    <dimen name="fiftyFive">55dp</dimen>
+    <dimen name="sixtyFive">65dp</dimen>
+    <dimen name="seventyFive">75dp</dimen>
+    <dimen name="eightyFive">85dp</dimen>
+    <dimen name="ninetyFive">95dp</dimen>
 
+    <!-- Dimens of 10 -->
+    <dimen name="ten">10dp</dimen>
+    <dimen name="sixteen">16dp</dimen>
     <dimen name="twenty">20dp</dimen>
+    <dimen name="thirty">30dp</dimen>
+    <dimen name="forty">40dp</dimen>
+    <dimen name="fifty">50dp</dimen>
+    <dimen name="sixty">60dp</dimen>
+    <dimen name="seventy">70dp</dimen>
+    <dimen name="eighty">80dp</dimen>
+    <dimen name="ninety">90dp</dimen>
+    <dimen name="oneHundred">100dp</dimen>
+    <dimen name="oneHundredForty">140dp</dimen>
+    <dimen name="twoHundred">200dp</dimen>
 
     <!-- Dimens for splash -->
     <dimen name="widthSplash">210dp</dimen>
     <dimen name="heightSplash">250dp</dimen>
+
+    <!-- Other dimens -->
+    <dimen name="oneHundredFifty">150dp</dimen>
+    <dimen name="two">2dp</dimen>
+    <dimen name="three">3dp</dimen>
+    <dimen name="eight">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="eighteen">18dp</dimen>
 </resources>

@@ -4,4 +4,14 @@
 
     // Collections Strings
     <string name="create_collections">Crear coleciones</string>
+
+    <string name="email">Correo electrónico</string>
+
+    // Tab
+    <string name="admin_user_name">Nombre de usuario</string>
+    <string name="admin_pass">Contraseña</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="register">Registrar</string>
+
+    <string name="label_register_account">¿No tienes cuenta?</string>
 </resources>

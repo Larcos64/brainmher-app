@@ -1,13 +1,20 @@
 plugins {
     id("com.android.application")
+
+    // Add the Google services Gradle plugin
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.brainmher"
+    namespace = "com.uan.brainmher"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
-        applicationId = "com.example.brainmher"
+        applicationId = "com.uan.brainmher"
         minSdk = 29
         targetSdk = 33
         versionCode = 1
@@ -34,7 +41,8 @@ android {
 dependencies {
 
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
+    //implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.13.0-alpha05")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -42,4 +50,7 @@ dependencies {
 
     //dependencies for views
     implementation("com.google.android.material:material:1.1.0-alpha10")
+
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
 }

@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- botón para la creación de categorías -->
+    <!-- Button for category creation -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_create"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"

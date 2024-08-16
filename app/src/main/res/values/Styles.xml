@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Standard style for text input layout (Login) -->
+    <style name="StyleTextInputLayotTextBoxLogin" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+        <item name="endIconTint">@color/colorBackround</item>
+        <item name="hintTextColor">@color/colorBackround</item>
+        <item name="android:textColorHint">@color/colorBackround</item>
+        <item name="boxStrokeWidth">0.5dp</item>
+        <item name="errorIconTint">@color/white</item>
+        <item name="errorTextColor">@color/white</item>
+        <!--<item name="android:layout_margin">@dimen/three</item>-->
+        <item name="android:layout_marginLeft">@dimen/sixteen</item>
+        <item name="android:layout_marginRight">@dimen/sixteen</item>
+    </style>
+
+    <!-- Standard style for text box email in login -->
+    <style name="StyleTextInputEditTextLoginEmail">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorBackround</item>
+        <item name="android:textColorHint">@color/colorBackround</item>
+        <item name="android:colorAccent">@color/colorBackround</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <!-- Standard style for text boxes in login -->
+    <style name="StyleTextInputEditTextLogin">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorBackround</item>
+        <item name="android:textColorHint">@color/colorBackround</item>
+        <item name="android:colorAccent">@color/colorBackround</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Standard style for login buttons -->
+    <style name="StyleLoginButtons" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">@dimen/sixteen</item>
+        <item name="android:textStyle">bold</item>
+        <item name="rippleColor">@color/colorAccent</item>
+        <item name="cornerRadius">@dimen/twenty</item>
+    </style>
+
+    <!-- Standard style for text label  -->
+    <style name="StyleTextLabel">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Standard style for text button -->
+    <style name="StyleTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog.Flush">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">@dimen/twenty</item>
+        <item name="rippleColor">@color/colorAccent</item>
+    </style>
+</resources>

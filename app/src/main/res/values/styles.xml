@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Standard style for text input layout (Login) -->
+    <style name="StyleTextInputLayotTextBoxLogin" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+        <item name="endIconTint">@color/colorBackround</item>
+        <item name="hintTextColor">@color/colorBackround</item>
+        <item name="android:textColorHint">@color/colorBackround</item>
+        <item name="boxStrokeWidth">0.5dp</item>
+        <item name="errorIconTint">@color/white</item>
+        <item name="errorTextColor">@color/white</item>
+        <!--<item name="android:layout_margin">@dimen/three</item>-->
+        <item name="android:layout_marginLeft">@dimen/sixteen</item>
+        <item name="android:layout_marginRight">@dimen/sixteen</item>
+    </style>
+
+    <!-- Standard style for text view layout (Login) -->
+    <style name="StyleTextViewTitles">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Standard style for text box email in login -->
+    <style name="StyleTextInputEditTextLoginEmail">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorBackround</item>
+        <item name="android:textColorHint">@color/colorBackround</item>
+        <item name="android:colorAccent">@color/colorBackround</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <!-- Standard style for text boxes in login -->
+    <style name="StyleTextInputEditTextLogin">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorBackround</item>
+        <item name="android:textColorHint">@color/colorBackround</item>
+        <item name="android:colorAccent">@color/colorBackround</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Standard style for login buttons -->
+    <style name="StyleLoginButtons" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">@dimen/sixteen</item>
+        <item name="android:textStyle">bold</item>
+        <item name="rippleColor">@color/colorAccent</item>
+        <item name="cornerRadius">@dimen/twenty</item>
+    </style>
+
+    <!-- Standard style for text label  -->
+    <style name="StyleTextLabel">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Standard style for text button -->
+    <style name="StyleTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog.Flush">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">@dimen/twenty</item>
+        <item name="rippleColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Standard style for toolbar primary -->
+    <style name="StyleToolbarPrimary" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:popupTheme">@style/AppTheme.PopupOverlay</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+    </style>
+
+    <!-- Standard style for text box layout (Forms) -->
+    <style name="StyleTextInputLayotTextBoxForms" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="endIconTint">@color/colorPrimary</item>
+        <item name="boxBackgroundColor">@color/colorBackround</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <!-- Standard style for layout of drop-down lists (Forms) -->
+    <style name="StyleTextInputLayotDropDownForms" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@color/colorBackround</item>
+        <item name="android:paddingBottom">@dimen/ten</item>
+        <item name="android:paddingRight">@dimen/ten</item>
+        <item name="android:paddingLeft">@dimen/ten</item>
+    </style>
+
+    <!-- Standard style for text boxes -->
+    <style name="StyleTextInputEditText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Standard style for gender field container -->
+    <style name="StyleLinearLayoutGenderForms">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">@dimen/ten</item>
+    </style>
+
+    <!-- Standard style for gender subtitle (Forms) -->
+    <style name="StyleLabelGenderForms">
+        <item name="android:layout_marginRight">@dimen/ten</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/fifteen</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <!-- Standard style for radio groups -->
+    <style name="StyleRadioGroupForms" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:paddingLeft">@dimen/fiftyFive</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- Standard style for field container and image for date of birth -->
+    <style name="StyleLinearLayoutBirthDateForms">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingRight">@dimen/ten</item>
+    </style>
+
+    <!-- Standard style for image calendar button -->
+    <style name="StyleCircleImageViewCalendarForms" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="android:background">@color/colorBackround</item>
+        <item name="android:src">@drawable/ic_calendar</item>
+        <item name="android:layout_marginBottom">@dimen/ten</item>
+        <item name="android:layout_marginRight">@dimen/ten</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:clickable">true</item>
+        <item name="android:elevation">@dimen/elevationTwo</item>
+    </style>
+
+    <!-- Standard style for radio buttons -->
+    <style name="StyleRadioButtonForms" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorGray</item>
+    </style>
+
+    <!-- Standard style for buttons -->
+    <style name="StylePrimaryColoredButton" parent="Widget.MaterialComponents.Button">
+        <!--<item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>-->
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="rippleColor">@color/colorAccent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="iconPadding">15dp</item>
+    </style>
+</resources>

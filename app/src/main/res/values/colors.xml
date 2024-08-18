@@ -11,4 +11,6 @@
     <color name="colorAccentLight">#78ffe5</color>
     <color name="colorAccentDark">#00b183</color>
     <color name="colorBackround">#fafafa</color>
+
+    <color name="colorGray">#757575</color>
 </resources>

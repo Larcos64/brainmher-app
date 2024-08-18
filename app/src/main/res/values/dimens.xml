@@ -38,4 +38,8 @@
     <dimen name="eight">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="eighteen">18dp</dimen>
+
+    <!-- Dimens for elevation -->
+    <dimen name="elevationOne">1dp</dimen>
+    <dimen name="elevationTwo">2dp</dimen>
 </resources>

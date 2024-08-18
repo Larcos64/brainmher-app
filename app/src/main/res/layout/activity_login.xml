@@ -48,7 +48,7 @@
             android:id="@+id/txtinput_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/admin_pass"
+            android:hint="@string/pass"
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
             style="@style/StyleTextInputLayotTextBoxLogin">
@@ -91,7 +91,7 @@
             style="@style/StyleTextLabel"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/link_registrar"
+            android:id="@+id/link_registration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/five"

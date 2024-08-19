@@ -25,12 +25,21 @@
     <string name="surnames">Apellidos</string>
     <string name="names">Nombres</string>
 
-    // Options
-    <string name="male">Masculino</string>
-    <string name="famale">Femenino</string>
-
     // Buttons, Links, Tabs
     <string name="login">Iniciar sesión</string>
     <string name="register">Registrar</string>
     <string name="save">Guardar</string>
+
+    // Alers, messages
+    <string name="val_min_password">Debe contener almenos 7 caracteres</string>
+    <string name="select_photo">Seleccione la Imagen</string>
+
+    // Options
+    <string name="male">Masculino</string>
+    <string name="famale">Femenino</string>
+    <string-array name="identification_types">
+        <item>Cédula de ciudadanía</item>
+        <item>Cédula de extranjería</item>
+        <item>Pasaporte</item>
+    </string-array>
 </resources>

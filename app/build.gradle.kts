@@ -48,10 +48,14 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    //dependencies for views
+    // Dependencies for views
     implementation("com.google.android.material:material:1.1.0-alpha10") // Material Design
     implementation("de.hdodenhof:circleimageview:3.1.0") // CircleImage
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.15.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.0")
 }

@@ -36,6 +36,7 @@
         </activity>
 
         <activity android:name=".ui.CaregiverRegistration"></activity>
+        <activity android:name=".ui.MainCarer" />
 
     </application>
 

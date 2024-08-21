@@ -33,6 +33,7 @@
     // Alers, messages
     <string name="val_min_password">Debe contener almenos 7 caracteres</string>
     <string name="select_photo">Seleccione la Imagen</string>
+    <string name="was_saved_succesfully">Se guardó exitosamente</string>
 
     // Options
     <string name="male">Masculino</string>

@@ -57,7 +57,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_createps_til_name"
+                    android:id="@+id/txt_name"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_createps_til_lastname"
+                    android:id="@+id/txt_lastname"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_createps_til_documet"
+                    android:id="@+id/txt_documet"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
             </LinearLayout>
 
             <RadioGroup
-                android:id="@+id/admin_createps_rg_gender"
+                android:id="@+id/rg_gender"
                 style="@style/StyleRadioGroupForms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -194,7 +194,7 @@
                 app:startIconDrawable="@drawable/ic_nature_people_black">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_createps_til_native_city"
+                    android:id="@+id/txt_native_city"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -210,7 +210,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_createps_til_telephone"
+                    android:id="@+id/txt_telephone"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -227,7 +227,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_createps_address"
+                    android:id="@+id/txt_address"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -244,7 +244,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_createps_til_city"
+                    android:id="@+id/txt_city"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -262,7 +262,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_create_add_til_email"
+                    android:id="@+id/txt_email"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -279,7 +279,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_create_add_til_user"
+                    android:id="@+id/txt_user"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -314,7 +314,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_createps_til_profession"
+                    android:id="@+id/txt_profession"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -331,7 +331,7 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/admin_create_add_workplace"
+                    android:id="@+id/txt_workplace"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

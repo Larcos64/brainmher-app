@@ -7,6 +7,7 @@
 
     // Titles
     <string name="add_carer">Registrar Cuidador</string>
+    <string name="lbl_welcome">Bienvenido</string>
 
     // Placeholders
     <string name="email">Correo electrónico</string>
@@ -27,13 +28,27 @@
 
     // Buttons, Links, Tabs
     <string name="login">Iniciar sesión</string>
+    <string name="logout">Cerrar sesión</string>
     <string name="register">Registrar</string>
     <string name="save">Guardar</string>
+    <string name="home">Inicio</string>
+    <string name="test">Test</string>
+
+    <string name="info">Información</string>
+    <string name="emergency">Emergencias</string>
+    <string name="my_care">Mi cuidado</string>
+    <string name="manage">Gestionar</string>
+    <string name="diary">Agenda</string>
+
+    <string name="menu_profile">Perfil</string>
 
     // Alers, messages
     <string name="val_min_password">Debe contener almenos 7 caracteres</string>
     <string name="select_photo">Seleccione la Imagen</string>
     <string name="was_saved_succesfully">Se guardó exitosamente</string>
+    <string name="auth_fail">Error en la autenticación</string>
+    <string name="email_required">Correo electrónico obligatorio</string>
+    <string name="password_required">Contraseña obligatoria</string>
 
     // Options
     <string name="male">Masculino</string>

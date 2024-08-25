@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="190dp"
+    android:background="@drawable/img_banner">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="@dimen/sixteen"
+        android:paddingBottom="@dimen/sixteen">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_users_navigation"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/avatar"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_welcome"
+            android:textColor="@color/white"
+            android:textSize="@dimen/thirty"></TextView>
+
+        <TextView
+            android:id="@+id/lbl_name_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre Usuario"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen"></TextView>
+
+        <TextView
+            android:id="@+id/lbl_email_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="usuario@gmail.com"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen"></TextView>
+
+    </LinearLayout>
+
+</RelativeLayout>

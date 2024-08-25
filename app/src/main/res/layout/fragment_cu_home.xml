@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentHome"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.carer.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginBottom="55dp">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/heart"
+            style="@style/StyleCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/oneHundredNinetyFourDp"
+                android:src="@drawable/img_selfcarer"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                style="@style/StyleSubsCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_care"/>
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alignmentMode="alignMargins"
+            android:columnCount="2"
+            android:columnOrderPreserved="false"
+            android:rowCount="2">
+
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/manage"
+                style="@style/StyleCardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/oneHundredNinetyFourDp"
+                    android:src="@drawable/img_manage"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    style="@style/StyleSubsCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/manage"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/diary"
+                style="@style/StyleCardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/oneHundredNinetyFourDp"
+                    android:src="@drawable/img_diary"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    style="@style/StyleSubsCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/diary"/>
+            </com.google.android.material.card.MaterialCardView>
+
+        </GridLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/containerHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="30dp"></FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

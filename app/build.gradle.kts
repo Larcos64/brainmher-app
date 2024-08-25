@@ -51,6 +51,8 @@ dependencies {
     // Dependencies for views
     implementation("com.google.android.material:material:1.1.0-alpha10") // Material Design
     implementation("de.hdodenhof:circleimageview:3.1.0") // CircleImage
+    implementation("androidx.navigation:navigation-fragment:2.7.7")
+    implementation("androidx.navigation:navigation-ui:2.7.7")
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
@@ -61,4 +63,7 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.15.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.0")
+
+    // OneSignal
+    implementation("com.onesignal:OneSignal:[5.0.0, 5.99.99]")
 }

@@ -142,7 +142,7 @@
         <item name="android:layout_marginRight">@dimen/ten</item>
         <item name="android:layout_weight">1</item>
         <item name="android:clickable">true</item>
-        <item name="android:elevation">@dimen/elevationTwo</item>
+        <item name="android:elevation">@dimen/two</item>
     </style>
 
     <!-- Standard style for radio buttons -->
@@ -160,5 +160,28 @@
         <item name="rippleColor">@color/colorAccent</item>
         <item name="android:textStyle">bold</item>
         <item name="iconPadding">15dp</item>
+    </style>
+
+    <!-- Standard style for bottom navigation -->
+    <style name="StyleBottonNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="elevation">2dp</item>
+    </style>
+
+    <!-- Standard style for card view -->
+    <style name="StyleCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="android:layout_margin">@dimen/ten</item>
+        <item name="cardCornerRadius">@dimen/twenty</item>
+        <item name="cardElevation">@dimen/six_dp</item>
+        <item name="rippleColor">@color/colorAccent</item>
+    </style>
+
+    <!-- Standard style for subtitles with background in cardview -->
+    <style name="StyleSubsCardView">
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:background">#6c000000</item>
+        <item name="android:textColor">@color/colorBackround</item>
+        <item name="android:textSize">@dimen/twentySp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">@dimen/ten</item>
     </style>
 </resources>

@@ -1,4 +1,4 @@
-package com.uan.brainmher.ui;
+package com.uan.brainmher.ui.carer;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -34,13 +34,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.uan.brainmher.R;
 import com.uan.brainmher.data.Carer;
-import com.uan.brainmher.databinding.ActivityCaregiverRegistrationBinding;
+import com.uan.brainmher.databinding.ActivityCarerRegistrationBinding;
 import com.uan.brainmher.tools.Constants;
 
 import java.util.Calendar;
 
-public class CaregiverRegistration extends AppCompatActivity {
-    private ActivityCaregiverRegistrationBinding binding;
+public class CarerRegistration extends AppCompatActivity {
+    private ActivityCarerRegistrationBinding binding;
     private ActivityResultLauncher<Intent> startActivityLauncher;
 
     String nameSring, lastNameString, typeIDString, idString, birthDateString, nativeCityString, actualCityString, addressString, emailString, userString, passwordString, seleccionRG, phoneString, profession, workC;
@@ -59,7 +59,7 @@ public class CaregiverRegistration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Inflate the layout using View Binding
-        binding = ActivityCaregiverRegistrationBinding.inflate(getLayoutInflater());
+        binding = ActivityCarerRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         auth = FirebaseAuth.getInstance();
@@ -81,7 +81,7 @@ public class CaregiverRegistration extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         Uri imageUri = result.getData().getData();
                         // Load the selected image into the ImageView
-                        Glide.with(CaregiverRegistration.this)
+                        Glide.with(CarerRegistration.this)
                                 .load(imageUri)
                                 .fitCenter()
                                 .into(binding.civProfileImage);
@@ -114,7 +114,7 @@ public class CaregiverRegistration extends AppCompatActivity {
             if (setPojoCarers()) {
                 handleSaveButtonClick();
             } else {
-                Toast.makeText(CaregiverRegistration.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CarerRegistration.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -151,7 +151,7 @@ public class CaregiverRegistration extends AppCompatActivity {
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(CaregiverRegistration.this, (view, year, monthOfYear, dayOfMonth) ->
+        DatePickerDialog datePickerDialog = new DatePickerDialog(CarerRegistration.this, (view, year, monthOfYear, dayOfMonth) ->
                 binding.txtBirthDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year), mYear, mMonth, mDay);
         datePickerDialog.show();
     }
@@ -193,8 +193,8 @@ public class CaregiverRegistration extends AppCompatActivity {
                                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                         @Override
                                                                         public void onSuccess(Void aVoid) {
-                                                                            Toast.makeText(CaregiverRegistration.this, getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
-                                                                            Intent intent = new Intent(CaregiverRegistration.this, MainCarer.class);
+                                                                            Toast.makeText(CarerRegistration.this, getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
+                                                                            Intent intent = new Intent(CarerRegistration.this, MainCarer.class);
                                                                             startActivity(intent);
                                                                             finish();
                                                                         }

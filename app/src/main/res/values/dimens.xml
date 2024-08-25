@@ -40,6 +40,11 @@
     <dimen name="eighteen">18dp</dimen>
 
     <!-- Dimens for elevation -->
-    <dimen name="elevationOne">1dp</dimen>
-    <dimen name="elevationTwo">2dp</dimen>
+    <dimen name="six_dp">1dp</dimen>
+
+    <!-- Dimens for cardview -->
+    <dimen name="oneHundredNinetyFourDp">194dp</dimen>
+
+
+    <dimen name="twentySp">20sp</dimen>
 </resources>

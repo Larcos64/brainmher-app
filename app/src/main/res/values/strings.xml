@@ -33,6 +33,8 @@
     <string name="save">Guardar</string>
     <string name="home">Inicio</string>
     <string name="test">Test</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
     <string name="info">Información</string>
     <string name="emergency">Emergencias</string>

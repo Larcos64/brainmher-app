@@ -1,6 +1,4 @@
-package com.uan.brainmher.data;
-
-import android.net.Uri;
+package com.uan.brainmher.domain.entities;
 
 public class Carer {
 

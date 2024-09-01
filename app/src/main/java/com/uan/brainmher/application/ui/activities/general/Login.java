@@ -1,4 +1,4 @@
-package com.uan.brainmher.ui;
+package com.uan.brainmher.application.ui.activities.general;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.uan.brainmher.R;
-import com.uan.brainmher.database.LoginManager;
+import com.uan.brainmher.application.ui.activities.carer.CarerRegistration;
+import com.uan.brainmher.infraestructure.database.LoginManager;
 import com.uan.brainmher.databinding.ActivityLoginBinding;
-import com.uan.brainmher.ui.carer.CarerRegistration;
 
 public class Login extends AppCompatActivity {
     private ActivityLoginBinding binding;

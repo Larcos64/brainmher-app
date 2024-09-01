@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
-    tools:context=".ui.carer.MainCarer">
+    tools:context=".application.ui.activities.carer.MainCarer">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             app:menu="@menu/menu_carer"
             android:layout_gravity="bottom"
-            app:layout_behavior=".fragments.general.BottomNavigationBehavior"/>
+            app:layout_behavior=".application.ui.fragments.general.BottomNavigationBehavior"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

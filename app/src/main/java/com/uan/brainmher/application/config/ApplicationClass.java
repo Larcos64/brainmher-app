@@ -1,4 +1,4 @@
-package com.uan.brainmher;
+package com.uan.brainmher.application.config;
 import android.app.Application;
 import com.onesignal.OneSignal;
 import com.onesignal.debug.LogLevel;
@@ -25,4 +25,3 @@ public class ApplicationClass extends Application {
 
     }
 }
-

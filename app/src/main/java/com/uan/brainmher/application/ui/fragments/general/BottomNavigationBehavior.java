@@ -1,4 +1,4 @@
-package com.uan.brainmher.fragments.general;
+package com.uan.brainmher.application.ui.fragments.general;
 
 import android.content.Context;
 import android.util.AttributeSet;

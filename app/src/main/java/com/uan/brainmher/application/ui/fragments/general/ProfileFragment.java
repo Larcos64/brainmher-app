@@ -1,4 +1,4 @@
-package com.uan.brainmher.fragments.general;
+package com.uan.brainmher.application.ui.fragments.general;
 
 import androidx.fragment.app.Fragment;
 

@@ -1,4 +1,4 @@
-package com.uan.brainmher.database;
+package com.uan.brainmher.infraestructure.database;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,11 +7,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -19,9 +16,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.onesignal.OneSignal;
 import com.uan.brainmher.R;
-import com.uan.brainmher.data.Carer;
-import com.uan.brainmher.tools.Constants;
-import com.uan.brainmher.ui.carer.MainCarer;
+import com.uan.brainmher.domain.entities.Carer;
+import com.uan.brainmher.infraestructure.tools.Constants;
+import com.uan.brainmher.application.ui.activities.carer.MainCarer;
 
 public class LoginManager {
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();

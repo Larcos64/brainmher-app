@@ -1,4 +1,4 @@
-package com.uan.brainmher.tools;
+package com.uan.brainmher.infraestructure.tools;
 
 public class Constants {
     //Constants for collections
@@ -19,12 +19,14 @@ public class Constants {
     //Constants for Patients
     public static final String Memorizame = "Memorizame";
 
-
     public static final String Stretching = "Stretching_Exercises";
-
 
     //Constants for Carer
     public static final String Contacts = "Contacts";
     public static final String Numbers = "Numbers";
     public static final String scoreGames = "ScoreGames";
+
+    // Constants for Application
+    public static final int SPLASH_DURATION = 2000;
+    public static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 10;
 }

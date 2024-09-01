@@ -6,7 +6,7 @@
     app:startDestination="@id/home">
     <fragment
         android:id="@+id/home"
-        android:name="com.uan.brainmher.fragments.carer.HomeFragment"
+        android:name="com.uan.brainmher.application.ui.fragments.carer.HomeFragment"
         android:label="fragment_cu_home"
         tools:layout="@layout/fragment_cu_home" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.uan.brainmher.ui.carer;
+package com.uan.brainmher.application.ui.activities.carer;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -33,9 +33,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.uan.brainmher.R;
-import com.uan.brainmher.data.Carer;
+import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.databinding.ActivityCarerRegistrationBinding;
-import com.uan.brainmher.tools.Constants;
+import com.uan.brainmher.infraestructure.tools.Constants;
 
 import java.util.Calendar;
 

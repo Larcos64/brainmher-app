@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/color_gradient_background"
     android:focusableInTouchMode="true"
-    tools:context="com.uan.brainmher.ui.Login">
+    tools:context="com.uan.brainmher.application.ui.activities.general.Login">
 
     <LinearLayout
         android:layout_width="match_parent"

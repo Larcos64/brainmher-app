@@ -1,4 +1,4 @@
-package com.uan.brainmher.ui;
+package com.uan.brainmher.application.ui.activities.general;
 
 import android.Manifest;
 import android.content.Intent;
@@ -15,12 +15,9 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.uan.brainmher.R;
+import com.uan.brainmher.infraestructure.tools.Constants;
 
 public class LoadBrainmher extends AppCompatActivity  {
-    private final int SPLASH_DURATION = 2000;
-
-    //region Variables for permissions
-    final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +42,7 @@ public class LoadBrainmher extends AppCompatActivity  {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
             redirect();
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, Constants.MY_PERMISSIONS_REQUEST_CALL_PHONE);
         }
     }
 
@@ -55,14 +52,14 @@ public class LoadBrainmher extends AppCompatActivity  {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
-        }, SPLASH_DURATION);
+        }, Constants.SPLASH_DURATION);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == MY_PERMISSIONS_REQUEST_CALL_PHONE) {
+        if (requestCode == Constants.MY_PERMISSIONS_REQUEST_CALL_PHONE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 redirect();
             } else {

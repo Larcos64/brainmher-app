@@ -1,4 +1,4 @@
-package com.uan.brainmher.ui;
+package com.uan.brainmher.application.ui.activities.general;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import com.uan.brainmher.R;
 import com.uan.brainmher.databinding.ActivityNavigationOptionsBinding;
-import com.uan.brainmher.fragments.general.ProfileFragment;
+import com.uan.brainmher.application.ui.fragments.general.ProfileFragment;
 
 public class NavigationOptions extends AppCompatActivity {
 

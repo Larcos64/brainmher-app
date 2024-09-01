@@ -1,4 +1,4 @@
-package com.uan.brainmher.ui;
+package com.uan.brainmher.application.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -1,4 +1,4 @@
-package com.uan.brainmher.fragments.carer;
+package com.uan.brainmher.application.ui.fragments.carer;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import com.uan.brainmher.R;
-import com.uan.brainmher.interfaces.IMainCarer;
+import com.uan.brainmher.application.ui.interfaces.IMainCarer;
 
 public class HomeFragment extends Fragment {
 

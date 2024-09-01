@@ -1,4 +1,4 @@
-package com.uan.brainmher.ui.carer;
+package com.uan.brainmher.application.ui.activities.carer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,15 +21,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uan.brainmher.R;
-import com.uan.brainmher.data.Carer;
+import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.databinding.ActivityMainCarerBinding;
-import com.uan.brainmher.interfaces.IMainCarer;
-import com.uan.brainmher.tools.Constants;
+import com.uan.brainmher.application.ui.interfaces.IMainCarer;
+import com.uan.brainmher.infraestructure.tools.Constants;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import com.google.android.material.navigation.NavigationView;
-import com.uan.brainmher.ui.Login;
-import com.uan.brainmher.ui.NavigationOptions;
+import com.uan.brainmher.application.ui.activities.general.Login;
+import com.uan.brainmher.application.ui.activities.general.NavigationOptions;
 
 public class MainCarer extends AppCompatActivity implements IMainCarer, NavigationView.OnNavigationItemSelectedListener {
 

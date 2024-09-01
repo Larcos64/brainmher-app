@@ -20,10 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31"
-        android:name=".ApplicationClass">
+        android:name=".application.config.ApplicationClass">
 
         <activity
-            android:name=".ui.LoadBrainmher"
+            android:name=".application.ui.activities.general.LoadBrainmher"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +32,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.Login"
+        <activity android:name=".application.ui.activities.general.Login"
             android:windowSoftInputMode="adjustResize">
         </activity>
 
-        <activity android:name=".ui.carer.CarerRegistration"></activity>
-        <activity android:name=".ui.carer.MainCarer" />
+        <activity android:name=".application.ui.activities.carer.CarerRegistration"></activity>
+        <activity android:name=".application.ui.activities.carer.MainCarer" />
 
     </application>
 

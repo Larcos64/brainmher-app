@@ -8,29 +8,28 @@
     // Titles
     <string name="add_carer">Registrar Cuidador</string>
     <string name="lbl_welcome">Bienvenido</string>
+    <string name="lbl_my_profile">MI PERFIL</string>
 
     // Placeholders
     <string name="email">Correo electrónico</string>
     <string name="user">Usuario</string>
     <string name="pass">Contraseña</string>
     <string name="profession">Profesión</string>
-    <string name="workplace">Lugar de trabajo</string>
     <string name="city">Ciudad</string>
-    <string name="address">Dirección</string>
     <string name="telephone">Teléfono</string>
     <string name="date_of_birth">Fecha de nacimiento</string>
-    <string name="city_of_birth">Ciudad de nacimiento</string>
     <string name="gender">Género</string>
-    <string name="identification_type">Tipo de identificación</string>
+    <string name="residence_country">País de residencia</string>
     <string name="documet_number">Número de documento</string>
-    <string name="surnames">Apellidos</string>
-    <string name="names">Nombres</string>
+    <string name="surnames">Apellido</string>
+    <string name="names">Nombre</string>
 
     // Buttons, Links, Tabs
     <string name="login">Iniciar sesión</string>
     <string name="logout">Cerrar sesión</string>
     <string name="register">Registrar</string>
     <string name="save">Guardar</string>
+    <string name="update">Actualizar</string>
     <string name="home">Inicio</string>
     <string name="test">Test</string>
     <string name="drawer_open">Open</string>
@@ -51,13 +50,31 @@
     <string name="auth_fail">Error en la autenticación</string>
     <string name="email_required">Correo electrónico obligatorio</string>
     <string name="password_required">Contraseña obligatoria</string>
+    <string name="complete_field">Complete todos los campos</string>
 
     // Options
     <string name="male">Masculino</string>
-    <string name="famale">Femenino</string>
-    <string-array name="identification_types">
-        <item>Cédula de ciudadanía</item>
-        <item>Cédula de extranjería</item>
-        <item>Pasaporte</item>
+    <string name="female">Femenino</string>
+    <string-array name="residence_countries">
+        <item>Argentina</item>
+        <item>Bolivia</item>
+        <item>Chile</item>
+        <item>Colombia</item>
+        <item>Costa Rica</item>
+        <item>Cuba</item>
+        <item>República Dominicana</item>
+        <item>Ecuador</item>
+        <item>El Salvador</item>
+        <item>España</item>
+        <item>Guatemala</item>
+        <item>Honduras</item>
+        <item>México</item>
+        <item>Nicaragua</item>
+        <item>Panamá</item>
+        <item>Paraguay</item>
+        <item>Perú</item>
+        <item>Puerto Rico</item>
+        <item>Uruguay</item>
+        <item>Venezuela</item>
     </string-array>
 </resources>

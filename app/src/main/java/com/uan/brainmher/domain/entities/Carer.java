@@ -6,19 +6,14 @@ public class Carer {
     private String carerUID;
     private String firstName;
     private String lastName;
-    private String identificationType;
-    private String identification;
+    private String residenceCountry;
     private String gender;
     private String birthday;
-    private String nativeCity;
-    private String address;
-    private String actualCity;
     private long phoneNumber;
     private String email;
     private String userName;
     private String password;
     private String profession;
-    private String employmentPlace;
     private String role;
     private String uriImg;
     private String playerId;
@@ -28,27 +23,19 @@ public class Carer {
     public Carer() {
     }
 
-    public Carer(String carerUID, String firstName, String lastName, String identificationType,
-                 String identification, String profession, String gender, String birthday,
-                 long phoneNumber, String userName, String password, String email,
-                 String nativeCity, String actualCity, String address, String employmentPlace,
-                 String role, String uriImg) {
+    public Carer(String carerUID, String firstName, String lastName, String residenceCountry,
+                 String profession, String gender, String birthday, long phoneNumber,
+                 String password, String email, String role, String uriImg) {
         this.carerUID = carerUID;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.identificationType = identificationType;
-        this.identification = identification;
+        this.residenceCountry = residenceCountry;
         this.profession = profession;
         this.gender = gender;
         this.birthday = birthday;
         this.phoneNumber = phoneNumber;
-        this.userName = userName;
         this.password = password;
         this.email = email;
-        this.nativeCity = nativeCity;
-        this.actualCity = actualCity;
-        this.address = address;
-        this.employmentPlace = employmentPlace;
         this.role = role;
         this.uriImg = uriImg;
     }
@@ -79,20 +66,12 @@ public class Carer {
         this.lastName = lastName;
     }
 
-    public String getIdentificationType() {
-        return identificationType;
+    public String getResidenceCountry() {
+        return residenceCountry;
     }
 
-    public void setIdentificationType(String identificationType) {
-        this.identificationType = identificationType;
-    }
-
-    public String getIdentification() {
-        return identification;
-    }
-
-    public void setIdentification(String identification) {
-        this.identification = identification;
+    public void setResidenceCountry(String residenceCountry) {
+        this.residenceCountry = residenceCountry;
     }
 
     public String getProfession() {
@@ -127,14 +106,6 @@ public class Carer {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -149,38 +120,6 @@ public class Carer {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getNativeCity() {
-        return nativeCity;
-    }
-
-    public void setNativeCity(String nativeCity) {
-        this.nativeCity = nativeCity;
-    }
-
-    public String getActualCity() {
-        return actualCity;
-    }
-
-    public void setActualCity(String actualCity) {
-        this.actualCity = actualCity;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmploymentPlace() {
-        return employmentPlace;
-    }
-
-    public void setEmploymentPlace(String employmentPlace) {
-        this.employmentPlace = employmentPlace;
     }
 
     public String getRole() {
@@ -216,8 +155,7 @@ public class Carer {
                 "carerId='" + carerUID + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", identificationType='" + identificationType + '\'' +
-                ", identification=" + identification +
+                ", residenceCountry='" + residenceCountry + '\'' +
                 ", profession='" + profession + '\'' +
                 ", gender='" + gender + '\'' +
                 ", birthday='" + birthday + '\'' +
@@ -225,10 +163,6 @@ public class Carer {
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", nativeCity='" + nativeCity + '\'' +
-                ", actualCity='" + actualCity + '\'' +
-                ", address='" + address + '\'' +
-                ", employmentPlace='" + employmentPlace + '\'' +
                 '}';
     }
     //endregion

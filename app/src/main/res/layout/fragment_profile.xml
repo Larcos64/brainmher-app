@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".application.ui.fragments.general.ProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/sixteen">
+
+        <TextView
+            android:id="@+id/tv_profile_title"
+            style="@style/StyleTextViewTitles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/civ_profile"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:src="@drawable/avatar"
+            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_width="2dp"
+            app:civ_circle_background_color="@color/colorAccent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/StyleTextInputLayotTextBoxForms"
+            android:id="@+id/til_txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_face_black"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_name"
+                style="@style/StyleTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/names"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/StyleTextInputLayotTextBoxForms"
+            android:id="@+id/til_txt_lastname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/surnames"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_face_black"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_lastname"
+                style="@style/StyleTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/StyleTextInputLayotDropDownForms"
+            android:id="@+id/til_txt_residence_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/residence_country"
+            app:startIconDrawable="@drawable/ic_identification_black"
+            app:errorEnabled="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/txt_residence_country"
+                style="@style/StyleTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            style="@style/StyleLinearLayoutGenderForms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/ic_wc_black"></com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/StyleLabelGenderForms"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/gender"></TextView>
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/rg_gender"
+            style="@style/StyleRadioGroupForms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_female"
+                style="@style/StyleRadioButtonForms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/female" />
+
+            <RadioButton
+                android:id="@+id/rb_male"
+                style="@style/StyleRadioButtonForms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/male" />
+        </RadioGroup>
+
+        <LinearLayout
+            style="@style/StyleLinearLayoutBirthDateForms"
+            android:layout_width="match_parent"
+            android:layout_height="75dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/StyleTextInputLayotTextBoxForms"
+                android:id="@+id/til_txt_birth_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_calendar_black"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_birth_date"
+                    style="@style/StyleTextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:enabled="false"
+                    android:hint="@string/date_of_birth" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/iv_date_birth_profile"
+                style="@style/StyleCircleImageViewCalendarForms"
+                android:layout_width="85dp"
+                android:layout_height="85dp" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/StyleTextInputLayotTextBoxForms"
+            android:id="@+id/til_txt_telephone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/telephone"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_phone_black"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_telephone"
+                style="@style/StyleTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/StyleTextInputLayotTextBoxForms"
+            android:id="@+id/til_txt_email"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/email"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_mail_black"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_email"
+                style="@style/StyleTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/StyleTextInputLayotTextBoxForms"
+            android:id="@+id/til_txt_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/pass"
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/ic_key_black"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_password"
+                style="@style/StyleTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/StyleTextInputLayotTextBoxForms"
+            android:id="@+id/til_txt_profession"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_work_black"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/StyleTextInputEditText"
+                android:id="@+id/txt_profession"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/profession"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/StyleTextInputLayotTextBoxForms"
+            android:id="@+id/til_observation_pro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/observations"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_edit_black"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_observation_patient"
+                style="@style/StyleTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+        -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_update"
+            style="@style/StylePrimaryColoredButton"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/ten"
+            android:text="@string/update"/>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

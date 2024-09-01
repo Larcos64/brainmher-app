@@ -70,7 +70,7 @@ public class MainCarer extends AppCompatActivity implements IMainCarer, Navigati
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()){
                             carer = documentSnapshot.toObject(Carer.class);
-                            nameUser.setText(carer.getUserName() + " " + carer.getLastName());
+                            nameUser.setText(carer.getFirstName() + " " + carer.getLastName());
                             emailUser.setText(carer.getEmail());
                             Glide.with(MainCarer.this).load(carer.getUriImg()).fitCenter().into(imageUser);
                         }

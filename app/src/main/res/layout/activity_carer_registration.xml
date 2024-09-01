@@ -86,33 +86,16 @@
                 style="@style/StyleTextInputLayotDropDownForms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/identification_type"
+                android:hint="@string/residence_country"
                 app:startIconDrawable="@drawable/ic_identification_black"
                 app:errorEnabled="true">
 
                 <AutoCompleteTextView
-                    android:id="@+id/ddl_identification_type"
+                    android:id="@+id/ddl_residence_country"
                     style="@style/StyleTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/StyleTextInputLayotTextBoxForms"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_identification_black"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_documet"
-                    style="@style/StyleTextInputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/documet_number"
-                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -142,11 +125,10 @@
                 android:layout_height="wrap_content">
 
                 <RadioButton
-                    android:id="@+id/admin_createps_rdbtn_f"
                     style="@style/StyleRadioButtonForms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/famale" />
+                    android:text="@string/female" />
 
                 <RadioButton
                     style="@style/StyleRadioButtonForms"
@@ -189,22 +171,6 @@
                 style="@style/StyleTextInputLayotTextBoxForms"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/city_of_birth"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_nature_people_black">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_native_city"
-                    style="@style/StyleTextInputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/StyleTextInputLayotTextBoxForms"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/ic_phone_black"
                 app:errorEnabled="true">
@@ -216,40 +182,6 @@
                     android:layout_height="match_parent"
                     android:hint="@string/telephone"
                     android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/StyleTextInputLayotTextBoxForms"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_home_black_24dp"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_address"
-                    style="@style/StyleTextInputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/address"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/StyleTextInputLayotTextBoxForms"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_location_city_black"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_city"
-                    style="@style/StyleTextInputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/city"
-                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -268,23 +200,6 @@
                     android:layout_height="match_parent"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/StyleTextInputLayotTextBoxForms"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_user_black"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_user"
-                    style="@style/StyleTextInputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/user"
-                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -320,22 +235,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/profession"
                     android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/StyleTextInputLayotTextBoxForms"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_local_convenience_store_black"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_workplace"
-                    style="@style/StyleTextInputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/workplace" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RelativeLayout

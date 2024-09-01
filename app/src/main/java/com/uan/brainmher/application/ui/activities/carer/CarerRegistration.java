@@ -43,7 +43,7 @@ public class CarerRegistration extends AppCompatActivity {
     private ActivityCarerRegistrationBinding binding;
     private ActivityResultLauncher<Intent> startActivityLauncher;
 
-    String nameSring, lastNameString, typeIDString, idString, birthDateString, nativeCityString, actualCityString, addressString, emailString, userString, passwordString, seleccionRG, phoneString, profession, workC;
+    String nameSring, lastNameString, residenceCountry, birthDateString, emailString, passwordString, seleccionRG, phoneString, profession;
 
     FirebaseAuth auth;
     FirebaseUser users;
@@ -66,7 +66,7 @@ public class CarerRegistration extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
 
-        uriImage = Uri.parse("android.resource://" + getPackageName() + "/"+ R.drawable.img_add_image);
+        uriImage = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.img_add_image);
         Glide.with(this).load(uriImage).fitCenter().into(binding.civProfileImage);
 
         setSupportActionBar(binding.toolbarRegistrationCarer);
@@ -91,7 +91,7 @@ public class CarerRegistration extends AppCompatActivity {
         // onClick ivBirthDate
         binding.civProfileImage.setOnClickListener(v -> handleProfileImageClick());
 
-        setupDropdown(binding.ddlIdentificationType, R.array.identification_types);
+        setupDropdown(binding.ddlResidenceCountry, R.array.residence_countries);
 
         // TextWatcher txtPassword
         binding.txtPassword.addTextChangedListener(new TextWatcher() {
@@ -155,6 +155,7 @@ public class CarerRegistration extends AppCompatActivity {
                 binding.txtBirthDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year), mYear, mMonth, mDay);
         datePickerDialog.show();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -230,8 +231,7 @@ public class CarerRegistration extends AppCompatActivity {
     private boolean setPojoCarers() {
         nameSring = binding.txtName.getText().toString().trim();
         lastNameString = binding.txtLastname.getText().toString().trim();
-        typeIDString = binding.ddlIdentificationType.getText().toString().trim();
-        idString = binding.txtDocumet.getText().toString().trim();
+        residenceCountry = binding.ddlResidenceCountry.getText().toString().trim();
 
         if (binding.rgGender.getCheckedRadioButtonId() != -1) {
             int radioButtonId = binding.rgGender.getCheckedRadioButtonId();
@@ -241,38 +241,24 @@ public class CarerRegistration extends AppCompatActivity {
 
         birthDateString = binding.txtBirthDate.getText().toString().trim();
         phoneString = binding.txtTelephone.getText().toString().trim();
-        nativeCityString = binding.txtNativeCity.getText().toString().trim();
-        addressString = binding.txtAddress.getText().toString().trim();
-        actualCityString = binding.txtCity.getText().toString().trim();
         emailString = binding.txtEmail.getText().toString().trim();
-        userString = binding.txtUser.getText().toString().trim();
         passwordString = binding.txtPassword.getText().toString().trim();
         profession = binding.txtProfession.getText().toString().trim();
-        workC = binding.txtWorkplace.getText().toString().trim();
 
-        boolean isValid = !nameSring.isEmpty() && !lastNameString.isEmpty() && !typeIDString.isEmpty()
-                && !idString.isEmpty() && !seleccionRG.isEmpty() && !birthDateString.isEmpty()
-                && !phoneString.isEmpty() && !nativeCityString.isEmpty() && !actualCityString.isEmpty()
-                && !addressString.isEmpty() && !emailString.isEmpty() && !userString.isEmpty()
-                && !passwordString.isEmpty() && !profession.isEmpty() && !workC.isEmpty()
-                && emailString.length() >= 7;
+        boolean isValid = !nameSring.isEmpty() && !lastNameString.isEmpty() && !residenceCountry.isEmpty()
+                && !seleccionRG.isEmpty() && !birthDateString.isEmpty() && !phoneString.isEmpty() && !emailString.isEmpty()
+                && !passwordString.isEmpty() && !profession.isEmpty() && emailString.length() >= 7;
 
         if (isValid) {
             carer.setFirstName(nameSring);
             carer.setLastName(lastNameString);
-            carer.setIdentificationType(typeIDString);
-            carer.setIdentification(idString);
+            carer.setResidenceCountry(residenceCountry);
             carer.setGender(seleccionRG);
             carer.setBirthday(birthDateString);
             carer.setPhoneNumber(Long.parseLong(phoneString));
-            carer.setNativeCity(nativeCityString);
-            carer.setActualCity(actualCityString);
-            carer.setAddress(addressString);
             carer.setEmail(emailString);
-            carer.setUserName(userString);
             carer.setPassword(passwordString);
             carer.setProfession(profession);
-            carer.setEmploymentPlace(workC);
             carer.setRole(Constants.Carers);
             return true;
         } else {

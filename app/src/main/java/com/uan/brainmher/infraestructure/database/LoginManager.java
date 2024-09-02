@@ -66,12 +66,12 @@ public class LoginManager {
             // Configurar colores dinámicamente, si es necesario
             /*
             circularProgressUtil.setIndicatorColor(
-                    ContextCompat.getColor(context, R.color.teal_200), // Color del indicador
-                    ContextCompat.getColor(context, R.color.track_gray) // Color del track
+                    ContextCompat.getColor(context, R.color.teal_200),
+                    ContextCompat.getColor(context, R.color.track_gray)
             );
             */
 
-            circularProgressUtil.showProgress();
+            circularProgressUtil.showProgress("Ingresando, por favor espere...");
         } else {
             Log.e("LoginManager", "circularProgressUtil is null, cannot show progress.");
         }

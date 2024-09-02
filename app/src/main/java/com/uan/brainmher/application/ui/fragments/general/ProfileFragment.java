@@ -85,7 +85,7 @@ public class ProfileFragment extends Fragment {
                                     public void onClick(View view) {
                                         boolean flag2 = setPojoCarers();
                                         if (flag2) {
-                                            circularProgressUtil.showProgress();
+                                            circularProgressUtil.showProgress("Actualizando datos...");
 
                                             if (uriImage != null) {
                                                 deleteImage();
@@ -103,12 +103,33 @@ public class ProfileFragment extends Fragment {
                                                                             @Override
                                                                             public void onSuccess(Void aVoid) {
                                                                                 Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
-                                                                                circularProgressUtil.hideProgress();
+
+                                                                                if (getActivity() != null) {
+                                                                                    getActivity().runOnUiThread(new Runnable() {
+                                                                                        @Override
+                                                                                        public void run() {
+                                                                                            if (circularProgressUtil != null) {
+                                                                                                circularProgressUtil.hideProgress();
+                                                                                            }
+                                                                                        }
+                                                                                    });
+                                                                                }
                                                                             }
                                                                         })
                                                                         .addOnFailureListener(new OnFailureListener() {
                                                                             @Override
                                                                             public void onFailure(@NonNull Exception e) {
+                                                                                if (getActivity() != null) {
+                                                                                    getActivity().runOnUiThread(new Runnable() {
+                                                                                        @Override
+                                                                                        public void run() {
+                                                                                            if (circularProgressUtil != null) {
+                                                                                                circularProgressUtil.hideProgress();
+                                                                                            }
+                                                                                        }
+                                                                                    });
+                                                                                }
+                                                                                Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                                                                 Log.d("message: ", e.toString());
                                                                             }
                                                                         });

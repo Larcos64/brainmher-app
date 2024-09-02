@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId = "com.uan.brainmher"
         minSdk = 29
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -42,14 +42,15 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     //implementation("com.google.android.material:material:1.10.0")
-    implementation("com.google.android.material:material:1.13.0-alpha05")
+    //implementation("com.google.android.material:material:1.13.0-alpha05") // Material Design
+    implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     // Dependencies for views
-    implementation("com.google.android.material:material:1.1.0-alpha10") // Material Design
+    //implementation("com.google.android.material:material:1.1.0-alpha10")
     implementation("de.hdodenhof:circleimageview:3.1.0") // CircleImage
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")

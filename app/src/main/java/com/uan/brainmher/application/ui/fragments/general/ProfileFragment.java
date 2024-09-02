@@ -27,6 +27,7 @@ import com.uan.brainmher.R;
 import com.uan.brainmher.databinding.ActivityMainCarerBinding;
 import com.uan.brainmher.databinding.FragmentProfileBinding;
 import com.uan.brainmher.domain.entities.Carer;
+import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
 public class ProfileFragment extends Fragment {
@@ -40,6 +41,7 @@ public class ProfileFragment extends Fragment {
 
     String uidString, role, profile_type, nameSring, lastNameString, residenceCountryString, birthDayString,emailString, passwordString, seleccionRG, phoneString, profession;
     Uri uriImage;
+    private CircularProgressUtil circularProgressUtil;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +49,8 @@ public class ProfileFragment extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
+        circularProgressUtil = new CircularProgressUtil(getActivity());
 
         getUserData();
 
@@ -81,6 +85,8 @@ public class ProfileFragment extends Fragment {
                                     public void onClick(View view) {
                                         boolean flag2 = setPojoCarers();
                                         if (flag2) {
+                                            circularProgressUtil.showProgress();
+
                                             if (uriImage != null) {
                                                 deleteImage();
                                                 final StorageReference imgRef = storageReference.child("Users/Carers/" + carer.getCarerUId() + ".jpg");
@@ -97,6 +103,7 @@ public class ProfileFragment extends Fragment {
                                                                             @Override
                                                                             public void onSuccess(Void aVoid) {
                                                                                 Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
+                                                                                circularProgressUtil.hideProgress();
                                                                             }
                                                                         })
                                                                         .addOnFailureListener(new OnFailureListener() {

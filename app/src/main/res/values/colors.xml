@@ -13,4 +13,7 @@
     <color name="colorBackround">#fafafa</color>
 
     <color name="colorGray">#757575</color>
+
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="track_gray">#BDBDBD</color>
 </resources>

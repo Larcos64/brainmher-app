@@ -1,6 +1,7 @@
 package com.uan.brainmher.infraestructure.tools;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -17,7 +18,7 @@ public class CircularProgressUtil {
     private Activity activity;
     private View progressView;
     private CircularProgressIndicator circularProgressIndicator;
-    private TextView progressMessage; // TextView para el mensaje personalizado
+    private TextView progressMessage;
 
     public CircularProgressUtil(Activity activity) {
         this.activity = activity;
@@ -50,27 +51,38 @@ public class CircularProgressUtil {
 
     // Ocultar el progreso con animación de desvanecimiento (fade out)
     public void hideProgress() {
+        Log.d("CircularProgressUtil", "hideProgress called");
+        /*
+        if (circularProgressIndicator != null && progressView.getParent() != null) {
+            circularProgressIndicator.hide();
+            ((FrameLayout) progressView.getParent()).removeView(progressView);
+        }
+        */
+
         if (circularProgressIndicator != null && progressView.getParent() != null) {
             Animation fadeOut = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
             fadeOut.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
-                    // Opcional: puedes realizar acciones aquí cuando inicie la animación de salida
+                    // No hacer nada al inicio de la animación
                 }
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    // Aquí es donde removemos la vista después de que termine la animación
-                    circularProgressIndicator.hide();
-                    ((FrameLayout) progressView.getParent()).removeView(progressView);
+                    // Aquí removemos la vista después de que termine la animación
+                    circularProgressIndicator.hide(); // Oculta el indicador de progreso
+                    ((FrameLayout) progressView.getParent()).removeView(progressView); // Elimina la vista del contenedor
                 }
 
                 @Override
                 public void onAnimationRepeat(Animation animation) {
-                    // No necesario para este caso
+                    // No es necesario hacer nada para repetir
                 }
             });
             progressView.startAnimation(fadeOut); // Animar la vista completa
+        } else if (progressView.getParent() != null) {
+            // Si por alguna razón la animación no se inicia, remueve la vista directamente
+            ((FrameLayout) progressView.getParent()).removeView(progressView);
         }
     }
 }

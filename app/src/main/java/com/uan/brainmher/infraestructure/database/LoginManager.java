@@ -62,19 +62,7 @@ public class LoginManager {
     private void handleRedirection(final Context context, final FirebaseUser useruID, final String userId) {
         if (useruID == null) return;
 
-        if (circularProgressUtil != null) {
-            // Configurar colores dinámicamente, si es necesario
-            /*
-            circularProgressUtil.setIndicatorColor(
-                    ContextCompat.getColor(context, R.color.teal_200),
-                    ContextCompat.getColor(context, R.color.track_gray)
-            );
-            */
-
-            circularProgressUtil.showProgress("Ingresando, por favor espere...");
-        } else {
-            Log.e("LoginManager", "circularProgressUtil is null, cannot show progress.");
-        }
+        circularProgressUtil.showProgress(context.getString(R.string.entering));
 
         final String uID = useruID.getUid();
 

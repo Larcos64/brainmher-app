@@ -85,7 +85,7 @@ public class ProfileFragment extends Fragment {
                                     public void onClick(View view) {
                                         boolean flag2 = setPojoCarers();
                                         if (flag2) {
-                                            circularProgressUtil.showProgress("Actualizando datos...");
+                                            circularProgressUtil.showProgress(getString(R.string.updating));
 
                                             if (uriImage != null) {
                                                 deleteImage();
@@ -94,45 +94,31 @@ public class ProfileFragment extends Fragment {
                                                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                                             @Override
                                                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                                Task<Uri> uri = taskSnapshot.getStorage().getDownloadUrl();
-                                                                while (!uri.isComplete()) ;
-                                                                Uri url = uri.getResult();
-                                                                carer.setUriImg(url.toString());
-                                                                db.collection(Constants.Carers).document(carer.getCarerUId()).set(carer)
-                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                            @Override
-                                                                            public void onSuccess(Void aVoid) {
-                                                                                Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
-
-                                                                                if (getActivity() != null) {
-                                                                                    getActivity().runOnUiThread(new Runnable() {
-                                                                                        @Override
-                                                                                        public void run() {
-                                                                                            if (circularProgressUtil != null) {
-                                                                                                circularProgressUtil.hideProgress();
-                                                                                            }
-                                                                                        }
-                                                                                    });
-                                                                                }
-                                                                            }
-                                                                        })
-                                                                        .addOnFailureListener(new OnFailureListener() {
-                                                                            @Override
-                                                                            public void onFailure(@NonNull Exception e) {
-                                                                                if (getActivity() != null) {
-                                                                                    getActivity().runOnUiThread(new Runnable() {
-                                                                                        @Override
-                                                                                        public void run() {
-                                                                                            if (circularProgressUtil != null) {
-                                                                                                circularProgressUtil.hideProgress();
-                                                                                            }
-                                                                                        }
-                                                                                    });
-                                                                                }
-                                                                                Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                                                Log.d("message: ", e.toString());
-                                                                            }
-                                                                        });
+                                                                taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                                    @Override
+                                                                    public void onSuccess(Uri url) {
+                                                                        carer.setUriImg(url.toString());
+                                                                        db.collection(Constants.Carers).document(carer.getCarerUId()).set(carer)
+                                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                    @Override
+                                                                                    public void onSuccess(Void aVoid) {
+                                                                                        circularProgressUtil.hideProgress();
+                                                                                        Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
+                                                                                    }
+                                                                                })
+                                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                                    @Override
+                                                                                    public void onFailure(@NonNull Exception e) {
+                                                                                        Log.d("LoginManager", "Error saving data: " + e.toString());
+                                                                                    }
+                                                                                });
+                                                                    }
+                                                                }).addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Log.d("LoginManager", "Failed to get download URL: " + e.toString());
+                                                                    }
+                                                                });
                                                             }
                                                         });
                                             } else {
@@ -140,6 +126,7 @@ public class ProfileFragment extends Fragment {
                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
                                                             public void onSuccess(Void aVoid) {
+                                                                circularProgressUtil.hideProgress();
                                                                 Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
                                                             }
                                                         })

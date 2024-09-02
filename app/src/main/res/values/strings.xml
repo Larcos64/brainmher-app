@@ -51,6 +51,8 @@
     <string name="email_required">Correo electrónico obligatorio</string>
     <string name="password_required">Contraseña obligatoria</string>
     <string name="complete_field">Complete todos los campos</string>
+    <string name="entering">Ingresando, por favor espere...</string>
+    <string name="updating">Actualizando...</string>
 
     // Options
     <string name="male">Masculino</string>

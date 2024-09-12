@@ -80,6 +80,9 @@ public class CarerRegistration extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         Uri imageUri = result.getData().getData();
+                        // Update the URI of the new selected image
+                        uriImage = imageUri;
+
                         // Load the selected image into the ImageView
                         Glide.with(CarerRegistration.this)
                                 .load(imageUri)

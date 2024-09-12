@@ -41,6 +41,8 @@
         <activity android:name=".application.ui.activities.carer.CarerRegistration"></activity>
         <activity android:name=".application.ui.activities.carer.MainCarer" />
 
+        <activity android:name=".application.ui.activities.patient.PatientsList"/>
+
     </application>
 
 </manifest>

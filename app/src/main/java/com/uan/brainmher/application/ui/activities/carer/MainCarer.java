@@ -2,6 +2,7 @@ package com.uan.brainmher.application.ui.activities.carer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uan.brainmher.R;
+import com.uan.brainmher.application.ui.activities.patient.PatientsList;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.databinding.ActivityMainCarerBinding;
 import com.uan.brainmher.application.ui.interfaces.IMainCarer;
@@ -72,6 +74,7 @@ public class MainCarer extends AppCompatActivity implements IMainCarer, Navigati
                             carer = documentSnapshot.toObject(Carer.class);
                             nameUser.setText(carer.getFirstName() + " " + carer.getLastName());
                             emailUser.setText(carer.getEmail());
+                            Log.d("MainCarer", "Image URL: " + carer.getUriImg());
                             Glide.with(MainCarer.this).load(carer.getUriImg()).fitCenter().into(imageUser);
                         }
                     }
@@ -83,6 +86,11 @@ public class MainCarer extends AppCompatActivity implements IMainCarer, Navigati
     public void inflateFragment(String fragmentTag) {
         NavController navController = Navigation.findNavController(this, R.id.content_carer);
         //navController.navigate(R.id.action_homeFragment_to_otherFragment); // Ajustar fragmentos y navegación.
+
+        if (fragmentTag.equals(getString(R.string.manage))) {
+            Intent intent = new Intent(MainCarer.this, PatientsList.class);
+            startActivity(intent);
+        }
     }
 
     @Override

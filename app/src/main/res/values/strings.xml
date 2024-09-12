@@ -9,6 +9,7 @@
     <string name="add_carer">Registrar Cuidador</string>
     <string name="lbl_welcome">Bienvenido</string>
     <string name="lbl_my_profile">MI PERFIL</string>
+    <string name="list_patient">Lista de pacientes</string>
 
     // Placeholders
     <string name="email">Correo electrónico</string>

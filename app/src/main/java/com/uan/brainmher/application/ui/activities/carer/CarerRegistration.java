@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioButton;
@@ -43,16 +44,12 @@ public class CarerRegistration extends AppCompatActivity {
     private ActivityCarerRegistrationBinding binding;
     private ActivityResultLauncher<Intent> startActivityLauncher;
 
-    String nameSring, lastNameString, residenceCountry, birthDateString, emailString, passwordString, seleccionRG, phoneString, profession;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
+    private StorageReference storageReference;
 
-    FirebaseAuth auth;
-    FirebaseUser users;
-    FirebaseFirestore db;
-    StorageReference storageReference;
-
-    Carer carer = new Carer();
-    String uIDCarer;
-    Uri uriImage;
+    private Carer carer = new Carer();
+    private Uri uriImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +59,12 @@ public class CarerRegistration extends AppCompatActivity {
         binding = ActivityCarerRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        auth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
+
+        setupListeners();
+        verifyFields();
 
         uriImage = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.img_add_image);
         Glide.with(this).load(uriImage).fitCenter().into(binding.civProfileImage);
@@ -91,38 +91,19 @@ public class CarerRegistration extends AppCompatActivity {
                     }
                 });
 
-        // onClick ivBirthDate
-        binding.civProfileImage.setOnClickListener(v -> handleProfileImageClick());
-
         setupDropdown(binding.ddlResidenceCountry, R.array.residence_countries);
+    }
 
-        // TextWatcher txtPassword
-        binding.txtPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                validatePassword(charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-
-        // onClick btnSaveButton
+    private void setupListeners() {
+        binding.civProfileImage.setOnClickListener(v -> handleProfileImageClick());
+        binding.ivBirthDate.setOnClickListener(v -> handleDateImageClick(v));
         binding.btnSave.setOnClickListener(v -> {
             if (setPojoCarers()) {
                 handleSaveButtonClick();
             } else {
-                Toast.makeText(CarerRegistration.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CarerRegistration.this, R.string.complete_field, Toast.LENGTH_SHORT).show();
             }
         });
-
-        // onClick ivBirthDate
-        binding.ivBirthDate.setOnClickListener(v -> handleBirthDateImageClick());
     }
 
     // Dropdown ddlIdentificationType
@@ -139,23 +120,18 @@ public class CarerRegistration extends AppCompatActivity {
         startActivityLauncher.launch(intent.createChooser(intent, getString(R.string.select_photo)));
     }
 
-    // Validate password method
-    private void validatePassword(String password) {
-        if (password.length() < 7) {
-            binding.txtPassword.setError(getString(R.string.val_min_password));
-        } else {
-            binding.txtPassword.setError(null);
-        }
-    }
-
-    // Calendar image view method
-    private void handleBirthDateImageClick() {
+    private void handleDateImageClick(View view) {
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(CarerRegistration.this, (view, year, monthOfYear, dayOfMonth) ->
-                binding.txtBirthDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year), mYear, mMonth, mDay);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(CarerRegistration.this, (datePicker, year, monthOfYear, dayOfMonth) -> {
+            if (view.getId() == binding.ivBirthDate.getId()) {
+                binding.txtBirthDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+            }
+        }, mYear, mMonth, mDay);
+
         datePickerDialog.show();
     }
 
@@ -170,7 +146,7 @@ public class CarerRegistration extends AppCompatActivity {
 
     // Save button method
     private void handleSaveButtonClick() {
-        auth.createUserWithEmailAndPassword(carer.getEmail(), carer.getPassword())
+        firebaseAuth.createUserWithEmailAndPassword(carer.getEmail(), carer.getPassword())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -232,21 +208,22 @@ public class CarerRegistration extends AppCompatActivity {
 
 
     private boolean setPojoCarers() {
-        nameSring = binding.txtName.getText().toString().trim();
-        lastNameString = binding.txtLastname.getText().toString().trim();
-        residenceCountry = binding.ddlResidenceCountry.getText().toString().trim();
+        String nameSring = binding.txtName.getText().toString().trim();
+        String lastNameString = binding.txtLastname.getText().toString().trim();
+        String residenceCountry = binding.ddlResidenceCountry.getText().toString().trim();
 
+        String seleccionRG = "";
         if (binding.rgGender.getCheckedRadioButtonId() != -1) {
             int radioButtonId = binding.rgGender.getCheckedRadioButtonId();
             RadioButton rb = binding.getRoot().findViewById(radioButtonId);
             seleccionRG = rb.getText().toString();
         }
 
-        birthDateString = binding.txtBirthDate.getText().toString().trim();
-        phoneString = binding.txtTelephone.getText().toString().trim();
-        emailString = binding.txtEmail.getText().toString().trim();
-        passwordString = binding.txtPassword.getText().toString().trim();
-        profession = binding.txtProfession.getText().toString().trim();
+        String birthDateString = binding.txtBirthDate.getText().toString().trim();
+        String phoneString = binding.txtTelephone.getText().toString().trim();
+        String emailString = binding.txtEmail.getText().toString().trim();
+        String passwordString = binding.txtPassword.getText().toString().trim();
+        String profession = binding.txtProfession.getText().toString().trim();
 
         boolean isValid = !nameSring.isEmpty() && !lastNameString.isEmpty() && !residenceCountry.isEmpty()
                 && !seleccionRG.isEmpty() && !birthDateString.isEmpty() && !phoneString.isEmpty() && !emailString.isEmpty()
@@ -269,4 +246,31 @@ public class CarerRegistration extends AppCompatActivity {
         }
     }
 
+    private void verifyFields() {
+        binding.txtPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.txtPassword.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                validateFields("password");
+            }
+        });
+    }
+
+    private boolean validateFields(String field) {
+        if ("password".equals(field)) {
+            String password = binding.txtPassword.getText().toString().trim();
+            if (password.length() < 7) {
+                binding.txtPassword.setError(getString(R.string.val_min_password));
+                return false;
+            }
+        }
+        return true;
+    }
 }

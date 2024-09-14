@@ -10,6 +10,7 @@
     <string name="lbl_welcome">Bienvenido</string>
     <string name="lbl_my_profile">MI PERFIL</string>
     <string name="list_patient">Lista de pacientes</string>
+    <string name="add_patient">Agregar Paciente</string>
 
     // Placeholders
     <string name="email">Correo electrónico</string>
@@ -24,6 +25,8 @@
     <string name="documet_number">Número de documento</string>
     <string name="surnames">Apellido</string>
     <string name="names">Nombre</string>
+    <string name="date_diagnostic">Fecha de diagnóstico</string>
+    <string name="diagnostic">Diagnóstico</string>
 
     // Buttons, Links, Tabs
     <string name="login">Iniciar sesión</string>
@@ -54,6 +57,8 @@
     <string name="complete_field">Complete todos los campos</string>
     <string name="entering">Ingresando, por favor espere...</string>
     <string name="updating">Actualizando...</string>
+    <string name="registering">Realizando registro en línea...</string>
+    <string name="registration_failed">Registro falló</string>
 
     // Options
     <string name="male">Masculino</string>

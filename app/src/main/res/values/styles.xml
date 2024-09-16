@@ -196,4 +196,25 @@
         <item name="android:textStyle">bold</item>
         <item name="android:padding">@dimen/ten</item>
     </style>
+
+    <!-- Standard style for mini card view titles -->
+    <style name="StyleMiniCardViewTitles">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/fifteen</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">@dimen/ten</item>
+    </style>
+
+    <!-- Standard style for mini card view subtitles -->
+    <style name="StyleMiniCardViewSubTitles">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/fifteen</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">@dimen/ten</item>
+    </style>
+
+    <style name="BackgroundRounded" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/shape_alert_dialog</item>
+    </style>
 </resources>

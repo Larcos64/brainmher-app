@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,7 +34,6 @@ import com.uan.brainmher.application.ui.fragments.patients.PatientsListFragment;
 import com.uan.brainmher.application.ui.interfaces.IMainCarer;
 import com.uan.brainmher.domain.entities.Carer;
 //import com.uan.brainmher.data.HealthcareProfessional;
-import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.databinding.ActivityListPatientBinding;
 import com.uan.brainmher.infraestructure.tools.Constants;
 //import com.uan.brainmher.fragments.AddPatients;

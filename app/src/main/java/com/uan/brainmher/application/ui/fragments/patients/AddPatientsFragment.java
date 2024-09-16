@@ -22,6 +22,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +43,8 @@ import com.uan.brainmher.application.ui.activities.carer.CarerRegistration;
 import com.uan.brainmher.application.ui.activities.carer.MainCarer;
 import com.uan.brainmher.application.ui.activities.patient.PatientsList;
 import com.uan.brainmher.databinding.FragmentAddPatientsBinding;
+import com.uan.brainmher.domain.entities.Carer;
+import com.uan.brainmher.domain.entities.HealthcareProfessional;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
@@ -60,6 +63,8 @@ public class AddPatientsFragment extends Fragment {
     private String uIDHPoCarer;
     private Uri uriImage;
     private Patient patient = new Patient();
+    private HealthcareProfessional health_professional = new HealthcareProfessional();
+    private Carer carer = new Carer();
     private boolean flag = true;
     private CircularProgressUtil circularProgressUtil;
 
@@ -106,6 +111,7 @@ public class AddPatientsFragment extends Fragment {
         binding.ivDiagnosisDate.setOnClickListener(v -> handleDateImageClick(v));
         binding.btnSave.setOnClickListener(v -> {
             if (setPojoPatients()) {
+                circularProgressUtil.showProgress(getString(R.string.registering));
                 handleSaveButtonClick();
             } else {
                 Toast.makeText(requireContext(), R.string.complete_field, Toast.LENGTH_SHORT).show();
@@ -196,6 +202,10 @@ public class AddPatientsFragment extends Fragment {
             patient.setDiagnostic(diagnosticString);
             patient.setDateDiagnostic(dateDiagnosticString);
             patient.setRole(Constants.Patients);
+            patient.setRole(Constants.Patients);
+            String[] assignsArray = {firebaseUser.getUid()};
+            List<String> assigns = Arrays.asList(assignsArray);
+            patient.setAssigns(assigns);
             return true;
         } else {
             return false;
@@ -208,8 +218,9 @@ public class AddPatientsFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser user = task.getResult().getUser();
-                            String uIDPatient = user.getUid();
+                            FirebaseUser newUser = task.getResult().getUser();
+                            String uIDPatient = newUser.getUid();
+                            Log.d("AddPatient uIDPatient: ", uIDPatient);
                             patient.setPatientUID(uIDPatient);
 
                             if (uriImage != null) {
@@ -226,13 +237,13 @@ public class AddPatientsFragment extends Fragment {
                                                             Uri downloadUri = task.getResult();
                                                             patient.setUriImg(downloadUri.toString());
 
-                                                            db.collection(Constants.Patients).document(patient.getPassword()).set(patient)
+                                                            db.collection(Constants.Patients).document(patient.getPatientUID()).set(patient)
                                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                         @Override
                                                                         public void onSuccess(Void aVoid) {
                                                                             Toast.makeText(requireContext(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
-                                                                            Intent intent = new Intent(requireContext(), PatientsList.class);
-                                                                            startActivity(intent);
+                                                                            reAuthenticateOriginalUser();
+                                                                            circularProgressUtil.hideProgress();
                                                                         }
                                                                     })
                                                                     .addOnFailureListener(new OnFailureListener() {
@@ -258,6 +269,40 @@ public class AddPatientsFragment extends Fragment {
                         } else {
                             Toast.makeText(requireContext(), R.string.registration_failed + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             Log.d("message: ", R.string.registration_failed + task.getException().getMessage());
+                        }
+                    }
+                });
+    }
+
+    private void reAuthenticateOriginalUser() {
+        db.collection(Constants.HealthcareProfesional).document(uIDHPoCarer).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        health_professional = documentSnapshot.toObject(HealthcareProfessional.class);
+                        reAuthenticateUser(health_professional.getEmail(), health_professional.getPassword());
+                    }
+                });
+
+        db.collection(Constants.Carers).document(uIDHPoCarer).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        carer = documentSnapshot.toObject(Carer.class);
+                        reAuthenticateUser(carer.getEmail(), carer.getPassword());
+                    }
+                });
+    }
+
+    private void reAuthenticateUser(String email, String password) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Redirige a la lista de pacientes con el usuario original autenticado
+                            Intent intent = new Intent(requireContext(), PatientsList.class);
+                            startActivity(intent);
+                        } else {
+                            Log.d("message: ", "Error al re-autenticar al usuario original");
                         }
                     }
                 });

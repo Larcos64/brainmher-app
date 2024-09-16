@@ -83,8 +83,7 @@ public class ProfileFragment extends Fragment {
                                 binding.btnUpdate.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        boolean flag2 = setPojoCarers();
-                                        if (flag2) {
+                                        if (setPojoCarers()) {
                                             circularProgressUtil.showProgress(getString(R.string.updating));
 
                                             if (uriImage != null) {

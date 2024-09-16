@@ -38,6 +38,8 @@
     <string name="test">Test</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
 
     <string name="info">Información</string>
     <string name="emergency">Emergencias</string>
@@ -57,8 +59,13 @@
     <string name="complete_field">Complete todos los campos</string>
     <string name="entering">Ingresando, por favor espere...</string>
     <string name="updating">Actualizando...</string>
-    <string name="registering">Realizando registro en línea...</string>
+    <string name="registering">Realizando registro...</string>
+    <string name="deleting">Eliminando registro...</string>
     <string name="registration_failed">Registro falló</string>
+    <string name="no_records">No hay registros</string>
+    <string name="message_delete">¿Estas seguro que quieres eliminar a %1$s ?</string>
+    <string name="alert">Alert</string>
+    <string name="delete">Delete</string>
 
     // Options
     <string name="male">Masculino</string>

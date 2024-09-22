@@ -1,7 +1,5 @@
 package com.uan.brainmher.application.ui.fragments.patients;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
@@ -22,20 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uan.brainmher.R;
-import com.uan.brainmher.application.ui.activities.patient.PatientsList;
 import com.uan.brainmher.application.ui.adapters.patient.PatientsAdapter;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.domain.entities.HealthcareProfessional;
@@ -45,9 +36,6 @@ import com.uan.brainmher.infraestructure.database.LoginManager;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
 import com.uan.brainmher.application.ui.activities.health_professional.HealthProfessionalActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PatientsListFragment extends Fragment {
 
@@ -172,66 +160,32 @@ public class PatientsListFragment extends Fragment {
     private void deletePatient(final Patient patient, AlertDialog alertDialog) {
         circularProgressUtil.showProgress(getString(R.string.deleting));
 
-        firebaseAuth.signInWithEmailAndPassword(patient.getEmail(), patient.getPassword())
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser ures = task.getResult().getUser();
-                        uidPatient = ures.getUid();
-                        deletePatientData(ures, uidPatient, alertDialog);
-                    }
+        db.collection(Constants.Patients).document(patient.getPatientUID()).delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.record_deleted), Toast.LENGTH_SHORT).show();
+                    deletePatientData(patient.getPatientUID(), alertDialog);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.elimination_failed), Toast.LENGTH_SHORT).show();
+                    circularProgressUtil.hideProgress();
                 });
     }
 
-    private void deletePatientData(FirebaseUser ures, String uidPatient, AlertDialog alertDialog) {
+    private void deletePatientData(String uidPatient, AlertDialog alertDialog) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference deleteImage = storageReference.child("Users/Patients/" + uidPatient + ".jpg");
 
         deleteImage.delete().addOnSuccessListener(aVoid -> {
+            // Imagen eliminada
         });
 
-        db.collection(Constants.Patients).document(uidPatient).delete()
-                .addOnSuccessListener(aVoid -> Toast.makeText(getActivity(), "usuario eliminado", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> { });
-
-        ures.delete()
-                .addOnCompleteListener(task -> Toast.makeText(getActivity(), "se elimino", Toast.LENGTH_SHORT).show());
-
-        //reAuthenticate(alertDialog);
-
-        loginManager.reAuthenticateAndRedirect(
-                uIdLoggedIn,
-                null,
-                null
-        );
-    }
-
-    private void reAuthenticate(AlertDialog alertDialog) {
-        db.collection(Constants.HealthcareProfesional).document(uIdLoggedIn).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        health_professional = documentSnapshot.toObject(HealthcareProfessional.class);
-                        reAuthenticateUser(health_professional.getEmail(), health_professional.getPassword());
-                    }
-                });
-
-        db.collection(Constants.Carers).document(uIdLoggedIn).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        carer = documentSnapshot.toObject(Carer.class);
-                        reAuthenticateUser(carer.getEmail(), carer.getPassword());
-                    }
-                });
-
+        // Cierra el diálogo si estaba abierto
         if (alertDialog != null) {
             alertDialog.dismiss();
         }
-    }
 
-    private void reAuthenticateUser(String email, String password) {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> circularProgressUtil.hideProgress());
+        circularProgressUtil.hideProgress();
     }
-    //endregion
 
     private void initRecyclerView() {
         String uid = user.getUid();

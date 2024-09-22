@@ -67,6 +67,8 @@
     <string name="alert">Alert</string>
     <string name="delete">Delete</string>
     <string name="redirecting">Redirigiendo...</string>
+    <string name="record_deleted">Registro eliminado</string>
+    <string name="elimination_failed">Error al eliminar registro</string>
 
     // Options
     <string name="male">Masculino</string>

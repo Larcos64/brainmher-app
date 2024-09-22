@@ -69,6 +69,7 @@ public class LoginManager {
 
         final String uID = useruID.getUid();
 
+        // Handle Carer redirection
         DocumentReference docRefCr = db.collection(Constants.Carers).document(uID);
         docRefCr.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -109,6 +110,7 @@ public class LoginManager {
 
     // Método principal con redirección
     public void reAuthenticateAndRedirect(final String uID, final Context context, final Class<?> targetClass) {
+        Log.d("RED CON", uID);
         checkAndReAuthenticate(Constants.HealthcareProfesional, uID, context, targetClass);
         checkAndReAuthenticate(Constants.Carers, uID, context, targetClass);
         // Agregar más llamadas a checkAndReAuthenticate para otras colecciones según sea necesario
@@ -116,6 +118,7 @@ public class LoginManager {
 
     // Sobrecarga del método para autenticación sin redirección
     public void reAuthenticateAndRedirect(final String uID) {
+        Log.d("RED SIN", uID);
         checkAndReAuthenticate(Constants.HealthcareProfesional, uID, null, null);
         checkAndReAuthenticate(Constants.Carers, uID, null, null);
         // Agregar más llamadas a checkAndReAuthenticate para otras colecciones según sea necesario
@@ -140,12 +143,19 @@ public class LoginManager {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d("LoginManager", "Re-autenticación exitosa");
-                            if (context != null && targetClass != null) {  // Redirigir solo si los parámetros son válidos
+                            // Redirigir solo si los parámetros son válidos
+                            if (context != null && targetClass != null) {
                                 Intent intent = new Intent(context, targetClass);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 context.startActivity(intent);
+                                if (context instanceof Activity) {
+                                    ((Activity) context).finish();  // Cerrar la actividad actual si es posible
+                                }
                             }
                         } else {
-                            Log.d("LoginManager", "Error al re-autenticar al usuario original");
+                            Log.e("LoginManager", "Error al re-autenticar al usuario original", task.getException());
+                            // Mostrar mensaje de error al usuario
+                            Toast.makeText(context, "Error de autenticación. Inténtelo de nuevo.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

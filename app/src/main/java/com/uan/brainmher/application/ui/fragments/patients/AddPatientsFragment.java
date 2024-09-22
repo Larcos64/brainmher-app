@@ -192,7 +192,7 @@ public class AddPatientsFragment extends Fragment {
         String dateDiagnosticString = binding.txtDiagnosisDate.getText().toString();
 
         boolean isValid = !nameSring.isEmpty() && !lastNameString.isEmpty() && !seleccionRG.isEmpty()
-                && !birthDateString.isEmpty() && !emailString.isEmpty() && !passwordString.isEmpty() && emailString.length() >= 7
+                && !birthDateString.isEmpty() && !emailString.isEmpty() && !passwordString.isEmpty() && passwordString.length() >= 7
                 && !diagnosticString.isEmpty() && !dateDiagnosticString.isEmpty();
 
         if (isValid) {

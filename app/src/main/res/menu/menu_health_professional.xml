@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_ps_therapy"
+        android:title="Terapias"
+        android:icon="@drawable/ic_therapy"
+        ></item>
+
+    <item
+        android:id="@+id/item_ps_info"
+        android:title="Perfil"
+        android:icon="@drawable/ic_ps_perfil"
+        ></item>
+
+    <item
+        android:id="@+id/item_ps_graph"
+        android:title="Gráficas"
+        android:icon="@drawable/ic_graph"
+        ></item>
+
+    <item
+        android:id="@+id/item_ps_notification"
+        android:title="Notificaciones"
+        android:icon="@drawable/ic_notifications"
+        ></item>
+</menu>

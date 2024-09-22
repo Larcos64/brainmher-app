@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/health_professional_navigation"
+    app:startDestination="@id/item_ps_therapy">
+
+    <fragment
+        android:id="@+id/item_ps_therapy"
+        android:name="com.uan.brainmher.application.ui.fragments.health_professional.CognitiveTherapyPSFragment"
+        android:label="fragment_ps_therapy"
+        tools:layout="@layout/fragment_ps_therapy" />
+    <!--
+    <fragment
+        android:id="@+id/item_ps_info"
+        android:name="com.uan.brainmher.fragments.hp.InformationPSFragment"
+        android:label="fragment_ps_information_patient"
+        tools:layout="@layout/fragment_ps_information_patient" />
+    <fragment
+        android:id="@+id/item_ps_graph"
+        android:name="com.uan.brainmher.fragments.hp.GraphPSFragment"
+        android:label="fragment_ps_graph"
+        tools:layout="@layout/fragment_ps_graph" />
+    <fragment
+        android:id="@+id/item_ps_notification"
+        android:name="com.uan.brainmher.fragments.hp.NotificationPSFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
+        -->
+</navigation>

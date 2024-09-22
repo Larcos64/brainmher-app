@@ -37,48 +37,16 @@ public class Login extends AppCompatActivity {
         // Button listeners
         binding.linkRegistration.setOnClickListener(v -> register());
         binding.btnLogin.setOnClickListener(v -> emailPassLogin());
+    }
 
-        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    loginInstance().redirectByRole(Login.this, user);
-                }
-            }
-        };
+    private void register() {
+        Intent intent = new Intent(Login.this, CarerRegistration.class);
+        startActivity(intent);
     }
 
     private LoginManager loginInstance() {
         LoginManager loginManager = new LoginManager();
         return loginManager;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (firebaseAuth != null) {
-            firebaseAuth.addAuthStateListener(firebaseAuthListener);
-        }
-
-        if (loginInstance().userLoggedIn()) {
-            loginInstance().redirectByRole(Login.this, firebaseAuth.getCurrentUser());
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (firebaseAuthListener != null && firebaseAuth != null) {
-            firebaseAuth.removeAuthStateListener(firebaseAuthListener);
-        }
-    }
-
-
-    private void register() {
-        Intent intent = new Intent(Login.this, CarerRegistration.class);
-        startActivity(intent);
     }
 
     private void emailPassLogin() {

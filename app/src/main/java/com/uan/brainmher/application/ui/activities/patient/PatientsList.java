@@ -46,7 +46,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PatientsList extends AppCompatActivity implements IMainCarer, AddPatientsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private ActivityListPatientBinding binding;  // Declaración del binding
+    private ActivityListPatientBinding binding;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseFirestore db;

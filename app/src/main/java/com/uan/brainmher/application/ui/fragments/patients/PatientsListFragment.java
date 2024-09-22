@@ -35,11 +35,13 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uan.brainmher.R;
+import com.uan.brainmher.application.ui.activities.patient.PatientsList;
 import com.uan.brainmher.application.ui.adapters.patient.PatientsAdapter;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.domain.entities.HealthcareProfessional;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.databinding.FragmentPatientsBinding;
+import com.uan.brainmher.infraestructure.database.LoginManager;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
 import com.uan.brainmher.application.ui.activities.health_professional.HealthProfessionalActivity;
@@ -58,14 +60,32 @@ public class PatientsListFragment extends Fragment {
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    private String userHPoCarer, uidPatient;
+    private String uIdLoggedIn, uidPatient;
     private HealthcareProfessional health_professional = new HealthcareProfessional();
     private Carer carer = new Carer();
     private CircularProgressUtil circularProgressUtil;
+    private LoginManager loginManager;
     //endregion
 
     public PatientsListFragment() {
         // Required empty public constructor
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        binding = FragmentPatientsBinding.inflate(inflater, container, false);
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+        uIdLoggedIn = user.getUid();
+        db = FirebaseFirestore.getInstance();
+        loginManager = new LoginManager();
+
+        circularProgressUtil = new CircularProgressUtil(getActivity());
+
+        initializeUI();
+        return binding.getRoot();
     }
 
     @Override
@@ -84,22 +104,6 @@ public class PatientsListFragment extends Fragment {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        binding = FragmentPatientsBinding.inflate(inflater, container, false);
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-        userHPoCarer = user.getUid();
-        db = FirebaseFirestore.getInstance();
-
-        circularProgressUtil = new CircularProgressUtil(getActivity());
-
-        initializeUI();
-        return binding.getRoot();
     }
 
     private void initializeUI() {
@@ -192,11 +196,17 @@ public class PatientsListFragment extends Fragment {
         ures.delete()
                 .addOnCompleteListener(task -> Toast.makeText(getActivity(), "se elimino", Toast.LENGTH_SHORT).show());
 
-        reAuthenticate(alertDialog);
+        //reAuthenticate(alertDialog);
+
+        loginManager.reAuthenticateAndRedirect(
+                uIdLoggedIn,
+                null,
+                null
+        );
     }
 
     private void reAuthenticate(AlertDialog alertDialog) {
-        db.collection(Constants.HealthcareProfesional).document(userHPoCarer).get()
+        db.collection(Constants.HealthcareProfesional).document(uIdLoggedIn).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         health_professional = documentSnapshot.toObject(HealthcareProfessional.class);
@@ -204,7 +214,7 @@ public class PatientsListFragment extends Fragment {
                     }
                 });
 
-        db.collection(Constants.Carers).document(userHPoCarer).get()
+        db.collection(Constants.Carers).document(uIdLoggedIn).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         carer = documentSnapshot.toObject(Carer.class);

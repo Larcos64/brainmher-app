@@ -9,8 +9,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -102,5 +105,49 @@ public class LoginManager {
 
     public boolean userLoggedIn() {
         return firebaseAuth.getCurrentUser() != null;
+    }
+
+    // Método principal con redirección
+    public void reAuthenticateAndRedirect(final String uID, final Context context, final Class<?> targetClass) {
+        checkAndReAuthenticate(Constants.HealthcareProfesional, uID, context, targetClass);
+        checkAndReAuthenticate(Constants.Carers, uID, context, targetClass);
+        // Agregar más llamadas a checkAndReAuthenticate para otras colecciones según sea necesario
+    }
+
+    // Sobrecarga del método para autenticación sin redirección
+    public void reAuthenticateAndRedirect(final String uID) {
+        checkAndReAuthenticate(Constants.HealthcareProfesional, uID, null, null);
+        checkAndReAuthenticate(Constants.Carers, uID, null, null);
+        // Agregar más llamadas a checkAndReAuthenticate para otras colecciones según sea necesario
+    }
+
+    private void checkAndReAuthenticate(final String collectionName, final String uID, final Context context, final Class<?> targetClass) {
+        db.collection(collectionName).document(uID).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String email = documentSnapshot.getString("email");
+                        String password = documentSnapshot.getString("password");
+                        reAuthenticateUser(email, password, context, targetClass);
+                    }
+                })
+                .addOnFailureListener(e -> Log.d("LoginManager", "Error al obtener documento de " + collectionName + ": " + e.getMessage()));
+    }
+
+    private void reAuthenticateUser(String email, String password, final Context context, final Class<?> targetClass) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("LoginManager", "Re-autenticación exitosa");
+                            if (context != null && targetClass != null) {  // Redirigir solo si los parámetros son válidos
+                                Intent intent = new Intent(context, targetClass);
+                                context.startActivity(intent);
+                            }
+                        } else {
+                            Log.d("LoginManager", "Error al re-autenticar al usuario original");
+                        }
+                    }
+                });
     }
 }

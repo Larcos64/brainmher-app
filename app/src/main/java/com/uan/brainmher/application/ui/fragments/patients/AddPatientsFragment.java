@@ -48,6 +48,7 @@ import com.uan.brainmher.domain.entities.HealthcareProfessional;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
+import com.uan.brainmher.infraestructure.database.LoginManager;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -69,6 +70,7 @@ public class AddPatientsFragment extends Fragment {
     private CircularProgressUtil circularProgressUtil;
 
     private ActivityResultLauncher<Intent> startActivityLauncher;
+    private LoginManager loginManager;
 
     @Nullable
     @Override
@@ -80,6 +82,7 @@ public class AddPatientsFragment extends Fragment {
         firebaseUser = firebaseAuth.getCurrentUser();
         uIDHPoCarer = firebaseUser.getUid();
         db = FirebaseFirestore.getInstance();
+        loginManager = new LoginManager();
 
         setupListeners();
         verifyFields();
@@ -242,7 +245,13 @@ public class AddPatientsFragment extends Fragment {
                                                                         @Override
                                                                         public void onSuccess(Void aVoid) {
                                                                             Toast.makeText(requireContext(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
-                                                                            reAuthenticateOriginalUser();
+
+                                                                            loginManager.reAuthenticateAndRedirect(
+                                                                                    uIDHPoCarer,
+                                                                                    requireContext(),
+                                                                                    PatientsList.class
+                                                                            );
+
                                                                             circularProgressUtil.hideProgress();
                                                                         }
                                                                     })
@@ -269,40 +278,6 @@ public class AddPatientsFragment extends Fragment {
                         } else {
                             Toast.makeText(requireContext(), R.string.registration_failed + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             Log.d("message: ", R.string.registration_failed + task.getException().getMessage());
-                        }
-                    }
-                });
-    }
-
-    private void reAuthenticateOriginalUser() {
-        db.collection(Constants.HealthcareProfesional).document(uIDHPoCarer).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        health_professional = documentSnapshot.toObject(HealthcareProfessional.class);
-                        reAuthenticateUser(health_professional.getEmail(), health_professional.getPassword());
-                    }
-                });
-
-        db.collection(Constants.Carers).document(uIDHPoCarer).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        carer = documentSnapshot.toObject(Carer.class);
-                        reAuthenticateUser(carer.getEmail(), carer.getPassword());
-                    }
-                });
-    }
-
-    private void reAuthenticateUser(String email, String password) {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Redirige a la lista de pacientes con el usuario original autenticado
-                            Intent intent = new Intent(requireContext(), PatientsList.class);
-                            startActivity(intent);
-                        } else {
-                            Log.d("message: ", "Error al re-autenticar al usuario original");
                         }
                     }
                 });

@@ -66,6 +66,7 @@
     <string name="message_delete">¿Estas seguro que quieres eliminar a %1$s ?</string>
     <string name="alert">Alert</string>
     <string name="delete">Delete</string>
+    <string name="redirecting">Redirigiendo...</string>
 
     // Options
     <string name="male">Masculino</string>

@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.uan.brainmher.application.ui.adapters.patient.PatientsAdapter;
 import com.uan.brainmher.domain.entities.Patient;
@@ -96,11 +97,24 @@ public class PatientsRepository {
         StorageReference deleteImage = firebaseStorage.getReference()
                 .child("Users/Patients/" + uidPatient + ".jpg");
 
-        deleteImage.delete().addOnSuccessListener(aVoid -> {
-            Log.d("PatientsRepository", "Patient image deleted successfully");
-        }).addOnFailureListener(e -> {
-            Log.e("PatientsRepository", "Failed to delete patient image", e);
-        });
+        deleteImage.getMetadata()
+                .addOnSuccessListener(metadata -> {
+                    // Si los metadatos existen, significa que el archivo también existe
+                    deleteImage.delete().addOnSuccessListener(aVoid -> {
+                        Log.d("PatientsRepository", "Patient image deleted successfully");
+                    }).addOnFailureListener(e -> {
+                        Log.e("PatientsRepository", "Failed to delete patient image", e);
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    if (e instanceof StorageException && ((StorageException) e).getErrorCode() == StorageException.ERROR_OBJECT_NOT_FOUND) {
+                        // El archivo no existe
+                        Log.d("PatientsRepository", "No image found for deletion: " + uidPatient);
+                    } else {
+                        // Otros errores
+                        Log.e("PatientsRepository", "An error occurred while checking for the image", e);
+                    }
+                });
     }
 
     // Listener para manejar el resultado de la eliminación del paciente

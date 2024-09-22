@@ -22,7 +22,7 @@ import com.uan.brainmher.infraestructure.tools.Constants;
 
 public class LoadBrainmher extends AppCompatActivity  {
     private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,34 +56,22 @@ public class LoadBrainmher extends AppCompatActivity  {
     }
 
     private void firebaseAuthListener() {
-        authStateListener = new FirebaseAuth.AuthStateListener() {
+        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
+                    // Usuario autenticado, redirigir según su rol
                     LoginManager loginManager = new LoginManager();
                     loginManager.redirectByRole(LoadBrainmher.this, firebaseUser);
                 } else {
+                    // Usuario no autenticado, redirigir al Login
                     Intent intent = new Intent(LoadBrainmher.this, Login.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
             }
         };
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseAuth.addAuthStateListener(authStateListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (authStateListener != null) {
-            firebaseAuth.removeAuthStateListener(authStateListener);
-        }
     }
 
     private void redirect() {

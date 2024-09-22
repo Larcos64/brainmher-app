@@ -86,12 +86,11 @@ public class LoginManager {
                     if (!role.isEmpty()) {
                         Intent intent = new Intent(context, MainCarer.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
 
                         if (circularProgressUtil != null) {
                             circularProgressUtil.hideProgress();
                         }
-
-                        context.startActivity(intent);
                     }
                 }
             }

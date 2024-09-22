@@ -3,6 +3,7 @@ package com.uan.brainmher.application.ui.fragments.patients;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ import com.uan.brainmher.databinding.FragmentAddPatientsBinding;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.domain.entities.HealthcareProfessional;
 import com.uan.brainmher.domain.entities.Patient;
+import com.uan.brainmher.domain.repositories.PatientsRepository;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
 import com.uan.brainmher.infraestructure.database.LoginManager;
@@ -59,17 +61,13 @@ public class AddPatientsFragment extends Fragment {
     private FragmentAddPatientsBinding binding;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-    private FirebaseFirestore db;
-    private StorageReference storageReference;
     private String uIDHPoCarer;
     private Uri uriImage;
     private Patient patient = new Patient();
-    private HealthcareProfessional health_professional = new HealthcareProfessional();
-    private Carer carer = new Carer();
-    private boolean flag = true;
     private CircularProgressUtil circularProgressUtil;
 
     private ActivityResultLauncher<Intent> startActivityLauncher;
+    private PatientsRepository patientsRepository;
     private LoginManager loginManager;
 
     @Nullable
@@ -77,11 +75,11 @@ public class AddPatientsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddPatientsBinding.inflate(inflater, container, false);
 
-        storageReference = FirebaseStorage.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         uIDHPoCarer = firebaseUser.getUid();
-        db = FirebaseFirestore.getInstance();
+
+        patientsRepository = new PatientsRepository();
         loginManager = new LoginManager();
 
         setupListeners();
@@ -93,13 +91,9 @@ public class AddPatientsFragment extends Fragment {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                        Uri imageUri = result.getData().getData();
-                        // Actualizar URI de la imagen seleccionada
-                        uriImage = imageUri;
-
-                        // Cargar imagen seleccionada en el ImageView
+                        uriImage = result.getData().getData();
                         Glide.with(requireContext())
-                                .load(imageUri)
+                                .load(uriImage)
                                 .fitCenter()
                                 .into(binding.civProfileImage);
                     }
@@ -115,29 +109,69 @@ public class AddPatientsFragment extends Fragment {
         binding.btnSave.setOnClickListener(v -> {
             if (setPojoPatients()) {
                 circularProgressUtil.showProgress(getString(R.string.registering));
-                handleSaveButtonClick();
+                savePatient();
             } else {
                 Toast.makeText(requireContext(), R.string.complete_field, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void handleDateImageClick(View view) {
-        final Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), (datePicker, year, monthOfYear, dayOfMonth) -> {
-            // Actualiza el texto del TextView correspondiente
-            if (view.getId() == binding.ivBirthDate.getId()) {
-                binding.txtBirthDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-            } else if (view.getId() == binding.ivDiagnosisDate.getId()) {
-                binding.txtDiagnosisDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+    private void savePatient() {
+        // Delegate data handling to the repository
+        patientsRepository.createPatient(patient, uriImage, new PatientsRepository.OnPatientCreatedListener() {
+            @Override
+            public void onSuccess(Patient createdPatient) {
+                loginManager.reAuthenticateAndRedirect(uIDHPoCarer, requireContext(), PatientsList.class);
+                circularProgressUtil.hideProgress();
+                Toast.makeText(requireContext(), getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
             }
-        }, mYear, mMonth, mDay);
 
-        datePickerDialog.show();
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(requireContext(), getString(R.string.registration_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                circularProgressUtil.hideProgress();
+            }
+        });
+    }
+
+    private boolean setPojoPatients() {
+        String nameSring = binding.txtName.getText().toString().trim();
+        String lastNameString = binding.txtLastname.getText().toString().trim();
+
+        String seleccionRG = "";
+        if (binding.rgGender.getCheckedRadioButtonId() != -1) {
+            int radioButtonId = binding.rgGender.getCheckedRadioButtonId();
+            RadioButton rb = binding.getRoot().findViewById(radioButtonId);
+            seleccionRG = rb.getText().toString();
+        }
+
+        String birthDateString = binding.txtBirthDate.getText().toString().trim();
+        String emailString = binding.txtEmail.getText().toString().trim();
+        String passwordString = binding.txtPassword.getText().toString().trim();
+        String diagnosticString = binding.txtDiagnostic.getText().toString();
+        String dateDiagnosticString = binding.txtDiagnosisDate.getText().toString();
+
+        boolean isValid = !nameSring.isEmpty() && !lastNameString.isEmpty() && !seleccionRG.isEmpty()
+                && !birthDateString.isEmpty() && !emailString.isEmpty() && !passwordString.isEmpty() && passwordString.length() >= 7
+                && !diagnosticString.isEmpty() && !dateDiagnosticString.isEmpty();
+
+        if (isValid) {
+            patient.setFirstName(nameSring);
+            patient.setLastName(lastNameString);
+            patient.setGender(seleccionRG);
+            patient.setBirthday(birthDateString);
+            patient.setEmail(emailString);
+            patient.setPassword(passwordString);
+            patient.setDiagnostic(diagnosticString);
+            patient.setDateDiagnostic(dateDiagnosticString);
+            patient.setRole(Constants.Patients);
+            String[] assignsArray = {firebaseUser.getUid()};
+            List<String> assigns = Arrays.asList(assignsArray);
+            patient.setAssigns(assigns);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void verifyFields() {
@@ -174,116 +208,43 @@ public class AddPatientsFragment extends Fragment {
         startActivityLauncher.launch(intent.createChooser(intent, getString(R.string.select_photo)));
     }
 
-    private boolean setPojoPatients() {
-        String nameSring = binding.txtName.getText().toString().trim();
-        String lastNameString = binding.txtLastname.getText().toString().trim();
+    private void handleDateImageClick(View view) {
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        String seleccionRG = "";
-        if (binding.rgGender.getCheckedRadioButtonId() != -1) {
-            int radioButtonId = binding.rgGender.getCheckedRadioButtonId();
-            RadioButton rb = binding.getRoot().findViewById(radioButtonId);
-            seleccionRG = rb.getText().toString();
-        }
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), (datePicker, year, monthOfYear, dayOfMonth) -> {
+            // Actualiza el texto del TextView correspondiente
+            if (view.getId() == binding.ivBirthDate.getId()) {
+                binding.txtBirthDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+            } else if (view.getId() == binding.ivDiagnosisDate.getId()) {
+                binding.txtDiagnosisDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+            }
+        }, mYear, mMonth, mDay);
 
-        String birthDateString = binding.txtBirthDate.getText().toString().trim();
-        String emailString = binding.txtEmail.getText().toString().trim();
-        String passwordString = binding.txtPassword.getText().toString().trim();
-        String diagnosticString = binding.txtDiagnostic.getText().toString();
-        String dateDiagnosticString = binding.txtDiagnosisDate.getText().toString();
+        datePickerDialog.show();
+    }
 
-        boolean isValid = !nameSring.isEmpty() && !lastNameString.isEmpty() && !seleccionRG.isEmpty()
-                && !birthDateString.isEmpty() && !emailString.isEmpty() && !passwordString.isEmpty() && passwordString.length() >= 7
-                && !diagnosticString.isEmpty() && !dateDiagnosticString.isEmpty();
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
+    }
 
-        if (isValid) {
-            patient.setFirstName(nameSring);
-            patient.setLastName(lastNameString);
-            patient.setGender(seleccionRG);
-            patient.setBirthday(birthDateString);
-            patient.setEmail(emailString);
-            patient.setPassword(passwordString);
-            patient.setDiagnostic(diagnosticString);
-            patient.setDateDiagnostic(dateDiagnosticString);
-            patient.setRole(Constants.Patients);
-            patient.setRole(Constants.Patients);
-            String[] assignsArray = {firebaseUser.getUid()};
-            List<String> assigns = Arrays.asList(assignsArray);
-            patient.setAssigns(assigns);
-            return true;
+    private OnFragmentInteractionListener mListener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
-            return false;
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 
-    private void handleSaveButtonClick() {
-        firebaseAuth.createUserWithEmailAndPassword(patient.getEmail(), patient.getPassword())
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser newUser = task.getResult().getUser();
-                            String uIDPatient = newUser.getUid();
-                            Log.d("AddPatient uIDPatient: ", uIDPatient);
-                            patient.setPatientUID(uIDPatient);
-
-                            if (uriImage != null) {
-                                final StorageReference imgRef = storageReference.child("Users/Patients/" + patient.getPatientUID() + ".jpg");
-                                imgRef.putFile(uriImage)
-                                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                                                uriTask.addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Uri> task) {
-                                                        if (task.isSuccessful()) {
-                                                            Uri downloadUri = task.getResult();
-                                                            patient.setUriImg(downloadUri.toString());
-
-                                                            db.collection(Constants.Patients).document(patient.getPatientUID()).set(patient)
-                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                        @Override
-                                                                        public void onSuccess(Void aVoid) {
-                                                                            Toast.makeText(requireContext(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
-
-                                                                            loginManager.reAuthenticateAndRedirect(
-                                                                                    uIDHPoCarer,
-                                                                                    requireContext(),
-                                                                                    PatientsList.class
-                                                                            );
-
-                                                                            circularProgressUtil.hideProgress();
-                                                                        }
-                                                                    })
-                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                        @Override
-                                                                        public void onFailure(@NonNull Exception e) {
-                                                                            Log.d("message: ", e.toString());
-                                                                        }
-                                                                    });
-                                                        } else {
-                                                            Log.d("message: ", "Failed to get download URL");
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.d("message: ", e.toString());
-                                            }
-                                        });
-                            }
-                        } else {
-                            Toast.makeText(requireContext(), R.string.registration_failed + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            Log.d("message: ", R.string.registration_failed + task.getException().getMessage());
-                        }
-                    }
-                });
-    }
-
-    public interface OnFragmentInteractionListener{
-        public void onFragmentInteraction(Uri uri);
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 }

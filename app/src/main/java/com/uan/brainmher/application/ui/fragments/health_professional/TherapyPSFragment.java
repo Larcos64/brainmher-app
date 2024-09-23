@@ -1,19 +1,18 @@
 package com.uan.brainmher.application.ui.fragments.health_professional;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.uan.brainmher.R;
-import com.uan.brainmher.domain.entities.Patient;
 
 public class TherapyPSFragment extends Fragment {
 
@@ -24,12 +23,7 @@ public class TherapyPSFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Patient patientSendFragment;
         args = getActivity().getIntent().getExtras();
-        if (args != null) {
-            patientSendFragment = (Patient) args.getSerializable("patient");
-            args.putSerializable("patient", patientSendFragment);
-        }
     }
 
     @Nullable
@@ -45,9 +39,11 @@ public class TherapyPSFragment extends Fragment {
     }
 
     private void SetUpViewPager(ViewPager2 viewPager, TabLayout tabs) {
+        // Configura el adaptador del ViewPager2
         Adapter adapter = new Adapter(this);
         viewPager.setAdapter(adapter);
 
+        // Vincula el TabLayout con el ViewPager2 usando TabLayoutMediator
         new TabLayoutMediator(tabs, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
@@ -77,15 +73,14 @@ public class TherapyPSFragment extends Fragment {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
+                    Log.d("ViewPager2", "Cognitive fragment creado en posición 0");
                     return new CognitiveTherapyPSFragment();
-                    /*
                 case 1:
-                    return new MotorTherapyPSFragment(args);
+                    return new CognitiveTherapyPSFragment();  // Sustituir por el fragmento adecuado
                 case 2:
-                    return new MemorizameParent();
-                     */
+                    return new CognitiveTherapyPSFragment();  // Sustituir por el fragmento adecuado
                 default:
-                    return new CognitiveTherapyPSFragment(); // Fallback case
+                    return new CognitiveTherapyPSFragment();
             }
         }
 

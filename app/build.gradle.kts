@@ -69,4 +69,6 @@ dependencies {
 
     // OneSignal
     implementation("com.onesignal:OneSignal:[5.0.0, 5.99.99]")
+
+    implementation("com.google.code.gson:gson:2.11.0")
 }

@@ -23,6 +23,7 @@
                 android:layout_height="?attr/actionBarSize"/>
         </com.google.android.material.appbar.AppBarLayout>
 
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/content_health_professional"
             android:layout_width="match_parent"
@@ -31,16 +32,6 @@
             app:navGraph="@navigation/health_professional_navigation"
             app:defaultNavHost="true" />
 
-        <!--
-        <fragment
-            android:id="@+id/content_health_professional"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/health_professional_navigation"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-            -->
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigation_health_professional"

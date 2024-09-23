@@ -230,5 +230,6 @@
         <item name="tabTextAppearance">@style/StyleTextTabs</item>
         <item name="tabRippleColor">@color/colorAccent</item>
         <item name="android:elevation">@dimen/two</item>
+        <item name="android:layout_marginTop">@dimen/sixty</item>
     </style>
 </resources>

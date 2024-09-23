@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,9 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -29,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 import com.uan.brainmher.R;
 import com.uan.brainmher.application.ui.activities.general.Login;
 import com.uan.brainmher.application.ui.activities.general.NavigationOptions;
@@ -49,7 +49,6 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
     private FirebaseFirestore db;
     private HealthcareProfessional hp = new HealthcareProfessional();
     private Carer carer = new Carer();
-    private boolean session;
     private Bundle args = new Bundle();
     private Patient patientSendFragment = new Patient();
     private String userRole;
@@ -91,7 +90,6 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
                             if (hp != null) {
                                 nameUser.setText(hp.getFirstName() + " " + hp.getLastName());
                                 emailUser.setText(hp.getEmail());
-                                session = false;
                                 Glide.with(HealthProfessionalActivity.this).load(hp.getUriImg()).fitCenter().into(imageUser);
                                 userRole = carer.getRole();
                             }
@@ -108,7 +106,6 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
                             if (carer != null) {
                                 nameUser.setText(carer.getFirstName() + " " + carer.getLastName());
                                 emailUser.setText(carer.getEmail());
-                                session = true;
                                 Glide.with(HealthProfessionalActivity.this).load(carer.getUriImg()).fitCenter().into(imageUser);
                             }
                         }
@@ -120,8 +117,10 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
 
         // Obtén el NavHostFragment y configura el NavController
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.content_health_professional);
+        Log.d("NAVHOST: ", navHostFragment.toString());
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
+            Log.d("NAVCONTROLLER: ", navController.toString());
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
         }
 
@@ -132,6 +131,11 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
             args.putSerializable("patient", patientSendFragment);
 
             SharedPreferences preferences = getPreferences(0);
+            SharedPreferences.Editor editor = preferences.edit();
+            Gson gson = new Gson();
+            String json = gson.toJson(patientSendFragment);
+            editor.putString("serialipatient", json);
+            editor.apply();
         }
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {

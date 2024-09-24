@@ -37,6 +37,8 @@ import com.uan.brainmher.databinding.ActivityHealthProfessionalBinding;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.domain.entities.HealthcareProfessional;
 import com.uan.brainmher.domain.entities.Patient;
+import com.uan.brainmher.domain.repositories.CarerRepository;
+import com.uan.brainmher.domain.repositories.HealthcareProfessionalRepository;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -46,12 +48,10 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
     private ActivityHealthProfessionalBinding binding;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-    private FirebaseFirestore db;
-    private HealthcareProfessional hp = new HealthcareProfessional();
-    private Carer carer = new Carer();
-    private Bundle args = new Bundle();
-    private Patient patientSendFragment = new Patient();
+    private HealthcareProfessionalRepository healthcareProfessionalRepository;
+    private CarerRepository carerRepository;
     private String userRole;
+    private Bundle args = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,6 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
         binding = ActivityHealthProfessionalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Configuramos la orientación de la pantalla y otras opciones
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -69,63 +68,88 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        // Configuramos el Navigation Drawer
+        // Configurar Navigation Drawer
         binding.secondNavigationViewHp.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, binding.secondDrawerLayoutHp, binding.toolbarHealthProfessional, R.string.drawer_open, R.string.drawer_close);
         binding.secondDrawerLayoutHp.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        // Inicializamos los repositorios
+        healthcareProfessionalRepository = new HealthcareProfessionalRepository();
+        carerRepository = new CarerRepository();
 
         // Configuramos los datos del usuario en el Navigation Drawer
         final TextView nameUser = binding.secondNavigationViewHp.getHeaderView(0).findViewById(R.id.lbl_name_user);
         final TextView emailUser = binding.secondNavigationViewHp.getHeaderView(0).findViewById(R.id.lbl_email_user);
         final CircleImageView imageUser = binding.secondNavigationViewHp.getHeaderView(0).findViewById(R.id.img_users_navigation);
 
-        db = FirebaseFirestore.getInstance();
-        db.collection(Constants.HealthcareProfesional).document(firebaseUser.getUid()).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            hp = documentSnapshot.toObject(HealthcareProfessional.class);
-                            if (hp != null) {
-                                nameUser.setText(hp.getFirstName() + " " + hp.getLastName());
-                                emailUser.setText(hp.getEmail());
-                                Glide.with(HealthProfessionalActivity.this).load(hp.getUriImg()).fitCenter().into(imageUser);
-                                userRole = carer.getRole();
-                            }
-                        }
-                    }
-                });
+        // Cargamos los datos del Healthcare Professional
+        loadHealthcareProfessionalData(firebaseUser.getUid(), nameUser, emailUser, imageUser);
 
-        db.collection(Constants.Carers).document(firebaseUser.getUid()).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            carer = documentSnapshot.toObject(Carer.class);
-                            if (carer != null) {
-                                nameUser.setText(carer.getFirstName() + " " + carer.getLastName());
-                                emailUser.setText(carer.getEmail());
-                                Glide.with(HealthProfessionalActivity.this).load(carer.getUriImg()).fitCenter().into(imageUser);
-                            }
-                        }
-                    }
-                });
+        // Cargamos los datos del Carer
+        loadCarerData(firebaseUser.getUid(), nameUser, emailUser, imageUser);
 
-        // Configuramos el BottomNavigationView
+        // Configurar BottomNavigationView y NavController
         BottomNavigationView bottomNavigationView = binding.navigationHealthProfessional;
-
-        // NavHostFragment y configuración del NavController
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.content_health_professional);
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
         }
 
-        // Guardamos el paciente en SharedPreferences
+        // Guardar paciente en SharedPreferences
+        savePatientInPreferences();
+
+        // Manejo del botón de retroceso
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finish();
+            }
+        });
+    }
+
+    private void loadHealthcareProfessionalData(String userId, TextView nameUser, TextView emailUser, CircleImageView imageUser) {
+        healthcareProfessionalRepository.getHealthcareProfessional(userId, new HealthcareProfessionalRepository.OnHealthcareProfessionalLoadedListener() {
+            @Override
+            public void onSuccess(HealthcareProfessional hp) {
+                if (hp != null) {
+                    nameUser.setText(hp.getFirstName() + " " + hp.getLastName());
+                    emailUser.setText(hp.getEmail());
+                    Glide.with(HealthProfessionalActivity.this).load(hp.getUriImg()).fitCenter().into(imageUser);
+                    userRole = hp.getRole(); // Asignamos el rol del usuario
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.e("HealthProfessional", "Failed to load Healthcare Professional", e);
+            }
+        });
+    }
+
+    private void loadCarerData(String userId, TextView nameUser, TextView emailUser, CircleImageView imageUser) {
+        carerRepository.getCarer(userId, new CarerRepository.OnCarerLoadedListener() {
+            @Override
+            public void onSuccess(Carer carer) {
+                if (carer != null) {
+                    nameUser.setText(carer.getFirstName() + " " + carer.getLastName());
+                    emailUser.setText(carer.getEmail());
+                    Glide.with(HealthProfessionalActivity.this).load(carer.getUriImg()).fitCenter().into(imageUser);
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.e("HealthProfessional", "Failed to load Carer", e);
+            }
+        });
+    }
+
+    private void savePatientInPreferences() {
         args = getIntent().getExtras();
         if (args != null) {
-            patientSendFragment = (Patient) args.getSerializable("patient");
+            Patient patientSendFragment = (Patient) args.getSerializable("patient");
             args.putSerializable("patient", patientSendFragment);
 
             SharedPreferences preferences = getPreferences(0);
@@ -135,14 +159,6 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
             editor.putString("serialipatient", json);
             editor.apply();
         }
-
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                // Acción personalizada para el botón de retroceso
-                finish();
-            }
-        });
     }
 
     @Override
@@ -167,15 +183,14 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         closeDrawer();
-        int itemId = item.getItemId();
-        if (itemId == R.id.btn_profile) {
+        if (item.getItemId() == R.id.btn_profile) {
             Intent navigation = new Intent(HealthProfessionalActivity.this, NavigationOptions.class);
             navigation.putExtra("option", "profile");
             navigation.putExtra("user_uid", firebaseUser.getUid());
             navigation.putExtra("user_role", userRole);
             navigation.putExtra("profile_type", "personal");
             startActivity(navigation);
-        } else if (itemId == R.id.btn_logout) {
+        } else if (item.getItemId() == R.id.btn_logout) {
             firebaseAuth.signOut();
             Intent intent = new Intent(HealthProfessionalActivity.this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

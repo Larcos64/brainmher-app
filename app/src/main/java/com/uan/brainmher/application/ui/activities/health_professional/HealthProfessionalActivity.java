@@ -115,12 +115,10 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
         // Configuramos el BottomNavigationView
         BottomNavigationView bottomNavigationView = binding.navigationHealthProfessional;
 
-        // Obtén el NavHostFragment y configura el NavController
+        // NavHostFragment y configuración del NavController
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.content_health_professional);
-        Log.d("NAVHOST: ", navHostFragment.toString());
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
-            Log.d("NAVCONTROLLER: ", navController.toString());
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
         }
 

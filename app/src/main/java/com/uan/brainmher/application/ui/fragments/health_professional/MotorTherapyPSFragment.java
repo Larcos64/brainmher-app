@@ -9,27 +9,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.gson.Gson;
-import com.uan.brainmher.R;
 // import com.uan.brainmher.adapters.CognitivesAdapter;
 // import com.uan.brainmher.data.CognitivesExcercises;
 // import com.uan.brainmher.data.Patient;
-import com.uan.brainmher.databinding.FragmentPsTherapyCognitiveBinding;
+import com.uan.brainmher.databinding.FragmentPsTherapyMotorBinding;
 
-public class CognitiveTherapyPSFragment extends Fragment {
-    private FragmentPsTherapyCognitiveBinding binding;
+public class MotorTherapyPSFragment extends Fragment {
+    private FragmentPsTherapyMotorBinding binding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    public CognitiveTherapyPSFragment() {
+    public MotorTherapyPSFragment() {
         // Constructor vacío necesario
     }
 
@@ -37,7 +30,7 @@ public class CognitiveTherapyPSFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inicializamos ViewBinding
-        binding = FragmentPsTherapyCognitiveBinding.inflate(inflater, container, false);
+        binding = FragmentPsTherapyMotorBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         return view;
     }

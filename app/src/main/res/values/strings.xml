@@ -53,6 +53,11 @@
     <string name="motor">Motriz</string>
     <string name="memorizame">Memorizame</string>
 
+    <string name="tab_family">Familia</string>
+    <string name="tab_home">Hogar</string>
+    <string name="tab_places">Lugares</string>
+    <string name="tab_pets">Mascotas</string>
+
     // Alers, messages
     <string name="val_min_password">Debe contener almenos 7 caracteres</string>
     <string name="select_photo">Seleccione la Imagen</string>

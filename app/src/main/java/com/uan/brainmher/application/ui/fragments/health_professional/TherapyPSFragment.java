@@ -73,12 +73,11 @@ public class TherapyPSFragment extends Fragment {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
-                    Log.d("ViewPager2", "Cognitive fragment creado en posición 0");
                     return new CognitiveTherapyPSFragment();
                 case 1:
-                    return new CognitiveTherapyPSFragment();  // Sustituir por el fragmento adecuado
+                    return new MotorTherapyPSFragment();
                 case 2:
-                    return new CognitiveTherapyPSFragment();  // Sustituir por el fragmento adecuado
+                    return new MemorizameParentFragment();
                 default:
                     return new CognitiveTherapyPSFragment();
             }

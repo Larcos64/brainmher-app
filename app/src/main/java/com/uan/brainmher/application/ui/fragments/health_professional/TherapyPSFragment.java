@@ -1,7 +1,6 @@
 package com.uan.brainmher.application.ui.fragments.health_professional;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.uan.brainmher.R;
+import com.uan.brainmher.application.ui.fragments.memorizame.MemorizameParentFragment;
 
 public class TherapyPSFragment extends Fragment {
 

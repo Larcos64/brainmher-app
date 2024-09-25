@@ -1,4 +1,4 @@
-package com.uan.brainmher.application.ui.fragments.health_professional;
+package com.uan.brainmher.application.ui.fragments.memorizame;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -70,11 +70,9 @@ public class MemorizameFragment extends Fragment {
     private void openFragment(int fragmentType) {
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        /*
         Fragment change = new MemorizameFamilyFragment(fragmentType);
         change.setArguments(args);
         transaction.replace(binding.getRoot().getId(), change).addToBackStack(null).commit();
-        */
     }
 
     @Override

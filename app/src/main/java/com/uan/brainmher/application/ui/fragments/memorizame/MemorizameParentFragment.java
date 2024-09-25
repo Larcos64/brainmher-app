@@ -1,4 +1,4 @@
-package com.uan.brainmher.application.ui.fragments.health_professional;
+package com.uan.brainmher.application.ui.fragments.memorizame;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.uan.brainmher.databinding.FragmentMemorizameParentBinding;
 import com.uan.brainmher.domain.entities.Patient;
-import com.uan.brainmher.application.ui.fragments.health_professional.MemorizameFragment;
 import com.uan.brainmher.application.ui.interfaces.IMainCarer;
 
 public class MemorizameParentFragment extends Fragment implements IMainCarer {

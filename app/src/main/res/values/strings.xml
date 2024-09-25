@@ -12,7 +12,7 @@
     <string name="list_patient">Lista de pacientes</string>
     <string name="add_patient">Agregar Paciente</string>
 
-    // Placeholders
+    // Placeholders, Labels
     <string name="email">Correo electrónico</string>
     <string name="user">Usuario</string>
     <string name="pass">Contraseña</string>
@@ -27,6 +27,11 @@
     <string name="names">Nombre</string>
     <string name="date_diagnostic">Fecha de diagnóstico</string>
     <string name="diagnostic">Diagnóstico</string>
+    <string name="number">Número</string>
+
+    <string name="lbl_write_question">Escribe una pregunta que corresponda con la imagen.</string>
+    <string name="lbl_answer">Escriba una opción de respuesta.</string>
+    <string name="lbl_select_correct_answer">Selecciona la respuesta correcta.</string>
 
     // Buttons, Links, Tabs
     <string name="login">Iniciar sesión</string>
@@ -78,6 +83,11 @@
     <string name="redirecting">Redirigiendo...</string>
     <string name="record_deleted">Registro eliminado</string>
     <string name="elimination_failed">Error al eliminar registro</string>
+
+    <string name="add_family_question">Agregar Pregunta de Familia</string>
+    <string name="add_home_question">Agregar Pregunta de Hogar</string>
+    <string name="add_places_question">Agregar Pregunta de Lugar</string>
+    <string name="add_pets_question">Agregar Pregunta de Mascota</string>
 
     // Options
     <string name="male">Masculino</string>

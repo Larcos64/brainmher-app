@@ -234,8 +234,19 @@ public class NewCardMemorizame extends Fragment {
     }
 
     private void navigateToMemorizameParent() {
-        FragmentManager manager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.container_memorizame_parent, new MemorizameParentFragment()).commit();
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+
+        // Solo regresa al fragmento anterior (MemorizameFamilyFragment) sin reemplazar nada
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            Log.d("REGRESA", "POR IF");
+            fragmentManager.popBackStack();
+        } else {
+            // En caso de que no haya nada en la pila de fragmentos, podrías manejar una acción alternativa
+            // Como cargar directamente MemorizameFamilyFragment
+            Log.d("REGRESA", "POR ELSE");
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container_memorizame_parent, new MemorizameParentFragment())
+                    .commit();
+        }
     }
 }

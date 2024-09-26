@@ -83,6 +83,7 @@
     <string name="redirecting">Redirigiendo...</string>
     <string name="record_deleted">Registro eliminado</string>
     <string name="elimination_failed">Error al eliminar registro</string>
+    <string name="saving_error">Error al guardar registro</string>
 
     <string name="add_family_question">Agregar Pregunta de Familia</string>
     <string name="add_home_question">Agregar Pregunta de Hogar</string>

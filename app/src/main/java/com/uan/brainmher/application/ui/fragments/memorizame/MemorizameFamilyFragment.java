@@ -153,13 +153,17 @@ public class MemorizameFamilyFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
+        if (adapter != null) {
+            adapter.startListening();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        adapter.stopListening();
+        if (adapter != null) {
+            adapter.stopListening();
+        }
     }
 
     private void logicEventSelecItem() {
@@ -213,12 +217,15 @@ public class MemorizameFamilyFragment extends Fragment {
 
     private void initRecyclerView() {
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        binding.recyclerView.setItemAnimator(null);
+
         Query query = db.collection(Constants.Memorizame)
                 .document(patient.getPatientUID()).collection(categoria);
 
         FirestoreRecyclerOptions<Memorizame> options =
                 new FirestoreRecyclerOptions.Builder<Memorizame>()
                         .setQuery(query, Memorizame.class)
+                        .setLifecycleOwner(this) // Añadir el lifecycle owner
                         .build();
 
         adapter = new MemorizameFamilyGridAdapter(options, getActivity(), iSelectionMemorizame);

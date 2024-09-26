@@ -3,15 +3,21 @@ package com.uan.brainmher.application.ui.fragments.memorizame;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -30,6 +36,9 @@ import com.uan.brainmher.R;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.databinding.FragmentNewCardMemorizameBinding;
 import com.uan.brainmher.domain.entities.Memorizame;
+import com.uan.brainmher.domain.repositories.MemorizameRepository;
+import com.uan.brainmher.domain.repositories.PatientsRepository;
+import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
 import java.util.UUID;
@@ -54,6 +63,16 @@ public class NewCardMemorizame extends Fragment {
         this.flagInt = flagInt;
     }
 
+    private ActivityResultLauncher<Intent> startActivityLauncher;
+    private MemorizameRepository memorizameRepository;
+    private CircularProgressUtil circularProgressUtil;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        memorizameRepository = new MemorizameRepository(); // Asegúrate de inicializarlo aquí
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,6 +95,20 @@ public class NewCardMemorizame extends Fragment {
         setupDropdownMenu();
         setupSaveButton();
         setupImagePicker();
+
+        circularProgressUtil = new CircularProgressUtil(getActivity());
+
+        startActivityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        uriImage = result.getData().getData();
+                        Glide.with(requireContext())
+                                .load(uriImage)
+                                .fitCenter()
+                                .into(binding.civProfileImage);
+                    }
+                });
 
         return view;
     }
@@ -112,7 +145,7 @@ public class NewCardMemorizame extends Fragment {
         binding.buttonCreateMemorizame.setOnClickListener(v -> {
             if (setPojoMemorizame()) {
                 saveMemorizame();
-                showAlert();
+                Toast.makeText(requireContext(), getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -121,19 +154,8 @@ public class NewCardMemorizame extends Fragment {
         binding.civProfileImage.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intent.setType("image/*");
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_photo)), REQUEST_CODE2);
+            startActivityLauncher.launch(Intent.createChooser(intent, getString(R.string.select_photo)));
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE2 && resultCode == Activity.RESULT_OK && data != null) {
-            uriImage = data.getData();
-            if (uriImage != null) {
-                Glide.with(getActivity()).load(uriImage).fitCenter().into(binding.civProfileImage);
-            }
-        }
     }
 
     private boolean setPojoMemorizame() {
@@ -150,7 +172,7 @@ public class NewCardMemorizame extends Fragment {
             memorizame.setAnswer2(answer2);
             memorizame.setAnswer3(answer3);
             memorizame.setAnswer4(answer4);
-            memorizame.setPatientUID(patientUID);
+            memorizame.setPatientUID(patient.getPatientUID());
             setCorrectAnswer(correct);
             return true;
         } else {
@@ -183,43 +205,21 @@ public class NewCardMemorizame extends Fragment {
         }
     }
 
-    public void saveMemorizame() {
-        final String uuidGenerated = createTransactionID();
-        memorizame.setUuidGenerated(uuidGenerated);
+    private void saveMemorizame() {
+        memorizameRepository.createMemorizame(memorizame, categoria, uriImage, new MemorizameRepository.OnMemorizameCreatedListener() {
+            @Override
+            public void onSuccess(Memorizame createdMemorizame) {
+                circularProgressUtil.hideProgress();
+                Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
+                clearForm();
+            }
 
-        if (uriImage != null) {
-            final StorageReference imgRef = storageReference.child(categoria + "/" + uuidGenerated + ".jpg");
-            imgRef.putFile(uriImage).addOnSuccessListener(taskSnapshot -> {
-                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                uriTask.addOnCompleteListener(uriComplete -> {
-                    if (uriComplete.isSuccessful()) {
-                        memorizame.setUriImg(uriComplete.getResult().toString());
-                        db.collection(Constants.Memorizame).document(patient.getPatientUID())
-                                .collection(categoria).document(uuidGenerated).set(memorizame)
-                                .addOnSuccessListener(aVoid -> Toast.makeText(getActivity(), "Tarjeta Memorizame guardada exitosamente", Toast.LENGTH_SHORT).show());
-                    }
-                });
-            });
-        }
-    }
-
-    private String createTransactionID() {
-        return UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
-    }
-
-    private void showAlert() {
-        new AlertDialog.Builder(context, R.style.BackgroundRounded)
-                .setView(LayoutInflater.from(context).inflate(R.layout.dialog_one_textview_two_buttons, null))
-                .setCancelable(false)
-                .setNegativeButton(R.string.no, (dialog, which) -> {
-                    clearForm();
-                    dialog.dismiss();
-                })
-                .setPositiveButton(R.string.yes, (dialog, which) -> {
-                    clearForm();
-                    dialog.dismiss();
-                })
-                .show();
+            @Override
+            public void onFailure(Exception e) {
+                circularProgressUtil.hideProgress();
+                Toast.makeText(getActivity(), getResources().getString(R.string.saving_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void clearForm() {

@@ -1,6 +1,7 @@
 package com.uan.brainmher.application.ui.adapters.memorizame;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class MemorizameFamilyGridAdapter extends FirestoreRecyclerAdapter<Memori
         //set data
 
         //Get the position of the professional inside the adapter
-        final DocumentSnapshot memorizameDocument = getSnapshots().getSnapshot(holder.getAdapterPosition());
+        final DocumentSnapshot memorizameDocument = getSnapshots().getSnapshot(holder.getBindingAdapterPosition());
 
 
         holder.setData(memorizameDocument.toObject(Memorizame.class));
@@ -91,9 +92,14 @@ public class MemorizameFamilyGridAdapter extends FirestoreRecyclerAdapter<Memori
 
         //Set data to views
         public void setData(Memorizame item) {
-            this.item = item;
-            number.setText(item.getQuestion());
-            Glide.with(context).load(item.getUriImg()).fitCenter().into(photo);
+            try {
+                this.item = item;
+                number.setText(item.getQuestion());
+                Glide.with(context).load(item.getUriImg()).fitCenter().into(photo);
+                Log.d("MemorizameData", "Question: " + item.getQuestion() + ", Image URI: " + item.getUriImg());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     //endregion

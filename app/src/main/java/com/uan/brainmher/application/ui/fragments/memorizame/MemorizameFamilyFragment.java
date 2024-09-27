@@ -147,7 +147,10 @@ public class MemorizameFamilyFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        adapter.startListening();
+        // Asegúrate de actualizar el adaptador cuando el fragmento vuelve a estar visible
+        if (binding.recyclerView.getAdapter() != null) {
+            binding.recyclerView.getAdapter().notifyDataSetChanged();
+        }
     }
 
     @Override

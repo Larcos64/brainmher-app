@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -248,5 +249,17 @@ public class NewCardMemorizame extends Fragment {
                     .replace(R.id.container_memorizame_parent, new MemorizameParentFragment())
                     .commit();
         }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Aquí puedes manejar el retroceso y navegar al fragmento anterior
+                navigateToMemorizameParent();
+            }
+        });
     }
 }

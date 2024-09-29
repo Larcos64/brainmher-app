@@ -1,9 +1,13 @@
 package com.uan.brainmher.application.ui.helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
 
 import com.uan.brainmher.R;
 import com.uan.brainmher.databinding.FragmentNewCardMemorizameBinding;
@@ -15,6 +19,8 @@ public class MemorizameFormHelper {
     private final Context context;
     private final Memorizame memorizame;
     private final FragmentNewCardMemorizameBinding binding;
+
+    private ActivityResultLauncher<Intent> startActivityLauncher;
 
     public MemorizameFormHelper(Context context, Memorizame memorizame, FragmentNewCardMemorizameBinding binding) {
         this.context = context;
@@ -114,5 +120,13 @@ public class MemorizameFormHelper {
             Toast.makeText(context, uriImage == null ? context.getString(R.string.select_photo) : context.getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+
+    public void setupImagePicker(ActivityResultLauncher<Intent> startActivityLauncher) {
+        binding.civProfileImage.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("image/*");
+            startActivityLauncher.launch(Intent.createChooser(intent, context.getString(R.string.select_photo)));
+        });
     }
 }

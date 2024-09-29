@@ -98,7 +98,6 @@ public class NewCardMemorizame extends Fragment {
         setCategoryAndTitle();
         formHelper.setupDropdownMenu();
         setupSaveButton();
-        setupImagePicker();
 
         startActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -111,6 +110,7 @@ public class NewCardMemorizame extends Fragment {
                                 .into(binding.civProfileImage);
                     }
                 });
+        formHelper.setupImagePicker(startActivityLauncher);
 
         return view;
     }
@@ -143,14 +143,6 @@ public class NewCardMemorizame extends Fragment {
             } else {
                 Toast.makeText(requireContext(), getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
             }
-        });
-    }
-
-    private void setupImagePicker() {
-        binding.civProfileImage.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.setType("image/*");
-            startActivityLauncher.launch(Intent.createChooser(intent, getString(R.string.select_photo)));
         });
     }
 

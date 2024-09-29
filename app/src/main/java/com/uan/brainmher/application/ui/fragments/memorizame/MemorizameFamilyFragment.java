@@ -64,7 +64,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MemorizameFamilyFragment extends Fragment {
 
     private FragmentCuMemorizameFamilyBinding binding;
-    private FragmentNewCardMemorizameBinding bindingNewCard;
     private int flag;
     private Uri uriImage;
     private FirebaseFirestore db;
@@ -84,6 +83,7 @@ public class MemorizameFamilyFragment extends Fragment {
 
     private ActivityResultLauncher<Intent> startActivityLauncher;
     private MemorizameRepository memorizameRepository;
+    private CircleImageView imageUpdate;
 
     @Nullable
     @Override
@@ -144,7 +144,7 @@ public class MemorizameFamilyFragment extends Fragment {
                         Glide.with(requireContext())
                                 .load(uriImage)
                                 .fitCenter()
-                                .into(bindingNewCard.civProfileImage);
+                                .into(imageUpdate);
                     }
                 });
 
@@ -197,7 +197,20 @@ public class MemorizameFamilyFragment extends Fragment {
                     formHelper.fillFormWithData(memorizame);
                     formHelper.setupDropdownMenu();
 
-                    Glide.with(getActivity()).load(memorizame.getUriImg()).fitCenter().into(dialogBinding.civProfileImage);
+                    imageUpdate = dialogBinding.civProfileImage;
+                    imageUpdate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // Intent to tour the gallery
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            // Accept all kinds of images
+                            intent.setType("image/*");
+                            //If you have several types of viewers, it will ask which one to start with
+                            startActivityLauncher.launch(Intent.createChooser(intent, getActivity().getString(R.string.select_photo)));
+                        }
+                    });
+
+                    Glide.with(getActivity()).load(memorizame.getUriImg()).fitCenter().into(imageUpdate);
 
                     // Asignar la URI actual de la imagen
                     uriImage = Uri.parse(memorizame.getUriImg());

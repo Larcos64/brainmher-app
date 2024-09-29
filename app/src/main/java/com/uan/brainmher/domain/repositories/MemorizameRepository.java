@@ -1,5 +1,3 @@
-// MemorizameRepository
-
 package com.uan.brainmher.domain.repositories;
 
 import android.net.Uri;

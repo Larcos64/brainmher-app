@@ -133,7 +133,7 @@ public class MemorizameFamilyFragment extends Fragment {
         storageReference = FirebaseStorage.getInstance().getReference();
         circularProgressUtil = new CircularProgressUtil(getActivity());
 
-        logicEventSelecItem();
+        selectedItemEventLogic();
         initRecyclerView();
 
         startActivityLauncher = registerForActivityResult(
@@ -176,7 +176,7 @@ public class MemorizameFamilyFragment extends Fragment {
         }
     }
 
-    private void logicEventSelecItem() {
+    private void selectedItemEventLogic() {
         iSelectionMemorizame = new MemorizameFamilyGridAdapter.ISelectionMemorizame() {
             @Override
             public void clickItem(final Memorizame memorizame) {
@@ -198,18 +198,7 @@ public class MemorizameFamilyFragment extends Fragment {
                     formHelper.setupDropdownMenu();
 
                     imageUpdate = dialogBinding.civProfileImage;
-                    imageUpdate.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // Intent to tour the gallery
-                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            // Accept all kinds of images
-                            intent.setType("image/*");
-                            //If you have several types of viewers, it will ask which one to start with
-                            startActivityLauncher.launch(Intent.createChooser(intent, getActivity().getString(R.string.select_photo)));
-                        }
-                    });
-
+                    formHelper.setupImagePicker(startActivityLauncher);
                     Glide.with(getActivity()).load(memorizame.getUriImg()).fitCenter().into(imageUpdate);
 
                     // Asignar la URI actual de la imagen

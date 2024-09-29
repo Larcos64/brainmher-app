@@ -68,11 +68,6 @@ public class MemorizameRepository {
     public void saveMemorizameData(Memorizame memorizame, String categoria, @Nullable String uuidGenerated, boolean merge, OnMemorizameCreatedListener listener) {
         String patientUID = memorizame.getPatientUID();
 
-        Log.d("PATIENTUID", patientUID);
-        Log.d("UIDGENERATED", uuidGenerated);
-        Log.d("MEMORIZAME", "Question: " + memorizame.getQuestion());
-        Log.d("MEMORIZAME", "Answer1: " + memorizame.getAnswer1());
-
         // Si uuidGenerated es nulo, lo generamos aquí
         if (uuidGenerated == null) {
             uuidGenerated = createTransactionID();

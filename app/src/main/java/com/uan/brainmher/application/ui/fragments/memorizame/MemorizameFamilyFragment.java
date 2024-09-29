@@ -1,21 +1,16 @@
 package com.uan.brainmher.application.ui.fragments.memorizame;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -24,37 +19,27 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.uan.brainmher.R;
 import com.uan.brainmher.application.ui.adapters.memorizame.MemorizameFamilyGridAdapter;
 import com.uan.brainmher.application.ui.helpers.MemorizameFormHelper;
 import com.uan.brainmher.application.ui.helpers.NavigationHelper;
 import com.uan.brainmher.databinding.FragmentNewCardMemorizameBinding;
-import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.domain.entities.Memorizame;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.databinding.FragmentCuMemorizameFamilyBinding;
-import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.domain.repositories.MemorizameRepository;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
@@ -68,14 +53,13 @@ public class MemorizameFamilyFragment extends Fragment {
     private Uri uriImage;
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
-    private FirebaseUser user;
+    private FirebaseUser firebaseUser;
+    private StorageReference storageReference;
     private MemorizameFamilyGridAdapter adapter;
     private MemorizameFamilyGridAdapter.ISelectionMemorizame iSelectionMemorizame;
     private CircularProgressUtil circularProgressUtil;
     private Patient patient;
-    private String categoria = "";
-    private StorageReference storageReference;
-    public static final int REQUEST_CODE2 = 10;
+    private String folderCategory = "";
 
     public MemorizameFamilyFragment(int flag) {
         this.flag = flag;
@@ -98,22 +82,22 @@ public class MemorizameFamilyFragment extends Fragment {
 
         switch (flag) {
             case 1:
-                categoria = "Family";
+                folderCategory = "Family";
                 binding.ivQuestion.setImageResource(R.drawable.img_family_question);
                 binding.titleAddImage.setText("Agregar pregunta de familia");
                 break;
             case 2:
-                categoria = "Pets";
+                folderCategory = "Pets";
                 binding.ivQuestion.setImageResource(R.drawable.img_pets_question);
                 binding.titleAddImage.setText("Agregar pregunta de mascotas");
                 break;
             case 3:
-                categoria = "Home";
+                folderCategory = "Home";
                 binding.ivQuestion.setImageResource(R.drawable.img_home_question);
                 binding.titleAddImage.setText("Agregar pregunta de hogar");
                 break;
             case 4:
-                categoria = "Places";
+                folderCategory = "Places";
                 binding.ivQuestion.setImageResource(R.drawable.img_places_question);
                 binding.titleAddImage.setText("Agregar pregunta de lugar");
                 break;
@@ -128,7 +112,7 @@ public class MemorizameFamilyFragment extends Fragment {
         });
 
         firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
+        firebaseUser = firebaseAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         circularProgressUtil = new CircularProgressUtil(getActivity());
@@ -154,7 +138,7 @@ public class MemorizameFamilyFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Asegúrate de actualizar el adaptador cuando el fragmento vuelve a estar visible
+        // Actualizar el adaptador cuando el fragmento vuelve a estar visible
         if (binding.recyclerView.getAdapter() != null) {
             binding.recyclerView.getAdapter().notifyDataSetChanged();
         }
@@ -179,7 +163,7 @@ public class MemorizameFamilyFragment extends Fragment {
     private void selectedItemEventLogic() {
         iSelectionMemorizame = new MemorizameFamilyGridAdapter.ISelectionMemorizame() {
             @Override
-            public void clickItem(final Memorizame memorizame) {
+            public void showItem(final Memorizame memorizame) {
                 final AlertDialog alertDialog;
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.BackgroundRounded);
 
@@ -211,7 +195,7 @@ public class MemorizameFamilyFragment extends Fragment {
                             // Verifica si se ha seleccionado una nueva imagen o no
                             if (uriImage != null && !uriImage.toString().equals(memorizame.getUriImg())) {
                                 // Si hay una nueva imagen, actualiza la imagen y los datos
-                                memorizameRepository.createMemorizame(memorizame, categoria, uriImage, memorizame.getUuidGenerated(), true, new MemorizameRepository.OnMemorizameCreatedListener() {
+                                memorizameRepository.createMemorizame(memorizame, folderCategory, uriImage, memorizame.getUuidGenerated(), true, new MemorizameRepository.OnMemorizameCreatedListener() {
                                     @Override
                                     public void onSuccess(Memorizame updatedMemorizame) {
                                         Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
@@ -227,7 +211,7 @@ public class MemorizameFamilyFragment extends Fragment {
                                 });
                             } else {
                                 // Si no hay nueva imagen, solo actualiza los datos del memorizame sin cambiar la imagen
-                                memorizameRepository.saveMemorizameData(memorizame, categoria, memorizame.getUuidGenerated(), true, new MemorizameRepository.OnMemorizameCreatedListener() {
+                                memorizameRepository.saveMemorizameData(memorizame, folderCategory, memorizame.getUuidGenerated(), true, new MemorizameRepository.OnMemorizameCreatedListener() {
                                     @Override
                                     public void onSuccess(Memorizame updatedMemorizame) {
                                         Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
@@ -255,8 +239,82 @@ public class MemorizameFamilyFragment extends Fragment {
             }
 
             @Override
-            public void clickdelete(final Memorizame memorizame) {
-                // Lógica para eliminar
+            public void deleteItem(final Memorizame memorizame) {
+                final AlertDialog alertDialog;
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.BackgroundRounded);
+
+                try {
+                    LayoutInflater inflater = getActivity().getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.dialog_one_textview_two_buttons, null);
+                    builder.setView(dialogView);
+                    alertDialog = builder.create();
+
+                    // Inicializar el MemorizameRepository
+                    memorizameRepository = new MemorizameRepository();
+
+                    Button btn1 = dialogView.findViewById(R.id.btn1);
+                    btn1.setText(R.string.no);
+                    btn1.setOnClickListener(view -> alertDialog.dismiss());
+
+                    // Establecer la categoría basándonos en el flag
+                    String folderCategory = "";
+                    switch (flag) {
+                        case 1:
+                            folderCategory = "Family";
+                            break;
+                        case 2:
+                            folderCategory = "Pets";
+                            break;
+                        case 3:
+                            folderCategory = "Home";
+                            break;
+                        case 4:
+                            folderCategory = "Places";
+                            break;
+                    }
+
+                    final String finalfolderCategory = folderCategory;
+
+                    Button btn2 = dialogView.findViewById(R.id.btn2);
+                    btn2.setText(R.string.yes);
+                    btn2.setOnClickListener(view -> {
+                        circularProgressUtil.showProgress(getString(R.string.deleting));
+
+                        // Eliminar la imagen primero
+                        memorizameRepository.deleteImage(finalfolderCategory, memorizame.getUuidGenerated(), new MemorizameRepository.OnMemorizameDeletedListener() {
+                            @Override
+                            public void onSuccess() {
+                                // Luego eliminar el documento de Firestore
+                                memorizameRepository.deleteMemorizame(patient.getPatientUID(), finalfolderCategory, memorizame.getUuidGenerated(), new MemorizameRepository.OnMemorizameDeletedListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        circularProgressUtil.hideProgress();
+                                        Toast.makeText(getActivity(), R.string.record_deleted, Toast.LENGTH_SHORT).show();
+                                        alertDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Exception e) {
+                                        circularProgressUtil.hideProgress();
+                                        Toast.makeText(getActivity(), R.string.elimination_failed, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onFailure(Exception e) {
+                                circularProgressUtil.hideProgress();
+                                Toast.makeText(getActivity(), R.string.image_elimination_failed, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    });
+
+                    TextView tvInformation = dialogView.findViewById(R.id.textView);
+                    tvInformation.setText(getString(R.string.elimination_question));
+                    alertDialog.show();
+                } catch (Resources.NotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         };
     }
@@ -266,7 +324,7 @@ public class MemorizameFamilyFragment extends Fragment {
         binding.recyclerView.setItemAnimator(null);
 
         Query query = db.collection(Constants.Memorizame)
-                .document(patient.getPatientUID()).collection(categoria);
+                .document(patient.getPatientUID()).collection(folderCategory);
 
         FirestoreRecyclerOptions<Memorizame> options =
                 new FirestoreRecyclerOptions.Builder<Memorizame>()

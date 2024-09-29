@@ -23,7 +23,6 @@ import java.util.List;
 public class MemorizameFamilyGridAdapter extends FirestoreRecyclerAdapter<Memorizame,MemorizameFamilyGridAdapter.MemorizameFamilyGridViewHolder> {
 
     //region Variables
-    List<Memorizame> memorizameList;
     Context context;
     MemorizameFamilyGridAdapter.ISelectionMemorizame iSelectionMemorizame;
     //endregion
@@ -56,14 +55,14 @@ public class MemorizameFamilyGridAdapter extends FirestoreRecyclerAdapter<Memori
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                iSelectionMemorizame.clickItem(memorizameDocument.toObject(Memorizame.class));
+                iSelectionMemorizame.showItem(memorizameDocument.toObject(Memorizame.class));
             }
         });
 
         holder.imageDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                iSelectionMemorizame.clickdelete(memorizameDocument.toObject(Memorizame.class));
+                iSelectionMemorizame.deleteItem(memorizameDocument.toObject(Memorizame.class));
             }
         });
     }
@@ -107,8 +106,8 @@ public class MemorizameFamilyGridAdapter extends FirestoreRecyclerAdapter<Memori
 
     //region Interfaces
     public interface ISelectionMemorizame {
-        void clickItem(Memorizame memorizame);
-        void clickdelete(Memorizame memorizame);
+        void showItem(Memorizame memorizame);
+        void deleteItem(Memorizame memorizame);
     }
     //endregion
 

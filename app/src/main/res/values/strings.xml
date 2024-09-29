@@ -78,12 +78,14 @@
     <string name="registration_failed">Registro falló</string>
     <string name="no_records">No hay registros</string>
     <string name="message_delete">¿Estas seguro que quieres eliminar a %1$s ?</string>
+    <string name="elimination_question">¿Estas seguro de eliminar el registro?</string>
     <string name="alert">Alert</string>
     <string name="delete">Delete</string>
     <string name="redirecting">Redirigiendo...</string>
     <string name="record_deleted">Registro eliminado</string>
     <string name="elimination_failed">Error al eliminar registro</string>
     <string name="saving_error">Error al guardar registro</string>
+    <string name="image_elimination_failed">Error al eliminar imágen</string>
 
     <string name="add_family_question">Agregar Pregunta de Familia</string>
     <string name="add_home_question">Agregar Pregunta de Hogar</string>

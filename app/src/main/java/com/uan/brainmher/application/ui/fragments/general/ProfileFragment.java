@@ -15,16 +15,12 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.uan.brainmher.R;
-import com.uan.brainmher.databinding.ActivityMainCarerBinding;
 import com.uan.brainmher.databinding.FragmentProfileBinding;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
@@ -33,8 +29,6 @@ import com.uan.brainmher.infraestructure.tools.Constants;
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
     private FirebaseFirestore db;
     StorageReference storageReference;
     private Carer carer = new Carer();

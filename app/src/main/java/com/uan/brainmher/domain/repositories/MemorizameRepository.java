@@ -1,18 +1,13 @@
 package com.uan.brainmher.domain.repositories;
 
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.uan.brainmher.R;
 import com.uan.brainmher.domain.entities.Memorizame;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
@@ -33,17 +28,21 @@ public class MemorizameRepository {
         void onFailure(Exception e);
     }
 
+    public interface OnMemorizameDeletedListener {
+        void onSuccess();
+        void onFailure(Exception e);
+    }
+
     // Ahora acepta uuidGenerated opcional para la actualización de registros
-    public void createMemorizame(Memorizame memorizame, String categoria, Uri uriImage, @Nullable String uuidGenerated, boolean merge, OnMemorizameCreatedListener listener) {
+    public void createMemorizame(Memorizame memorizame, String folderCategory, Uri uriImage, @Nullable String uuidGenerated, boolean merge, OnMemorizameCreatedListener listener) {
         if (uriImage != null) {
-            uploadMemorizameImage(memorizame, categoria, uriImage, uuidGenerated, merge, listener); // Usa uuidGenerated si es que existe
+            saveMemorizameDataWithImage(memorizame, folderCategory, uriImage, uuidGenerated, merge, listener); // Usa uuidGenerated si es que existe
         } else {
-            saveMemorizameData(memorizame, categoria, uuidGenerated, merge, listener); // Usa uuidGenerated si es que existe
+            saveMemorizameData(memorizame, folderCategory, uuidGenerated, merge, listener); // Usa uuidGenerated si es que existe
         }
     }
 
-    private void uploadMemorizameImage(Memorizame memorizame, String categoria, Uri uriImage, @Nullable String uuidGenerated, boolean merge, OnMemorizameCreatedListener listener) {
-        // Asegurarse de que uuidGenerated sea final o efectivamente final
+    private void saveMemorizameDataWithImage(Memorizame memorizame, String folderCategory, Uri uriImage, @Nullable String uuidGenerated, boolean merge, OnMemorizameCreatedListener listener) {
         final String finalUuidGenerated;
 
         if (uuidGenerated == null) {
@@ -52,20 +51,20 @@ public class MemorizameRepository {
             finalUuidGenerated = uuidGenerated; // Usa el existente
         }
 
-        StorageReference imgRef = storageReference.child(categoria + "/" + finalUuidGenerated + ".jpg");
+        StorageReference imgRef = storageReference.child(folderCategory + "/" + finalUuidGenerated + ".jpg");
         imgRef.putFile(uriImage)
                 .addOnSuccessListener(taskSnapshot -> taskSnapshot.getStorage().getDownloadUrl()
                         .addOnSuccessListener(downloadUri -> {
                             memorizame.setUriImg(downloadUri.toString());
                             memorizame.setUuidGenerated(finalUuidGenerated);
                             // Usar el finalUuidGenerated en lugar de uuidGenerated
-                            saveMemorizameData(memorizame, categoria, finalUuidGenerated, merge, listener);
+                            saveMemorizameData(memorizame, folderCategory, finalUuidGenerated, merge, listener);
                         })
                         .addOnFailureListener(listener::onFailure))
                 .addOnFailureListener(listener::onFailure);
     }
 
-    public void saveMemorizameData(Memorizame memorizame, String categoria, @Nullable String uuidGenerated, boolean merge, OnMemorizameCreatedListener listener) {
+    public void saveMemorizameData(Memorizame memorizame, String folderCategory, @Nullable String uuidGenerated, boolean merge, OnMemorizameCreatedListener listener) {
         String patientUID = memorizame.getPatientUID();
 
         // Si uuidGenerated es nulo, lo generamos aquí
@@ -84,7 +83,7 @@ public class MemorizameRepository {
             // Realiza una actualización parcial
             db.collection(Constants.Memorizame)
                     .document(patientUID)
-                    .collection(categoria)
+                    .collection(folderCategory)
                     .document(uuidGenerated) // Usa el UUID proporcionado o generado
                     .set(memorizame, SetOptions.merge())  // Realiza merge en lugar de sobrescribir
                     .addOnSuccessListener(aVoid -> listener.onSuccess(memorizame))
@@ -93,12 +92,29 @@ public class MemorizameRepository {
             // Sobrescribe todo el documento
             db.collection(Constants.Memorizame)
                     .document(patientUID)
-                    .collection(categoria)
+                    .collection(folderCategory)
                     .document(uuidGenerated) // Usa el UUID proporcionado o generado
                     .set(memorizame)  // Sobrescribe completamente
                     .addOnSuccessListener(aVoid -> listener.onSuccess(memorizame))
                     .addOnFailureListener(listener::onFailure);
         }
+    }
+
+    // Método para eliminar la imagen de Firebase Storage
+    public void deleteImage(String folderCategory, String uuidGenerated, OnMemorizameDeletedListener listener) {
+        StorageReference deleteImage = storageReference.child(folderCategory + "/" + uuidGenerated + ".jpg");
+        deleteImage.delete()
+                .addOnSuccessListener(aVoid -> listener.onSuccess())
+                .addOnFailureListener(listener::onFailure);
+    }
+
+    // Método para eliminar el documento de Firestore
+    public void deleteMemorizame(String patientUID, String folderCategory, String uuidGenerated, OnMemorizameDeletedListener listener) {
+        db.collection(Constants.Memorizame).document(patientUID)
+                .collection(folderCategory).document(uuidGenerated)
+                .delete()
+                .addOnSuccessListener(aVoid -> listener.onSuccess())
+                .addOnFailureListener(listener::onFailure);
     }
 
     private String createTransactionID() {

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -233,5 +235,31 @@ public class MemorizameFamilyFragment extends Fragment {
 
         adapter = new MemorizameFamilyGridAdapter(options, getActivity(), iSelectionMemorizame);
         binding.recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Aquí puedes manejar el retroceso y navegar al fragmento anterior
+                navigateToMemorizameParent();
+            }
+        });
+    }
+
+    private void navigateToMemorizameParent() {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+
+        // Regresa al fragmento anterior (MemorizameFamilyFragment) sin reemplazar nada
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            // Cargar directamente MemorizameFamilyFragment
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container_memorizame_parent, new MemorizameParentFragment())
+                    .commit();
+        }
     }
 }

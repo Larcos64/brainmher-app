@@ -90,6 +90,7 @@ public class PatientsListFragment extends Fragment {
         FirestoreRecyclerOptions<Patient> firestoreRecyclerOptions = patientsRepository.getPatientsByCarer(uid);
         adapter = new PatientsAdapter(firestoreRecyclerOptions, getActivity(), iSelectionPatient, iDeletePatient);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setItemAnimator(null);
         binding.recyclerView.setAdapter(adapter);
     }
 

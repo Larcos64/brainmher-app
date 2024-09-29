@@ -1,16 +1,19 @@
 package com.uan.brainmher.application.ui.fragments.memorizame;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.uan.brainmher.R;
 import com.uan.brainmher.databinding.FragmentCuMemorizameBinding;
 import com.uan.brainmher.domain.entities.Patient;
 
@@ -79,5 +82,31 @@ public class MemorizameFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null; // Liberar el binding cuando la vista se destruye
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Manejo de retroceso y navegación al fragmento anterior
+                navigateToMemorizameParent();
+            }
+        });
+    }
+
+    private void navigateToMemorizameParent() {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+
+        // Regresa al fragmento anterior (MemorizameFamilyFragment) sin reemplazar nada
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            // Cargar directamente MemorizameFamilyFragment
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container_memorizame_parent, new MemorizameParentFragment())
+                    .commit();
+        }
     }
 }

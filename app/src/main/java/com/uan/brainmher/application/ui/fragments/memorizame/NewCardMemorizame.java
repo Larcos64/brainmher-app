@@ -234,32 +234,29 @@ public class NewCardMemorizame extends Fragment {
         navigateToMemorizameParent();
     }
 
-    private void navigateToMemorizameParent() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-
-        // Solo regresa al fragmento anterior (MemorizameFamilyFragment) sin reemplazar nada
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            Log.d("REGRESA", "POR IF");
-            fragmentManager.popBackStack();
-        } else {
-            // En caso de que no haya nada en la pila de fragmentos, podrías manejar una acción alternativa
-            // Como cargar directamente MemorizameFamilyFragment
-            Log.d("REGRESA", "POR ELSE");
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container_memorizame_parent, new MemorizameParentFragment())
-                    .commit();
-        }
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // Aquí puedes manejar el retroceso y navegar al fragmento anterior
+                // Manejo de retroceso y navegación al fragmento anterior
                 navigateToMemorizameParent();
             }
         });
+    }
+
+    private void navigateToMemorizameParent() {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+
+        // Regresa al fragmento anterior (MemorizameFamilyFragment) sin reemplazar nada
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            // Cargar directamente MemorizameFamilyFragment
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container_memorizame_parent, new MemorizameParentFragment())
+                    .commit();
+        }
     }
 }

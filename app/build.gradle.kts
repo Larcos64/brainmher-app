@@ -21,6 +21,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -71,4 +73,7 @@ dependencies {
     implementation("com.onesignal:OneSignal:[5.0.0, 5.99.99]")
 
     implementation("com.google.code.gson:gson:2.11.0")
+
+    // Login with Google
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
 }

@@ -2,14 +2,17 @@ package com.uan.brainmher.domain.repositories;
 
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.uan.brainmher.R;
 import com.uan.brainmher.domain.entities.Memorizame;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
@@ -30,34 +33,45 @@ public class MemorizameRepository {
         void onFailure(Exception e);
     }
 
-    public void createMemorizame(Memorizame memorizame, String categoria, Uri uriImage, OnMemorizameCreatedListener listener) {
+    // Ahora acepta uuidGenerated opcional para la actualización de registros
+    public void createMemorizame(Memorizame memorizame, String categoria, Uri uriImage, @Nullable String uuidGenerated, boolean merge, OnMemorizameCreatedListener listener) {
         if (uriImage != null) {
-            uploadMemorizameImage(memorizame, categoria, uriImage, listener); // Genera uuidGenerated en uploadMemorizameImage
+            uploadMemorizameImage(memorizame, categoria, uriImage, uuidGenerated, merge, listener); // Usa uuidGenerated si es que existe
         } else {
-            saveMemorizameData(memorizame, categoria, null, listener); // Genera uuidGenerated en saveMemorizameData
+            saveMemorizameData(memorizame, categoria, uuidGenerated, merge, listener); // Usa uuidGenerated si es que existe
         }
     }
 
-    private void uploadMemorizameImage(Memorizame memorizame, String categoria, Uri uriImage, OnMemorizameCreatedListener listener) {
-        String uuidGenerated = createTransactionID();
+    private void uploadMemorizameImage(Memorizame memorizame, String categoria, Uri uriImage, @Nullable String uuidGenerated, boolean merge, OnMemorizameCreatedListener listener) {
+        // Asegurarse de que uuidGenerated sea final o efectivamente final
+        final String finalUuidGenerated;
 
-        StorageReference imgRef = storageReference.child(categoria + "/" + uuidGenerated + ".jpg");
+        if (uuidGenerated == null) {
+            finalUuidGenerated = createTransactionID(); // Genera uno nuevo si no existe
+        } else {
+            finalUuidGenerated = uuidGenerated; // Usa el existente
+        }
+
+        StorageReference imgRef = storageReference.child(categoria + "/" + finalUuidGenerated + ".jpg");
         imgRef.putFile(uriImage)
                 .addOnSuccessListener(taskSnapshot -> taskSnapshot.getStorage().getDownloadUrl()
                         .addOnSuccessListener(downloadUri -> {
                             memorizame.setUriImg(downloadUri.toString());
-                            // Pasamos el uuidGenerated generado aquí
-                            saveMemorizameData(memorizame, categoria, uuidGenerated, listener);
+                            memorizame.setUuidGenerated(finalUuidGenerated);
+                            // Usar el finalUuidGenerated en lugar de uuidGenerated
+                            saveMemorizameData(memorizame, categoria, finalUuidGenerated, merge, listener);
                         })
                         .addOnFailureListener(listener::onFailure))
                 .addOnFailureListener(listener::onFailure);
     }
 
-    private void saveMemorizameData(Memorizame memorizame, String categoria, @Nullable String uuidGenerated, OnMemorizameCreatedListener listener) {
+    public void saveMemorizameData(Memorizame memorizame, String categoria, @Nullable String uuidGenerated, boolean merge, OnMemorizameCreatedListener listener) {
         String patientUID = memorizame.getPatientUID();
 
         Log.d("PATIENTUID", patientUID);
         Log.d("UIDGENERATED", uuidGenerated);
+        Log.d("MEMORIZAME", "Question: " + memorizame.getQuestion());
+        Log.d("MEMORIZAME", "Answer1: " + memorizame.getAnswer1());
 
         // Si uuidGenerated es nulo, lo generamos aquí
         if (uuidGenerated == null) {
@@ -70,13 +84,26 @@ public class MemorizameRepository {
             return;
         }
 
-        db.collection(Constants.Memorizame)
-                .document(patientUID)
-                .collection(categoria)
-                .document(uuidGenerated) // Usamos el UUID generado
-                .set(memorizame)
-                .addOnSuccessListener(aVoid -> listener.onSuccess(memorizame))
-                .addOnFailureListener(listener::onFailure);
+        // Usa el método de guardado adecuado dependiendo de si se debe hacer merge o sobrescribir
+        if (merge) {
+            // Realiza una actualización parcial
+            db.collection(Constants.Memorizame)
+                    .document(patientUID)
+                    .collection(categoria)
+                    .document(uuidGenerated) // Usa el UUID proporcionado o generado
+                    .set(memorizame, SetOptions.merge())  // Realiza merge en lugar de sobrescribir
+                    .addOnSuccessListener(aVoid -> listener.onSuccess(memorizame))
+                    .addOnFailureListener(listener::onFailure);
+        } else {
+            // Sobrescribe todo el documento
+            db.collection(Constants.Memorizame)
+                    .document(patientUID)
+                    .collection(categoria)
+                    .document(uuidGenerated) // Usa el UUID proporcionado o generado
+                    .set(memorizame)  // Sobrescribe completamente
+                    .addOnSuccessListener(aVoid -> listener.onSuccess(memorizame))
+                    .addOnFailureListener(listener::onFailure);
+        }
     }
 
     private String createTransactionID() {

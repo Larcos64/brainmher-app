@@ -34,6 +34,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uan.brainmher.R;
+import com.uan.brainmher.application.ui.helpers.MemorizameFormHelper;
 import com.uan.brainmher.application.ui.helpers.NavigationHelper;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.databinding.FragmentNewCardMemorizameBinding;
@@ -48,16 +49,16 @@ import java.util.UUID;
 public class NewCardMemorizame extends Fragment {
 
     private int flagInt;
-    private String patientUID, question, answer1, answer2, answer3, answer4, categoria = "";
+    private String categoria = "";
     private Uri uriImage;
-    private Memorizame memorizame = new Memorizame();
+    private Memorizame memorizame;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-    private FirebaseFirestore db;
-    private StorageReference storageReference;
     private Patient patient;
-    private Context context;
     private FragmentNewCardMemorizameBinding binding;
+    private MemorizameRepository memorizameRepository;
+    private CircularProgressUtil circularProgressUtil;
+    private MemorizameFormHelper formHelper;
 
     public static final int REQUEST_CODE2 = 10;
 
@@ -66,13 +67,11 @@ public class NewCardMemorizame extends Fragment {
     }
 
     private ActivityResultLauncher<Intent> startActivityLauncher;
-    private MemorizameRepository memorizameRepository;
-    private CircularProgressUtil circularProgressUtil;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        memorizameRepository = new MemorizameRepository(); // Asegúrate de inicializarlo aquí
+        memorizameRepository = new MemorizameRepository();
     }
 
     @Nullable
@@ -81,24 +80,25 @@ public class NewCardMemorizame extends Fragment {
         binding = FragmentNewCardMemorizameBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        context = container.getContext();
-        db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        storageReference = FirebaseStorage.getInstance().getReference();
-        patientUID = firebaseUser.getUid();
 
         Bundle bundle = getArguments();
         if (bundle != null) {
             patient = (Patient) bundle.getSerializable("patient");
+            memorizame = new Memorizame();
+            memorizame.setPatientUID(patient.getPatientUID());
         }
 
+        circularProgressUtil = new CircularProgressUtil(getActivity());
+
+        // Inicializar el helper con el binding y el memorizame actual
+        formHelper = new MemorizameFormHelper(requireContext(), memorizame, binding);
+
         setCategoryAndTitle();
-        setupDropdownMenu();
+        formHelper.setupDropdownMenu();
         setupSaveButton();
         setupImagePicker();
-
-        circularProgressUtil = new CircularProgressUtil(getActivity());
 
         startActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -136,20 +136,40 @@ public class NewCardMemorizame extends Fragment {
         }
     }
 
-    private void setupDropdownMenu() {
-        String[] correctAnswerArray = {"1", "2", "3", "4"};
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),
-                R.layout.dropdown_menu_popup_item, correctAnswerArray);
-        binding.editCorrectAnswer.setAdapter(arrayAdapter);
-    }
-
     private void setupSaveButton() {
         binding.buttonCreateMemorizame.setOnClickListener(v -> {
             if (setPojoMemorizame()) {
-                saveMemorizame();
-                Toast.makeText(requireContext(), getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
+                saveMemorizame();  // Llama a guardar solo si setPojoMemorizame() retorna true
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean setPojoMemorizame() {
+        // Obtener valores del formulario
+        String question = binding.editQuestion.getText().toString();
+        String answer1 = binding.editAnswer1.getText().toString();
+        String answer2 = binding.editAnswer2.getText().toString();
+        String answer3 = binding.editAnswer3.getText().toString();
+        String answer4 = binding.editAnswer4.getText().toString();
+        String correct = binding.editCorrectAnswer.getText().toString();
+
+        // Verificar si los campos son válidos
+        if (formHelper.isFormValid(uriImage)) {
+            // Setear la información en el objeto Memorizame
+            memorizame.setQuestion(question);
+            memorizame.setAnswer1(answer1);
+            memorizame.setAnswer2(answer2);
+            memorizame.setAnswer3(answer3);
+            memorizame.setAnswer4(answer4);
+            memorizame.setPatientUID(patient.getPatientUID());  // Asegurarse de que el UID esté presente
+            formHelper.setCorrectAnswer(correct);  // Asignar la respuesta correcta
+            return true;
+        } else {
+            Toast.makeText(getActivity(), uriImage == null ? getString(R.string.select_photo) : getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
     private void setupImagePicker() {
@@ -160,55 +180,10 @@ public class NewCardMemorizame extends Fragment {
         });
     }
 
-    private boolean setPojoMemorizame() {
-        question = binding.editQuestion.getText().toString();
-        answer1 = binding.editAnswer1.getText().toString();
-        answer2 = binding.editAnswer2.getText().toString();
-        answer3 = binding.editAnswer3.getText().toString();
-        answer4 = binding.editAnswer4.getText().toString();
-        String correct = binding.editCorrectAnswer.getText().toString();
-
-        if (isFormValid(question, answer1, answer2, answer3, answer4, correct)) {
-            memorizame.setQuestion(question);
-            memorizame.setAnswer1(answer1);
-            memorizame.setAnswer2(answer2);
-            memorizame.setAnswer3(answer3);
-            memorizame.setAnswer4(answer4);
-            memorizame.setPatientUID(patient.getPatientUID());
-            setCorrectAnswer(correct);
-            return true;
-        } else {
-            Toast.makeText(getActivity(), uriImage == null ? "Agregue imagen" : getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
-
-    private boolean isFormValid(String... fields) {
-        for (String field : fields) {
-            if (field.isEmpty()) return false;
-        }
-        return uriImage != null;
-    }
-
-    private void setCorrectAnswer(String correct) {
-        switch (correct) {
-            case "1":
-                memorizame.setCorrectAnswer(answer1);
-                break;
-            case "2":
-                memorizame.setCorrectAnswer(answer2);
-                break;
-            case "3":
-                memorizame.setCorrectAnswer(answer3);
-                break;
-            case "4":
-                memorizame.setCorrectAnswer(answer4);
-                break;
-        }
-    }
-
     private void saveMemorizame() {
-        memorizameRepository.createMemorizame(memorizame, categoria, uriImage, new MemorizameRepository.OnMemorizameCreatedListener() {
+        circularProgressUtil.showProgress(getResources().getString(R.string.registering));
+
+        memorizameRepository.createMemorizame(memorizame, categoria, uriImage, null, false, new MemorizameRepository.OnMemorizameCreatedListener() {
             @Override
             public void onSuccess(Memorizame createdMemorizame) {
                 circularProgressUtil.hideProgress();
@@ -225,7 +200,7 @@ public class NewCardMemorizame extends Fragment {
     }
 
     private void clearForm() {
-        Glide.with(context).load(R.drawable.img_add_image).fitCenter().into(binding.civProfileImage);
+        Glide.with(requireContext()).load(R.drawable.img_add_image).fitCenter().into(binding.civProfileImage);
         binding.editQuestion.setText("");
         binding.editAnswer1.setText("");
         binding.editAnswer2.setText("");
@@ -241,7 +216,6 @@ public class NewCardMemorizame extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // Manejo de retroceso y navegación al fragmento anterior
                 NavigationHelper.navigateToFragment(requireActivity().getSupportFragmentManager(), MemorizameFamilyFragment.class, R.id.container_memorizame_parent);
             }
         });

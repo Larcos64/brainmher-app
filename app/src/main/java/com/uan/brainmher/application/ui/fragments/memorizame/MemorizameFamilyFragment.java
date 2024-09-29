@@ -47,6 +47,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.uan.brainmher.R;
 import com.uan.brainmher.application.ui.adapters.memorizame.MemorizameFamilyGridAdapter;
+import com.uan.brainmher.application.ui.helpers.MemorizameFormHelper;
 import com.uan.brainmher.application.ui.helpers.NavigationHelper;
 import com.uan.brainmher.databinding.FragmentNewCardMemorizameBinding;
 import com.uan.brainmher.domain.entities.Carer;
@@ -82,6 +83,7 @@ public class MemorizameFamilyFragment extends Fragment {
     }
 
     private ActivityResultLauncher<Intent> startActivityLauncher;
+    private MemorizameRepository memorizameRepository;
 
     @Nullable
     @Override
@@ -187,84 +189,59 @@ public class MemorizameFamilyFragment extends Fragment {
                     builder.setView(dialogView);
                     alertDialog = builder.create();
 
-                    CircleImageView imageUpdate = dialogView.findViewById(R.id.civ_profile_image);
-                    TextInputEditText editQuestion = dialogView.findViewById(R.id.edit_question);
-                    TextInputEditText editAnswer1 = dialogView.findViewById(R.id.edit_answer1);
-                    TextInputEditText editAnswer2 = dialogView.findViewById(R.id.edit_answer2);
-                    TextInputEditText editAnswer3 = dialogView.findViewById(R.id.edit_answer3);
-                    TextInputEditText editAnswer4 = dialogView.findViewById(R.id.edit_answer4);
-                    AutoCompleteTextView rtaAut = dialogView.findViewById(R.id.edit_correct_answer);
-                    MaterialButton btnActualizar = dialogView.findViewById(R.id.button_create_memorizame);
+                    memorizameRepository = new MemorizameRepository();
 
-                    // Configura el adaptador de datos para el AutoCompleteTextView
-                    String[] correctAnswerArray = {"1", "2", "3", "4"};
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),
-                            R.layout.dropdown_menu_popup_item, correctAnswerArray);
-                    // Aplica el adaptador de datos
-                    rtaAut.setAdapter(arrayAdapter);
+                    FragmentNewCardMemorizameBinding dialogBinding = FragmentNewCardMemorizameBinding.bind(dialogView);
+                    MemorizameFormHelper formHelper = new MemorizameFormHelper(getActivity(), memorizame, dialogBinding);
 
-                    editQuestion.setText(memorizame.getQuestion());
-                    editAnswer1.setText(memorizame.getAnswer1());
-                    editAnswer2.setText(memorizame.getAnswer2());
-                    editAnswer3.setText(memorizame.getAnswer3());
-                    editAnswer4.setText(memorizame.getAnswer4());
+                    formHelper.fillFormWithData(memorizame);
+                    formHelper.setupDropdownMenu();
 
-                    Glide.with(getActivity()).load(memorizame.getUriImg()).fitCenter().into(imageUpdate);
+                    Glide.with(getActivity()).load(memorizame.getUriImg()).fitCenter().into(dialogBinding.civProfileImage);
 
-                    // Asignación del evento al botón de actualización
-                    btnActualizar.setOnClickListener(view -> {
+                    // Asignar la URI actual de la imagen
+                    uriImage = Uri.parse(memorizame.getUriImg());
+
+                    dialogBinding.buttonCreateMemorizame.setOnClickListener(view -> {
                         circularProgressUtil.showProgress(getString(R.string.updating));
 
-                        // Recolecta los datos actualizados
-                        String question = editQuestion.getText().toString();
-                        String answer1 = editAnswer1.getText().toString();
-                        String answer2 = editAnswer2.getText().toString();
-                        String answer3 = editAnswer3.getText().toString();
-                        String answer4 = editAnswer4.getText().toString();
-                        String rtaCorrect = rtaAut.getText().toString();
+                        if (setPojoMemorizame(memorizame, dialogBinding, formHelper)) {  // Valida el formulario
+                            // Verifica si se ha seleccionado una nueva imagen o no
+                            if (uriImage != null && !uriImage.toString().equals(memorizame.getUriImg())) {
+                                // Si hay una nueva imagen, actualiza la imagen y los datos
+                                memorizameRepository.createMemorizame(memorizame, categoria, uriImage, memorizame.getUuidGenerated(), true, new MemorizameRepository.OnMemorizameCreatedListener() {
+                                    @Override
+                                    public void onSuccess(Memorizame updatedMemorizame) {
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
+                                        circularProgressUtil.hideProgress();
+                                        alertDialog.dismiss();
+                                    }
 
-                        if (!question.isEmpty() && !answer1.isEmpty() && !answer2.isEmpty()
-                                && !answer3.isEmpty() && !answer4.isEmpty() && !rtaCorrect.isEmpty()) {
-                            // Actualiza los campos en el objeto Memorizame
-                            memorizame.setQuestion(question);
-                            memorizame.setAnswer1(answer1);
-                            memorizame.setAnswer2(answer2);
-                            memorizame.setAnswer3(answer3);
-                            memorizame.setAnswer4(answer4);
+                                    @Override
+                                    public void onFailure(Exception e) {
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.saving_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        circularProgressUtil.hideProgress();
+                                    }
+                                });
+                            } else {
+                                // Si no hay nueva imagen, solo actualiza los datos del memorizame sin cambiar la imagen
+                                memorizameRepository.saveMemorizameData(memorizame, categoria, memorizame.getUuidGenerated(), true, new MemorizameRepository.OnMemorizameCreatedListener() {
+                                    @Override
+                                    public void onSuccess(Memorizame updatedMemorizame) {
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
+                                        circularProgressUtil.hideProgress();
+                                        alertDialog.dismiss();
+                                    }
 
-                            // Establece la respuesta correcta
-                            switch (rtaCorrect) {
-                                case "1":
-                                    memorizame.setCorrectAnswer(answer1);
-                                    break;
-                                case "2":
-                                    memorizame.setCorrectAnswer(answer2);
-                                    break;
-                                case "3":
-                                    memorizame.setCorrectAnswer(answer3);
-                                    break;
-                                case "4":
-                                    memorizame.setCorrectAnswer(answer4);
-                                    break;
+                                    @Override
+                                    public void onFailure(Exception e) {
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.saving_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        circularProgressUtil.hideProgress();
+                                    }
+                                });
                             }
-
-                            // Usa el repository para guardar la actualización
-                            MemorizameRepository memorizameRepository = new MemorizameRepository();
-                            memorizameRepository.createMemorizame(memorizame, categoria, uriImage, new MemorizameRepository.OnMemorizameCreatedListener() {
-                                @Override
-                                public void onSuccess(Memorizame updatedMemorizame) {
-                                    Toast.makeText(getActivity(), getResources().getString(R.string.was_saved_succesfully), Toast.LENGTH_SHORT).show();
-                                    circularProgressUtil.hideProgress();
-                                    alertDialog.dismiss(); // Cierra el dialogo al completar la actualización
-                                }
-
-                                @Override
-                                public void onFailure(Exception e) {
-                                    Toast.makeText(getActivity(), getResources().getString(R.string.elimination_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    circularProgressUtil.hideProgress();
-                                }
-                            });
                         } else {
+                            circularProgressUtil.hideProgress();
                             Toast.makeText(getActivity(), getResources().getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -309,5 +286,31 @@ public class MemorizameFamilyFragment extends Fragment {
                 NavigationHelper.navigateToFragment(requireActivity().getSupportFragmentManager(), MemorizameFamilyFragment.class, R.id.container_memorizame_parent);
             }
         });
+    }
+
+    private boolean setPojoMemorizame(Memorizame memorizame, FragmentNewCardMemorizameBinding binding, MemorizameFormHelper formHelper) {
+        // Obtener valores del formulario
+        String question = binding.editQuestion.getText().toString();
+        String answer1 = binding.editAnswer1.getText().toString();
+        String answer2 = binding.editAnswer2.getText().toString();
+        String answer3 = binding.editAnswer3.getText().toString();
+        String answer4 = binding.editAnswer4.getText().toString();
+        String correct = binding.editCorrectAnswer.getText().toString();
+
+        // Verificar si los campos son válidos
+        if (formHelper.isFormValid(uriImage)) {
+            // Setear la información en el objeto Memorizame
+            memorizame.setQuestion(question);
+            memorizame.setAnswer1(answer1);
+            memorizame.setAnswer2(answer2);
+            memorizame.setAnswer3(answer3);
+            memorizame.setAnswer4(answer4);
+            memorizame.setPatientUID(patient.getPatientUID());  // Asegurarse de que el UID esté presente
+            formHelper.setCorrectAnswer(correct);  // Asignar la respuesta correcta
+            return true;
+        } else {
+            Toast.makeText(getActivity(), uriImage == null ? getString(R.string.select_photo) : getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 }

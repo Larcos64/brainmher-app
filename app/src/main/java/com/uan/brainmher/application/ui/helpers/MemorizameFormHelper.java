@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.uan.brainmher.R;
 import com.uan.brainmher.databinding.FragmentNewCardMemorizameBinding;
 import com.uan.brainmher.domain.entities.Memorizame;
+import com.uan.brainmher.domain.entities.Patient;
 
 public class MemorizameFormHelper {
 
@@ -86,6 +87,32 @@ public class MemorizameFormHelper {
             binding.editCorrectAnswer.setText("3");
         } else if (correctRTA.equals(memorizame.getAnswer4())) {
             binding.editCorrectAnswer.setText("4");
+        }
+    }
+
+    public boolean setPojoMemorizame(Uri uriImage, Patient patient) {
+        // Obtener valores del formulario
+        String question = binding.editQuestion.getText().toString();
+        String answer1 = binding.editAnswer1.getText().toString();
+        String answer2 = binding.editAnswer2.getText().toString();
+        String answer3 = binding.editAnswer3.getText().toString();
+        String answer4 = binding.editAnswer4.getText().toString();
+        String correct = binding.editCorrectAnswer.getText().toString();
+
+        // Verificar si los campos son válidos
+        if (isFormValid(uriImage)) {
+            // Setear la información en el objeto Memorizame
+            memorizame.setQuestion(question);
+            memorizame.setAnswer1(answer1);
+            memorizame.setAnswer2(answer2);
+            memorizame.setAnswer3(answer3);
+            memorizame.setAnswer4(answer4);
+            memorizame.setPatientUID(patient.getPatientUID());  // Asegurarse de que el UID esté presente
+            setCorrectAnswer(correct);  // Asignar la respuesta correcta
+            return true;
+        } else {
+            Toast.makeText(context, uriImage == null ? context.getString(R.string.select_photo) : context.getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 }

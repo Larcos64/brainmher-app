@@ -205,7 +205,7 @@ public class MemorizameFamilyFragment extends Fragment {
                     dialogBinding.buttonCreateMemorizame.setOnClickListener(view -> {
                         circularProgressUtil.showProgress(getString(R.string.updating));
 
-                        if (setPojoMemorizame(memorizame, dialogBinding, formHelper)) {  // Valida el formulario
+                        if (formHelper.setPojoMemorizame(uriImage, patient)) {
                             // Verifica si se ha seleccionado una nueva imagen o no
                             if (uriImage != null && !uriImage.toString().equals(memorizame.getUriImg())) {
                                 // Si hay una nueva imagen, actualiza la imagen y los datos
@@ -286,31 +286,5 @@ public class MemorizameFamilyFragment extends Fragment {
                 NavigationHelper.navigateToFragment(requireActivity().getSupportFragmentManager(), MemorizameFamilyFragment.class, R.id.container_memorizame_parent);
             }
         });
-    }
-
-    private boolean setPojoMemorizame(Memorizame memorizame, FragmentNewCardMemorizameBinding binding, MemorizameFormHelper formHelper) {
-        // Obtener valores del formulario
-        String question = binding.editQuestion.getText().toString();
-        String answer1 = binding.editAnswer1.getText().toString();
-        String answer2 = binding.editAnswer2.getText().toString();
-        String answer3 = binding.editAnswer3.getText().toString();
-        String answer4 = binding.editAnswer4.getText().toString();
-        String correct = binding.editCorrectAnswer.getText().toString();
-
-        // Verificar si los campos son válidos
-        if (formHelper.isFormValid(uriImage)) {
-            // Setear la información en el objeto Memorizame
-            memorizame.setQuestion(question);
-            memorizame.setAnswer1(answer1);
-            memorizame.setAnswer2(answer2);
-            memorizame.setAnswer3(answer3);
-            memorizame.setAnswer4(answer4);
-            memorizame.setPatientUID(patient.getPatientUID());  // Asegurarse de que el UID esté presente
-            formHelper.setCorrectAnswer(correct);  // Asignar la respuesta correcta
-            return true;
-        } else {
-            Toast.makeText(getActivity(), uriImage == null ? getString(R.string.select_photo) : getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
-            return false;
-        }
     }
 }

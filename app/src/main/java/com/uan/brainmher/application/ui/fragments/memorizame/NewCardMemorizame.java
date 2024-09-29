@@ -138,38 +138,12 @@ public class NewCardMemorizame extends Fragment {
 
     private void setupSaveButton() {
         binding.buttonCreateMemorizame.setOnClickListener(v -> {
-            if (setPojoMemorizame()) {
+            if (formHelper.setPojoMemorizame(uriImage, patient)) {
                 saveMemorizame();  // Llama a guardar solo si setPojoMemorizame() retorna true
             } else {
                 Toast.makeText(requireContext(), getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private boolean setPojoMemorizame() {
-        // Obtener valores del formulario
-        String question = binding.editQuestion.getText().toString();
-        String answer1 = binding.editAnswer1.getText().toString();
-        String answer2 = binding.editAnswer2.getText().toString();
-        String answer3 = binding.editAnswer3.getText().toString();
-        String answer4 = binding.editAnswer4.getText().toString();
-        String correct = binding.editCorrectAnswer.getText().toString();
-
-        // Verificar si los campos son válidos
-        if (formHelper.isFormValid(uriImage)) {
-            // Setear la información en el objeto Memorizame
-            memorizame.setQuestion(question);
-            memorizame.setAnswer1(answer1);
-            memorizame.setAnswer2(answer2);
-            memorizame.setAnswer3(answer3);
-            memorizame.setAnswer4(answer4);
-            memorizame.setPatientUID(patient.getPatientUID());  // Asegurarse de que el UID esté presente
-            formHelper.setCorrectAnswer(correct);  // Asignar la respuesta correcta
-            return true;
-        } else {
-            Toast.makeText(getActivity(), uriImage == null ? getString(R.string.select_photo) : getString(R.string.complete_field), Toast.LENGTH_SHORT).show();
-            return false;
-        }
     }
 
     private void setupImagePicker() {

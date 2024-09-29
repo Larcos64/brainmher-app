@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.uan.brainmher.R;
+import com.uan.brainmher.application.ui.helpers.NavigationHelper;
 import com.uan.brainmher.databinding.FragmentCuMemorizameBinding;
 import com.uan.brainmher.domain.entities.Patient;
 
@@ -91,22 +92,8 @@ public class MemorizameFragment extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 // Manejo de retroceso y navegación al fragmento anterior
-                navigateToMemorizameParent();
+                NavigationHelper.navigateToFragment(requireActivity().getSupportFragmentManager(), MemorizameFamilyFragment.class, R.id.container_memorizame_parent);
             }
         });
-    }
-
-    private void navigateToMemorizameParent() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-
-        // Regresa al fragmento anterior (MemorizameFamilyFragment) sin reemplazar nada
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            fragmentManager.popBackStack();
-        } else {
-            // Cargar directamente MemorizameFamilyFragment
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container_memorizame_parent, new MemorizameParentFragment())
-                    .commit();
-        }
     }
 }

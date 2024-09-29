@@ -47,6 +47,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.uan.brainmher.R;
 import com.uan.brainmher.application.ui.adapters.memorizame.MemorizameFamilyGridAdapter;
+import com.uan.brainmher.application.ui.helpers.NavigationHelper;
 import com.uan.brainmher.databinding.FragmentNewCardMemorizameBinding;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.domain.entities.Memorizame;
@@ -243,23 +244,9 @@ public class MemorizameFamilyFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // Aquí puedes manejar el retroceso y navegar al fragmento anterior
-                navigateToMemorizameParent();
+                // Manejo de retroceso y navegación al fragmento anterior
+                NavigationHelper.navigateToFragment(requireActivity().getSupportFragmentManager(), MemorizameFamilyFragment.class, R.id.container_memorizame_parent);
             }
         });
-    }
-
-    private void navigateToMemorizameParent() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-
-        // Regresa al fragmento anterior (MemorizameFamilyFragment) sin reemplazar nada
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            fragmentManager.popBackStack();
-        } else {
-            // Cargar directamente MemorizameFamilyFragment
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container_memorizame_parent, new MemorizameParentFragment())
-                    .commit();
-        }
     }
 }

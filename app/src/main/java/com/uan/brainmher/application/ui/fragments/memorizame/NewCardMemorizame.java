@@ -34,6 +34,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uan.brainmher.R;
+import com.uan.brainmher.application.ui.helpers.NavigationHelper;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.databinding.FragmentNewCardMemorizameBinding;
 import com.uan.brainmher.domain.entities.Memorizame;
@@ -231,7 +232,7 @@ public class NewCardMemorizame extends Fragment {
         binding.editAnswer3.setText("");
         binding.editAnswer4.setText("");
         binding.editCorrectAnswer.setText("");
-        navigateToMemorizameParent();
+        NavigationHelper.navigateToFragment(requireActivity().getSupportFragmentManager(), MemorizameFamilyFragment.class, R.id.container_memorizame_parent);
     }
 
     @Override
@@ -241,22 +242,8 @@ public class NewCardMemorizame extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 // Manejo de retroceso y navegación al fragmento anterior
-                navigateToMemorizameParent();
+                NavigationHelper.navigateToFragment(requireActivity().getSupportFragmentManager(), MemorizameFamilyFragment.class, R.id.container_memorizame_parent);
             }
         });
-    }
-
-    private void navigateToMemorizameParent() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-
-        // Regresa al fragmento anterior (MemorizameFamilyFragment) sin reemplazar nada
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            fragmentManager.popBackStack();
-        } else {
-            // Cargar directamente MemorizameFamilyFragment
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container_memorizame_parent, new MemorizameParentFragment())
-                    .commit();
-        }
     }
 }

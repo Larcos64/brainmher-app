@@ -1,5 +1,7 @@
 package com.uan.brainmher.domain.repositories;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.infraestructure.tools.Constants;
@@ -13,6 +15,7 @@ public class CarerRepository {
     }
 
     public void getCarer(String userId, OnCarerLoadedListener listener) {
+        Log.d("CarerRepository", "Querying Carer data for userId: " + userId);
         db.collection(Constants.Carers)
                 .document(userId)
                 .get()

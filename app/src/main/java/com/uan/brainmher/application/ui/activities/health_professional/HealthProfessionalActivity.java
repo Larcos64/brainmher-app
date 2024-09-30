@@ -39,6 +39,7 @@ import com.uan.brainmher.domain.entities.HealthcareProfessional;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.domain.repositories.CarerRepository;
 import com.uan.brainmher.domain.repositories.HealthcareProfessionalRepository;
+import com.uan.brainmher.infraestructure.helpers.SharedPreferencesManager;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -64,30 +65,32 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        setSupportActionBar(binding.toolbarHealthProfessional);
+        setSupportActionBar(binding.toolbar);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
         // Configurar Navigation Drawer
-        binding.secondNavigationViewHp.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, binding.secondDrawerLayoutHp, binding.toolbarHealthProfessional, R.string.drawer_open, R.string.drawer_close);
-        binding.secondDrawerLayoutHp.addDrawerListener(drawerToggle);
+        binding.navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.drawer_open, R.string.drawer_close);
+        binding.drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        // Inicializamos los repositorios
-        healthcareProfessionalRepository = new HealthcareProfessionalRepository();
-        carerRepository = new CarerRepository();
-
         // Configuramos los datos del usuario en el Navigation Drawer
-        final TextView nameUser = binding.secondNavigationViewHp.getHeaderView(0).findViewById(R.id.lbl_name_user);
-        final TextView emailUser = binding.secondNavigationViewHp.getHeaderView(0).findViewById(R.id.lbl_email_user);
-        final CircleImageView imageUser = binding.secondNavigationViewHp.getHeaderView(0).findViewById(R.id.img_users_navigation);
+        final TextView nameUser = binding.navigationView.getHeaderView(0).findViewById(R.id.lbl_name_user);
+        final TextView emailUser = binding.navigationView.getHeaderView(0).findViewById(R.id.lbl_email_user);
+        final CircleImageView imageUser = binding.navigationView.getHeaderView(0).findViewById(R.id.img_users_navigation);
 
-        // Cargamos los datos del Healthcare Professional
-        loadHealthcareProfessionalData(firebaseUser.getUid(), nameUser, emailUser, imageUser);
-
-        // Cargamos los datos del Carer
-        loadCarerData(firebaseUser.getUid(), nameUser, emailUser, imageUser);
+        String userRole = SharedPreferencesManager.getInstance(this).getString("user_role", "default_role");
+        switch (userRole) {
+            case "Carers":
+                carerRepository = new CarerRepository();
+                loadCarerData(firebaseUser.getUid(), nameUser, emailUser, imageUser);
+                break;
+            case "HealthcareProfessional":
+                healthcareProfessionalRepository = new HealthcareProfessionalRepository();
+                loadHealthcareProfessionalData(firebaseUser.getUid(), nameUser, emailUser, imageUser);
+                break;
+        }
 
         // Configurar BottomNavigationView y NavController
         BottomNavigationView bottomNavigationView = binding.navigationHealthProfessional;
@@ -200,6 +203,6 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
     }
 
     private void closeDrawer() {
-        binding.secondDrawerLayoutHp.closeDrawer(GravityCompat.START);
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
     }
 }

@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.onesignal.OneSignal;
 import com.uan.brainmher.R;
 import com.uan.brainmher.domain.entities.Carer;
+import com.uan.brainmher.infraestructure.helpers.SharedPreferencesManager;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
 import com.uan.brainmher.application.ui.activities.carer.MainCarer;
@@ -84,6 +85,8 @@ public class LoginManager {
 
                     role = carer.getRole();
                     if (!role.isEmpty()) {
+                        SharedPreferencesManager.getInstance(context).saveString("user_role", role);
+
                         Intent intent = new Intent(context, MainCarer.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);

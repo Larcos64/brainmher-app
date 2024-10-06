@@ -69,18 +69,11 @@ public class HealthProfessionalActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        // Configurar Navigation Drawer
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.drawer_open, R.string.drawer_close);
-        binding.drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+        // Configurar el Drawer con NavigationViewHelper
+        NavigationViewHelper.configureDrawer(this, binding.drawerLayout, binding.toolbar);
 
-        // Configuramos los datos del usuario en el Navigation Drawer usando NavigationViewHelper
-        final TextView nameUser = binding.navigationView.getHeaderView(0).findViewById(R.id.lbl_name_user);
-        final TextView emailUser = binding.navigationView.getHeaderView(0).findViewById(R.id.lbl_email_user);
-        final CircleImageView imageUser = binding.navigationView.getHeaderView(0).findViewById(R.id.img_users_navigation);
-
-        String userRole = SharedPreferencesManager.getInstance(this).getString("user_role", "default_role");
-        NavigationViewHelper.configureNavigationView(this, userRole, firebaseUser.getUid(), binding.navigationView, nameUser, emailUser, imageUser);
+        // Configurar el NavigationView
+        NavigationViewHelper.configureNavigationView(this, binding.navigationView);
 
         // Configurar BottomNavigationView y NavController
         BottomNavigationView bottomNavigationView = binding.navigationHealthProfessional;

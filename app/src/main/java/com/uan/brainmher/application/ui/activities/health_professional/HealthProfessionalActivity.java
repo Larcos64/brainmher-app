@@ -48,8 +48,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HealthProfessionalActivity extends AppCompatActivity {
 
     private ActivityHealthProfessionalBinding binding;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
     private HealthcareProfessionalRepository healthcareProfessionalRepository;
     private CarerRepository carerRepository;
     private String userRole;
@@ -66,8 +64,6 @@ public class HealthProfessionalActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setSupportActionBar(binding.toolbar);
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
 
         // Configurar el Drawer con NavigationViewHelper
         NavigationViewHelper.configureDrawer(this, binding.drawerLayout, binding.toolbar);

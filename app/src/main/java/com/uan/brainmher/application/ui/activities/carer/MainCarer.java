@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uan.brainmher.R;
 import com.uan.brainmher.application.ui.activities.patient.PatientsList;
+import com.uan.brainmher.application.ui.helpers.NavigationViewHelper;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.databinding.ActivityMainCarerBinding;
 import com.uan.brainmher.application.ui.interfaces.IMainCarer;
@@ -33,13 +34,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.uan.brainmher.application.ui.activities.general.Login;
 import com.uan.brainmher.application.ui.activities.general.NavigationOptions;
 
-public class MainCarer extends AppCompatActivity implements IMainCarer, NavigationView.OnNavigationItemSelectedListener {
+public class MainCarer extends AppCompatActivity implements IMainCarer {
 
     private ActivityMainCarerBinding binding;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-    private FirebaseFirestore db;
-    private Carer carer = new Carer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,32 +51,13 @@ public class MainCarer extends AppCompatActivity implements IMainCarer, Navigati
         NavController navController = Navigation.findNavController(this, R.id.content_carer);
         NavigationUI.setupWithNavController(bottomnNavigationView, navController);
 
-        setSupportActionBar(binding.toolbarCareer);
-        binding.navigationViewCareer.setNavigationItemSelectedListener(this);
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
+        setSupportActionBar(binding.toolbar);
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayoutCareer, binding.toolbarCareer, R.string.drawer_open, R.string.drawer_close);
-        binding.drawerLayoutCareer.addDrawerListener(drawerToggle);
+        // Configurar el Drawer con NavigationViewHelper
+        NavigationViewHelper.configureDrawer(this, binding.drawerLayout, binding.toolbar);
 
-        final TextView nameUser = binding.navigationViewCareer.getHeaderView(0).findViewById(R.id.lbl_name_user);
-        final TextView emailUser = binding.navigationViewCareer.getHeaderView(0).findViewById(R.id.lbl_email_user);
-        final CircleImageView imageUser = binding.navigationViewCareer.getHeaderView(0).findViewById(R.id.img_users_navigation);
-        db = FirebaseFirestore.getInstance();
-        db.collection(Constants.Carers).document(firebaseUser.getUid()).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()){
-                            carer = documentSnapshot.toObject(Carer.class);
-                            nameUser.setText(carer.getFirstName() + " " + carer.getLastName());
-                            emailUser.setText(carer.getEmail());
-                            Log.d("MainCarer", "Image URL: " + carer.getUriImg());
-                            Glide.with(MainCarer.this).load(carer.getUriImg()).fitCenter().into(imageUser);
-                        }
-                    }
-                });
-        drawerToggle.syncState();
+        // Configurar el NavigationView
+        NavigationViewHelper.configureNavigationView(this, binding.navigationView);
     }
 
     @Override
@@ -91,29 +69,5 @@ public class MainCarer extends AppCompatActivity implements IMainCarer, Navigati
             Intent intent = new Intent(MainCarer.this, PatientsList.class);
             startActivity(intent);
         }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        closeDrawer();
-        int itemId = item.getItemId();
-        if (itemId == R.id.btn_profile) {
-            Intent navigation = new Intent(MainCarer.this, NavigationOptions.class);
-            navigation.putExtra("option", "profile");
-            navigation.putExtra("user_uid", carer.getCarerUId());
-            navigation.putExtra("user_role", carer.getRole());
-            navigation.putExtra("profile_type", "personal");
-            startActivity(navigation);
-        } else if (itemId == R.id.btn_logout) {
-            firebaseAuth.signOut();
-            Intent intent = new Intent(MainCarer.this, Login.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        return true;
-    }
-
-    private void closeDrawer() {
-        binding.drawerLayoutCareer.closeDrawer(GravityCompat.START);
     }
 }

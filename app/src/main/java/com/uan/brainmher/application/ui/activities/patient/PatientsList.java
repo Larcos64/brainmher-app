@@ -33,6 +33,7 @@ import com.uan.brainmher.application.ui.activities.general.NavigationOptions;
 import com.uan.brainmher.application.ui.activities.health_professional.HealthProfessionalActivity;
 import com.uan.brainmher.application.ui.fragments.patients.AddPatientsFragment;
 import com.uan.brainmher.application.ui.fragments.patients.PatientsListFragment;
+import com.uan.brainmher.application.ui.helpers.NavigationViewHelper;
 import com.uan.brainmher.application.ui.interfaces.IMainCarer;
 import com.uan.brainmher.domain.entities.Carer;
 //import com.uan.brainmher.data.HealthcareProfessional;
@@ -50,10 +51,9 @@ import com.uan.brainmher.infraestructure.tools.Constants;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PatientsList extends AppCompatActivity implements IMainCarer, AddPatientsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
+public class PatientsList extends AppCompatActivity implements IMainCarer, AddPatientsFragment.OnFragmentInteractionListener {
 
     private ActivityListPatientBinding binding;
-    private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseFirestore db;
     //private HealthcareProfessional hp = new HealthcareProfessional();
@@ -77,32 +77,12 @@ public class PatientsList extends AppCompatActivity implements IMainCarer, AddPa
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setSupportActionBar(binding.toolbar);
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        db = FirebaseFirestore.getInstance();
 
-        // Configurar Navigation Drawer
-        binding.navigationView.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.drawer_open, R.string.drawer_close);
-        binding.drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+        // Configurar el Drawer con NavigationViewHelper
+        NavigationViewHelper.configureDrawer(this, binding.drawerLayout, binding.toolbar);
 
-        // Configuramos los datos del usuario en el Navigation Drawer
-        final TextView nameUser = binding.navigationView.getHeaderView(0).findViewById(R.id.lbl_name_user);
-        final TextView emailUser = binding.navigationView.getHeaderView(0).findViewById(R.id.lbl_email_user);
-        final CircleImageView imageUser = binding.navigationView.getHeaderView(0).findViewById(R.id.img_users_navigation);
-
-        String userRole = SharedPreferencesManager.getInstance(this).getString("user_role", "default_role");
-        switch (userRole) {
-            case "Carers":
-                carerRepository = new CarerRepository();
-                loadCarerData(firebaseUser.getUid(), nameUser, emailUser, imageUser);
-                break;
-            case "HealthcareProfessional":
-                healthcareProfessionalRepository = new HealthcareProfessionalRepository();
-                loadHealthcareProfessionalData(firebaseUser.getUid(), nameUser, emailUser, imageUser);
-                break;
-        }
+        // Configurar el NavigationView
+        NavigationViewHelper.configureNavigationView(this, binding.navigationView);
 
         if (savedInstanceState == null) {
             handleFrame(new PatientsListFragment());
@@ -116,44 +96,6 @@ public class PatientsList extends AppCompatActivity implements IMainCarer, AddPa
             public void handleOnBackPressed() {
                 // Acción personalizada para el botón de retroceso
                 finish();
-            }
-        });
-    }
-
-    private void loadCarerData(String userId, TextView nameUser, TextView emailUser, CircleImageView imageUser) {
-        carerRepository.getCarer(userId, new CarerRepository.OnCarerLoadedListener() {
-            @Override
-            public void onSuccess(Carer carer) {
-                if (carer != null) {
-                    nameUser.setText(carer.getFirstName() + " " + carer.getLastName());
-                    emailUser.setText(carer.getEmail());
-                    Glide.with(PatientsList.this).load(carer.getUriImg()).fitCenter().into(imageUser);
-                    userRole = carer.getRole();
-                }
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.e("HealthProfessional", "Failed to load Carer", e);
-            }
-        });
-    }
-
-    private void loadHealthcareProfessionalData(String userId, TextView nameUser, TextView emailUser, CircleImageView imageUser) {
-        healthcareProfessionalRepository.getHealthcareProfessional(userId, new HealthcareProfessionalRepository.OnHealthcareProfessionalLoadedListener() {
-            @Override
-            public void onSuccess(HealthcareProfessional hp) {
-                if (hp != null) {
-                    nameUser.setText(hp.getFirstName() + " " + hp.getLastName());
-                    emailUser.setText(hp.getEmail());
-                    Glide.with(PatientsList.this).load(hp.getUriImg()).fitCenter().into(imageUser);
-                    userRole = hp.getRole();
-                }
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.e("HealthProfessional", "Failed to load Healthcare Professional", e);
             }
         });
     }
@@ -184,34 +126,6 @@ public class PatientsList extends AppCompatActivity implements IMainCarer, AddPa
     @Override
     public void onFragmentInteraction(Uri uri) {
         // Implementación vacía
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        closeDrawer();
-        int itemId = item.getItemId();
-        if (itemId == R.id.btn_profile) {
-            Intent navigation = new Intent(PatientsList.this, NavigationOptions.class);
-            navigation.putExtra("option", "profile");
-            navigation.putExtra("user_uid", firebaseUser.getUid());
-            navigation.putExtra("user_role", userRole);
-            navigation.putExtra("profile_type", "personal");
-            startActivity(navigation);
-        } else if (itemId == R.id.btn_logout) {
-            firebaseAuth.signOut();
-            Intent intent = new Intent(PatientsList.this, Login.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        return true;
-    }
-
-    private void closeDrawer() {
-        binding.drawerLayout.closeDrawer(GravityCompat.START);
-    }
-
-    private void openDrawer() {
-        binding.drawerLayout.openDrawer(GravityCompat.START);
     }
 
     @Override

@@ -33,6 +33,7 @@ import com.uan.brainmher.R;
 import com.uan.brainmher.application.ui.activities.general.Login;
 import com.uan.brainmher.application.ui.activities.general.NavigationOptions;
 import com.uan.brainmher.application.ui.activities.patient.PatientsList;
+import com.uan.brainmher.application.ui.helpers.NavigationViewHelper;
 import com.uan.brainmher.databinding.ActivityHealthProfessionalBinding;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.domain.entities.HealthcareProfessional;
@@ -44,7 +45,7 @@ import com.uan.brainmher.infraestructure.tools.Constants;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HealthProfessionalActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HealthProfessionalActivity extends AppCompatActivity {
 
     private ActivityHealthProfessionalBinding binding;
     private FirebaseAuth firebaseAuth;
@@ -58,7 +59,6 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Inicializamos el ViewBinding
         binding = ActivityHealthProfessionalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -70,27 +70,17 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
         firebaseUser = firebaseAuth.getCurrentUser();
 
         // Configurar Navigation Drawer
-        binding.navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.drawer_open, R.string.drawer_close);
         binding.drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        // Configuramos los datos del usuario en el Navigation Drawer
+        // Configuramos los datos del usuario en el Navigation Drawer usando NavigationViewHelper
         final TextView nameUser = binding.navigationView.getHeaderView(0).findViewById(R.id.lbl_name_user);
         final TextView emailUser = binding.navigationView.getHeaderView(0).findViewById(R.id.lbl_email_user);
         final CircleImageView imageUser = binding.navigationView.getHeaderView(0).findViewById(R.id.img_users_navigation);
 
         String userRole = SharedPreferencesManager.getInstance(this).getString("user_role", "default_role");
-        switch (userRole) {
-            case "Carers":
-                carerRepository = new CarerRepository();
-                loadCarerData(firebaseUser.getUid(), nameUser, emailUser, imageUser);
-                break;
-            case "HealthcareProfessional":
-                healthcareProfessionalRepository = new HealthcareProfessionalRepository();
-                loadHealthcareProfessionalData(firebaseUser.getUid(), nameUser, emailUser, imageUser);
-                break;
-        }
+        NavigationViewHelper.configureNavigationView(this, userRole, firebaseUser.getUid(), binding.navigationView, nameUser, emailUser, imageUser);
 
         // Configurar BottomNavigationView y NavController
         BottomNavigationView bottomNavigationView = binding.navigationHealthProfessional;
@@ -108,43 +98,6 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
             @Override
             public void handleOnBackPressed() {
                 finish();
-            }
-        });
-    }
-
-    private void loadHealthcareProfessionalData(String userId, TextView nameUser, TextView emailUser, CircleImageView imageUser) {
-        healthcareProfessionalRepository.getHealthcareProfessional(userId, new HealthcareProfessionalRepository.OnHealthcareProfessionalLoadedListener() {
-            @Override
-            public void onSuccess(HealthcareProfessional hp) {
-                if (hp != null) {
-                    nameUser.setText(hp.getFirstName() + " " + hp.getLastName());
-                    emailUser.setText(hp.getEmail());
-                    Glide.with(HealthProfessionalActivity.this).load(hp.getUriImg()).fitCenter().into(imageUser);
-                    userRole = hp.getRole(); // Asignamos el rol del usuario
-                }
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.e("HealthProfessional", "Failed to load Healthcare Professional", e);
-            }
-        });
-    }
-
-    private void loadCarerData(String userId, TextView nameUser, TextView emailUser, CircleImageView imageUser) {
-        carerRepository.getCarer(userId, new CarerRepository.OnCarerLoadedListener() {
-            @Override
-            public void onSuccess(Carer carer) {
-                if (carer != null) {
-                    nameUser.setText(carer.getFirstName() + " " + carer.getLastName());
-                    emailUser.setText(carer.getEmail());
-                    Glide.with(HealthProfessionalActivity.this).load(carer.getUriImg()).fitCenter().into(imageUser);
-                }
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.e("HealthProfessional", "Failed to load Carer", e);
             }
         });
     }
@@ -182,24 +135,6 @@ public class HealthProfessionalActivity extends AppCompatActivity implements Nav
 
     private void startSettings() {
         startActivity(new Intent(HealthProfessionalActivity.this, PatientsList.class));
-    }
-
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        closeDrawer();
-        if (item.getItemId() == R.id.btn_profile) {
-            Intent navigation = new Intent(HealthProfessionalActivity.this, NavigationOptions.class);
-            navigation.putExtra("option", "profile");
-            navigation.putExtra("user_uid", firebaseUser.getUid());
-            navigation.putExtra("user_role", userRole);
-            navigation.putExtra("profile_type", "personal");
-            startActivity(navigation);
-        } else if (item.getItemId() == R.id.btn_logout) {
-            firebaseAuth.signOut();
-            Intent intent = new Intent(HealthProfessionalActivity.this, Login.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        return true;
     }
 
     private void closeDrawer() {

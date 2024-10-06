@@ -98,6 +98,13 @@
         <item name="android:minHeight">?attr/actionBarSize</item>
     </style>
 
+    <!-- Standard style for toolbar transparent -->
+    <style name="StyleToolbarTransparent">
+        <item name="android:popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+    </style>
+
     <!-- Standard style for text box layout (Forms) -->
     <style name="StyleTextInputLayotTextBoxForms" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="endIconTint">@color/colorPrimary</item>

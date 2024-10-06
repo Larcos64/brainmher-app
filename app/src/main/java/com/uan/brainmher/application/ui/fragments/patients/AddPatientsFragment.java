@@ -118,7 +118,7 @@ public class AddPatientsFragment extends Fragment {
 
     private void savePatient() {
         // Delegate data handling to the repository
-        patientsRepository.createPatient(patient, uriImage, new PatientsRepository.OnPatientCreatedListener() {
+        patientsRepository.createPatient(patient, uriImage, new PatientsRepository.OnPatientLoadedListener() {
             @Override
             public void onSuccess(Patient createdPatient) {
                 loginManager.reAuthenticateAndRedirect(uIDHPoCarer, requireContext(), PatientsList.class);

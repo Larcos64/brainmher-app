@@ -16,6 +16,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.uan.brainmher.application.ui.adapters.patient.PatientsAdapter;
+import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
@@ -31,7 +32,7 @@ public class PatientsRepository {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    public void createPatient(Patient patient, Uri uriImage, OnPatientCreatedListener listener) {
+    public void createPatient(Patient patient, Uri uriImage, OnPatientLoadedListener listener) {
         firebaseAuth.createUserWithEmailAndPassword(patient.getEmail(), patient.getPassword())
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -50,7 +51,7 @@ public class PatientsRepository {
                 });
     }
 
-    private void uploadPatientImage(Patient patient, Uri uriImage, OnPatientCreatedListener listener) {
+    private void uploadPatientImage(Patient patient, Uri uriImage, OnPatientLoadedListener listener) {
         StorageReference imgRef = firebaseStorage.getReference().child("Users/Patients/" + patient.getPatientUID() + ".jpg");
         imgRef.putFile(uriImage)
                 .addOnSuccessListener(taskSnapshot -> taskSnapshot.getStorage().getDownloadUrl()
@@ -62,14 +63,30 @@ public class PatientsRepository {
                 .addOnFailureListener(listener::onFailure);
     }
 
-    private void savePatientData(Patient patient, OnPatientCreatedListener listener) {
+    private void savePatientData(Patient patient, OnPatientLoadedListener listener) {
         db.collection(Constants.Patients).document(patient.getPatientUID())
                 .set(patient)
                 .addOnSuccessListener(aVoid -> listener.onSuccess(patient))
                 .addOnFailureListener(listener::onFailure);
     }
 
-    public interface OnPatientCreatedListener {
+    public void getPatient(String userId, PatientsRepository.OnPatientLoadedListener listener) {
+        Log.d("PatientRepository", "Querying Patient data for userId: " + userId);
+        db.collection(Constants.Patients)
+                .document(userId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Patient patient = documentSnapshot.toObject(Patient.class);
+                        listener.onSuccess(patient);
+                    } else {
+                        listener.onFailure(new Exception("Carer not found"));
+                    }
+                })
+                .addOnFailureListener(listener::onFailure);
+    }
+
+    public interface OnPatientLoadedListener {
         void onSuccess(Patient patient);
         void onFailure(Exception e);
     }

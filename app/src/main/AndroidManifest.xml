@@ -43,6 +43,7 @@
 
         <activity android:name=".application.ui.activities.carer.CarerRegistration"/>
         <activity android:name=".application.ui.activities.carer.MainCarer" />
+        <activity android:name=".application.ui.activities.patient.MainPatient" android:screenOrientation="portrait"/>
 
         <activity android:name=".application.ui.activities.patient.PatientsList"/>
         <activity android:name=".application.ui.activities.health_professional.HealthProfessionalActivity"/>

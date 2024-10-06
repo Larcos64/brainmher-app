@@ -19,8 +19,10 @@ import com.uan.brainmher.application.ui.activities.general.Login;
 import com.uan.brainmher.application.ui.activities.general.NavigationOptions;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.domain.entities.HealthcareProfessional;
+import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.domain.repositories.CarerRepository;
 import com.uan.brainmher.domain.repositories.HealthcareProfessionalRepository;
+import com.uan.brainmher.domain.repositories.PatientsRepository;
 import com.uan.brainmher.infraestructure.helpers.SharedPreferencesManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -114,6 +116,10 @@ public class NavigationViewHelper {
                 HealthcareProfessionalRepository healthcareProfessionalRepository = new HealthcareProfessionalRepository();
                 loadHealthcareProfessionalData(activity, healthcareProfessionalRepository, userId, nameUser, emailUser, imageUser);
                 break;
+            case "Patients":
+                PatientsRepository patientsRepository = new PatientsRepository();
+                loadPatientData(activity, patientsRepository, userId, nameUser, emailUser, imageUser);
+                break;
             default:
                 Log.e("NavigationViewHelper", "Invalid user role: " + userRole);
                 break;
@@ -165,6 +171,27 @@ public class NavigationViewHelper {
             @Override
             public void onFailure(Exception e) {
                 Log.e("NavigationViewHelper", "Failed to load Carer", e);
+            }
+        });
+    }
+
+    // Solo carga los datos desde el backend si no están en SharedPreferences
+    private static void loadPatientData(Activity activity, PatientsRepository repository,
+                                      String userId, TextView nameUser,
+                                      TextView emailUser, CircleImageView imageUser) {
+        repository.getPatient(userId, new PatientsRepository.OnPatientLoadedListener() {
+            @Override
+            public void onSuccess(Patient patient) {
+                if (patient != null) {
+                    nameUser.setText(patient.getFirstName() + " " + patient.getLastName());
+                    emailUser.setText(patient.getEmail());
+                    Glide.with(activity).load(patient.getUriImg()).fitCenter().into(imageUser);
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.e("NavigationViewHelper", "Failed to load Patient", e);
             }
         });
     }

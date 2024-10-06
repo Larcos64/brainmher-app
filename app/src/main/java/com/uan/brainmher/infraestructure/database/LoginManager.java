@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,7 +22,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.onesignal.OneSignal;
 import com.uan.brainmher.R;
+import com.uan.brainmher.application.ui.activities.patient.MainPatient;
 import com.uan.brainmher.domain.entities.Carer;
+import com.uan.brainmher.domain.entities.Patient;
+import com.uan.brainmher.domain.repositories.CarerRepository;
+import com.uan.brainmher.domain.repositories.PatientsRepository;
 import com.uan.brainmher.infraestructure.helpers.SharedPreferencesManager;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
@@ -59,11 +64,11 @@ public class LoginManager {
             return;
         }
 
-        final String userId = OneSignal.getUser().getOnesignalId();
-        handleRedirection(context, useruID, userId);
+        final String onesignalId = OneSignal.getUser().getOnesignalId();
+        handleRedirection(context, useruID, onesignalId);
     }
 
-    private void handleRedirection(final Context context, final FirebaseUser useruID, final String userId) {
+    private void handleRedirection(final Context context, final FirebaseUser useruID, final String onesignalId) {
         if (useruID == null) return;
 
         circularProgressUtil.showProgress(context.getString(R.string.entering));
@@ -71,37 +76,62 @@ public class LoginManager {
         final String uID = useruID.getUid();
 
         // Handle Carer redirection
-        DocumentReference docRefCr = db.collection(Constants.Carers).document(uID);
-        docRefCr.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        CarerRepository carerRepository = new CarerRepository();
+        carerRepository.getCarer(uID, new CarerRepository.OnCarerLoadedListener() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    carer = documentSnapshot.toObject(Carer.class);
+            public void onSuccess(Carer carer) {
+                if(carer.getPlayerId() == null){
+                    carer.setPlayerId(onesignalId);
+                    db.collection(Constants.Carers).document(uID).set(carer);
+                }
 
-                    if(carer.getPlayerId() == null){
-                        carer.setPlayerId(userId);
-                        db.collection(Constants.Carers).document(uID).set(carer);
-                    }
+                role = carer.getRole();
+                if (!role.isEmpty()) {
+                    SharedPreferencesManager.getInstance(context).saveString("user_role", role);
 
-                    role = carer.getRole();
-                    if (!role.isEmpty()) {
-                        SharedPreferencesManager.getInstance(context).saveString("user_role", role);
+                    Intent intent = new Intent(context, MainCarer.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
 
-                        Intent intent = new Intent(context, MainCarer.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-
-                        if (circularProgressUtil != null) {
-                            circularProgressUtil.hideProgress();
-                        }
+                    if (circularProgressUtil != null) {
+                        circularProgressUtil.hideProgress();
                     }
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
-                Log.d("ERROR:", e.toString());
+            public void onFailure(Exception e) {
+                Log.e("NavigationViewHelper", "Failed to load Carer", e);
+            }
+        });
+
+        // Handle Patient redirection
+        PatientsRepository patientsRepository = new PatientsRepository();
+        patientsRepository.getPatient(uID, new PatientsRepository.OnPatientLoadedListener() {
+            @Override
+            public void onSuccess(Patient patient) {
+                if(patient.getPlayerId() == null){
+                    patient.setPlayerId(onesignalId);
+                    db.collection(Constants.Patients).document(uID).set(patient);
+                }
+
+                role = patient.getRole();
+                if (!role.isEmpty()) {
+                    SharedPreferencesManager.getInstance(context).saveString("user_role", role);
+
+                    Intent intent = new Intent(context, MainPatient.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+
+                    if (circularProgressUtil != null) {
+                        circularProgressUtil.hideProgress();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.e("NavigationViewHelper", "Failed to load Carer", e);
             }
         });
     }

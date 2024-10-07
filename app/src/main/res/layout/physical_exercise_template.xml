@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardActivityMotor"
+    style="@style/StyleCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:strokeColor="@color/colorPrimaryLight"
+    app:strokeWidth="@dimen/two"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/physical_exercise_imagev_gif"
+                android:layout_width="@dimen/oneHundredFifty"
+                android:layout_height="@dimen/oneHundredFifty"
+                android:src="@drawable/gif_prueba" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/sixteen"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/physical_exercise_txtv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/execise_name"
+                    style="@style/StyleCardViewTitles"/>
+
+                <TextView
+                    android:id="@+id/physical_exercise_txtv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description"
+                    style="@style/StyleCardViewSubTitles"/>
+
+                <TextView
+                    android:id="@+id/physical_exercise_txtv_resume"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/twentyFive"
+                    style="@style/StyleCardViewDescriptions"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/btnExpandMotor"
+                android:layout_width="@dimen/sixty"
+                android:layout_height="@dimen/sixty"
+                android:background="@drawable/ic_keyboard_arrow_down_black"
+                android:backgroundTint="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/expandableViewMotor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/sixteen"
+            android:layout_marginRight="@dimen/sixteen"
+            android:layout_marginBottom="@dimen/sixteen"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/twentyFive"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lbl_finished"
+                    style="@style/StyleCardViewSubTitles"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/lbl_finished" />
+
+                <TextView
+                    android:id="@+id/data_finished"
+                    style="@style/StyleCardViewDescriptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="No" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            style="@style/StyleLayoutActionCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/ratingBarMotor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/StyleRatingBar"/>
+
+            <TextView
+                android:id="@+id/data_rating_motor"
+                style="@style/StyleCardViewDescriptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

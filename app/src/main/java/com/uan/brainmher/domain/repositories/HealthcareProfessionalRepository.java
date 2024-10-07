@@ -13,7 +13,7 @@ public class HealthcareProfessionalRepository {
     }
 
     public void getHealthcareProfessional(String userId, OnHealthcareProfessionalLoadedListener listener) {
-        db.collection(Constants.HealthcareProfesional)
+        db.collection(Constants.HealthcareProfessional)
                 .document(userId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {

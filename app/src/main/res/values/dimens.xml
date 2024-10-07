@@ -44,8 +44,13 @@
     <dimen name="six_dp">1dp</dimen>
 
     <!-- Dimens for cardview -->
+    <dimen name="twentyOneSp">21sp</dimen>
+    <dimen name="seventeenSp">17sp</dimen>
     <dimen name="oneHundredNinetyFourDp">194dp</dimen>
 
+    <!-- dimenciones de 5  -->
+    <dimen name="fiveSp">5sp</dimen>
+    <dimen name="fifteenSp">15sp</dimen>
 
     <dimen name="twentySp">20sp</dimen>
 </resources>

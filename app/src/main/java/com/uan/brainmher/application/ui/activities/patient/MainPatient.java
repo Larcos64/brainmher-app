@@ -10,12 +10,11 @@ import android.widget.ViewSwitcher;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.uan.brainmher.R;
+import com.uan.brainmher.application.ui.adapters.patient.PatientFragmentPageAdapter;
+import com.uan.brainmher.application.ui.helpers.CustomViewPager;
 import com.uan.brainmher.application.ui.helpers.NavigationViewHelper;
 import com.uan.brainmher.databinding.ActivityMainPatientBinding;
 
@@ -30,29 +29,10 @@ public class MainPatient extends AppCompatActivity {
             R.drawable.motivational_12, R.drawable.motivational_13, R.drawable.motivational_14, R.drawable.motivational_15,
             R.drawable.motivational_16, R.drawable.motivational_17, R.drawable.motivational_18, R.drawable.motivational_19,
             R.drawable.motivational_20, R.drawable.motivational_21, R.drawable.motivational_22, R.drawable.motivational_23};
-    private int posicion;
-    private static final int DURACION = 9000;
+    private int position;
+    private static final int DURATION = 9000;
     private Timer timer = null;
-
-    /*
-    private BottomNavigationView.OnItemSelectedListener mOnItemSelectedListener = new BottomNavigationView.OnItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.home_patient:
-                    binding.viewPager.setCurrentItem(0);
-                    return true;
-                case R.id.memorizame_patient:
-                    binding.viewPager.setCurrentItem(1);
-                    return true;
-                case R.id.notifications_patient:
-                    binding.viewPager.setCurrentItem(2);
-                    return true;
-            }
-            return false;
-        }
-    };
-    */
+    private PatientFragmentPageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,22 +44,47 @@ public class MainPatient extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        // Configurar el Drawer con NavigationViewHelper
+        // Setup Drawer
         NavigationViewHelper.configureDrawer(this, binding.drawerLayout, binding.toolbar);
-
-        // Configurar el NavigationView
         NavigationViewHelper.configureNavigationView(this, binding.navigationView);
 
-        /*
-        // Configuramos el ViewPager y el Adapter
-        binding.viewPager.setAdapter(new PatientFragmentPageAdapter(getSupportFragmentManager()));
-        binding.viewPager.setOffscreenPageLimit(2);
+        // Setup ViewPager2 and Adapter
+        adapter = new PatientFragmentPageAdapter(this);
+        binding.viewPager.getViewPager().setAdapter(adapter);
+        binding.viewPager.getViewPager().setOffscreenPageLimit(3);
 
-        // Configuramos la navegación inferior
-        binding.navigation.setOnItemSelectedListener(mOnNavigationItemSelectedListener);
-        */
+        // Set navigation item selected listener
+        binding.navigationPatient.setOnItemSelectedListener(mOnItemSelectedListener);
 
-        // Configuración del slider
+        // Slider setup
+        setupImageSlider();
+
+        // Start slider
+        startSlider();
+    }
+
+    // Listener for bottom navigation items
+    private BottomNavigationView.OnItemSelectedListener mOnItemSelectedListener = new BottomNavigationView.OnItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.home_patient) {
+                binding.viewPager.getViewPager().setCurrentItem(0);  // Llamamos al ViewPager2 interno
+                return true;
+            } else if (itemId == R.id.memorizame_patient) {
+                binding.viewPager.getViewPager().setCurrentItem(1);  // Llamamos al ViewPager2 interno
+                return true;
+            } else if (itemId == R.id.notifications_patient) {
+                binding.viewPager.getViewPager().setCurrentItem(2);  // Llamamos al ViewPager2 interno
+                return true;
+            }
+
+            return false;
+        }
+    };
+
+    private void setupImageSlider() {
         binding.ivMotivational.setFactory(new ViewSwitcher.ViewFactory() {
             public View makeView() {
                 ImageView imageView = new ImageView(MainPatient.this);
@@ -92,8 +97,6 @@ public class MainPatient extends AppCompatActivity {
         Animation fadeOut = AnimationUtils.loadAnimation(MainPatient.this, R.anim.fade_out);
         binding.ivMotivational.setInAnimation(fadeIn);
         binding.ivMotivational.setOutAnimation(fadeOut);
-
-        startSlider();
     }
 
     private void startSlider() {
@@ -102,14 +105,13 @@ public class MainPatient extends AppCompatActivity {
             public void run() {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        binding.ivMotivational.setImageResource(galeria[posicion]);
-                        posicion++;
-                        if (posicion == galeria.length) {
-                            posicion = 0;
-                        }
+                        binding.ivMotivational.setImageResource(galeria[position]);
+                        position++;
+                        if (position == galeria.length)
+                            position = 0;
                     }
                 });
             }
-        }, 0, DURACION);
+        }, 0, DURATION);
     }
 }

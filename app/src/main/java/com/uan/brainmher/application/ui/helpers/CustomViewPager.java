@@ -3,40 +3,47 @@ package com.uan.brainmher.application.ui.helpers;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
-public class CustomViewPager extends ViewPager {
+public class CustomViewPager extends FrameLayout {
 
-    private boolean enabled = false;
+    private ViewPager2 viewPager;
+    private boolean enabled = true;
 
     public CustomViewPager(@NonNull Context context) {
         super(context);
+        init(context);
     }
 
     public CustomViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        return this.enabled && super.onTouchEvent(ev) && performClick();
+    private void init(Context context) {
+        viewPager = new ViewPager2(context);
+        addView(viewPager);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return this.enabled && super.onInterceptTouchEvent(ev);
+        return enabled && super.onInterceptTouchEvent(ev);
     }
 
     @Override
-    public boolean performClick() {
-        return this.enabled && super.performClick();
+    public boolean onTouchEvent(MotionEvent ev) {
+        return enabled && super.onTouchEvent(ev);
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
+    public void setPagingEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public ViewPager2 getViewPager() {
+        return viewPager;
     }
 }

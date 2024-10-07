@@ -56,6 +56,8 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0") // CircleImage
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    //implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
@@ -76,4 +78,7 @@ dependencies {
 
     // Login with Google
     implementation("com.google.android.gms:play-services-auth:21.2.0")
+
+    // dependence for create of Gif
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.29")
 }

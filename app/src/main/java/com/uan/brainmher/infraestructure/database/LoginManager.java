@@ -143,7 +143,7 @@ public class LoginManager {
     // Método principal con redirección
     public void reAuthenticateAndRedirect(final String uID, final Context context, final Class<?> targetClass) {
         Log.d("RED CON", uID);
-        checkAndReAuthenticate(Constants.HealthcareProfesional, uID, context, targetClass);
+        checkAndReAuthenticate(Constants.HealthcareProfessional, uID, context, targetClass);
         checkAndReAuthenticate(Constants.Carers, uID, context, targetClass);
         // Agregar más llamadas a checkAndReAuthenticate para otras colecciones según sea necesario
     }
@@ -151,7 +151,7 @@ public class LoginManager {
     // Sobrecarga del método para autenticación sin redirección
     public void reAuthenticateAndRedirect(final String uID) {
         Log.d("RED SIN", uID);
-        checkAndReAuthenticate(Constants.HealthcareProfesional, uID, null, null);
+        checkAndReAuthenticate(Constants.HealthcareProfessional, uID, null, null);
         checkAndReAuthenticate(Constants.Carers, uID, null, null);
         // Agregar más llamadas a checkAndReAuthenticate para otras colecciones según sea necesario
     }

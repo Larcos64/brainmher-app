@@ -248,4 +248,52 @@
         <item name="android:layout_marginTop">@dimen/five</item>
         <item name="android:layout_marginRight">@dimen/five</item>
     </style>
+
+    <!-- Strandard style for tabs layout with primary color -->
+    <style name="StyleTabLayoutPrimary" parent="Widget.MaterialComponents.TabLayout.Colored">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabTextColor">@color/colorBackround</item>
+        <item name="tabIconTint">@color/white</item>
+        <item name="tabTextAppearance">@style/StyleTextTabs</item>
+        <item name="tabRippleColor">@color/colorAccent</item>
+        <item name="android:elevation">@dimen/two</item>
+    </style>
+
+    <!-- Standard style for card view titles -->
+    <style name="StyleCardViewTitles">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/twentyOneSp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Standard style for card view subtitles -->
+    <style name="StyleCardViewSubTitles">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/seventeenSp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Standard style for card view descriptions -->
+    <style name="StyleCardViewDescriptions">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/fifteenSp</item>
+    </style>
+
+    <!-- Standard style for layout actions in card view -->
+    <style name="StyleLayoutActionCardView">
+        <item name="android:layout_margin">@dimen/eight</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- Standard style for rating bars -->
+    <style name="StyleRatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="android:numStars">5</item>
+        <item name="android:stepSize">1</item>
+    </style>
 </resources>

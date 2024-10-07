@@ -11,6 +11,7 @@
     <string name="lbl_my_profile">MI PERFIL</string>
     <string name="list_patient">Lista de pacientes</string>
     <string name="add_patient">Agregar Paciente</string>
+    <string name="execise_name">Nombre del ejercicio</string>
 
     // Placeholders, Labels
     <string name="email">Correo electrónico</string>
@@ -32,6 +33,13 @@
     <string name="lbl_write_question">Escribe una pregunta que corresponda con la imagen.</string>
     <string name="lbl_answer">Escriba una opción de respuesta.</string>
     <string name="lbl_select_correct_answer">Selecciona la respuesta correcta.</string>
+    <string name="lbl_finished">Finalizado:</string>
+    <string name="lbl_statement">Estado:</string>
+    <string name="lbl_best_score">Mejor puntuación:</string>
+    <string name="lbl_level">Nivel:</string>
+    <string name="lbl_description">Descripción:</string>
+
+    <string name="description">Descripción</string>
 
     // Buttons, Links, Tabs
     <string name="login">Iniciar sesión</string>
@@ -63,6 +71,8 @@
     <string name="tab_home">Hogar</string>
     <string name="tab_places">Lugares</string>
     <string name="tab_pets">Mascotas</string>
+    <string name="tab_cognitive_exercises">Ejercicios Cognitivos</string>
+    <string name="tab_motor_exercises">Ejercicios Motrices</string>
 
     // Alers, messages
     <string name="val_min_password">Debe contener almenos 7 caracteres</string>
@@ -87,11 +97,15 @@
     <string name="elimination_failed">Error al eliminar registro</string>
     <string name="saving_error">Error al guardar registro</string>
     <string name="image_elimination_failed">Error al eliminar imágen</string>
+    <string name="no_cognitive_excercises">No hay ejercicios cognitivos</string>
 
     <string name="add_family_question">Agregar Pregunta de Familia</string>
     <string name="add_home_question">Agregar Pregunta de Hogar</string>
     <string name="add_places_question">Agregar Pregunta de Lugar</string>
     <string name="add_pets_question">Agregar Pregunta de Mascota</string>
+
+    <string name="rate_saved">Calificación guardada.</string>
+    <string name="rate_no_saved">Error al calificar.</string>
 
     // Options
     <string name="male">Masculino</string>

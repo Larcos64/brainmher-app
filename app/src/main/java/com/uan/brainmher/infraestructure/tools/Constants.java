@@ -2,19 +2,19 @@ package com.uan.brainmher.infraestructure.tools;
 
 public class Constants {
     //Constants for collections
-    public static final String Adminds = "Adminds";
-    public static final String HealthcareProfesional = "Healthcare_profesionals";
+    public static final String Admins = "Admins";
+    public static final String HealthcareProfessional = "HealthcareProfessionals";
     public static final String Carers = "Carers";
     public static final String Patients = "Patients";
-    public static final String Terapies = "Terapies";
+    public static final String Therapies = "Therapies";
     public static final String Notifications = "Notifications";
     public static final String Medicines = "Medicines";
     public static final String Medicine = "Medicine";
     public static final String Example = "Example";
-    public static final String CognitiveExcercises = "CognitiveExcercises";
-    public static final String CognitiveExcercisesAssignments = "CognitiveExcercisesAssignments";
-    public static final String MotorExcercises = "MotorExcercises";
-    public static final String MotorExcercisesAssignments = "MotorExcercisesAssignments";
+    public static final String CognitiveExercises = "CognitiveExercises";
+    public static final String CognitiveExercisesAssignments = "CognitiveExercisesAssignments";
+    public static final String MotorExercises = "MotorExercises";
+    public static final String MotorExercisesAssignments = "MotorExercisesAssignments";
 
     //Constants for Patients
     public static final String Memorizame = "Memorizame";

@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.uan.brainmher.R;
 import com.uan.brainmher.domain.entities.Memorizame;
 import com.uan.brainmher.databinding.ItemMemorizameRecyclerBinding;
 
@@ -62,7 +63,7 @@ public class PatientMemorizameAdapter extends RecyclerView.Adapter<PatientMemori
         }
 
         public void bind(Memorizame item) {
-            binding.textNumberPatient.setText("Empieza");
+            binding.textNumberPatient.setText(R.string.start);
             Glide.with(context)
                     .load(item.getUriImg())
                     .fitCenter()

@@ -5,12 +5,15 @@ import android.net.Uri;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uan.brainmher.domain.entities.Memorizame;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class MemorizameRepository {
@@ -119,5 +122,26 @@ public class MemorizameRepository {
 
     private String createTransactionID() {
         return UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+    }
+
+    public interface OnMemorizameDataListener {
+        void onSuccess(List<Memorizame> memorizameList);
+        void onFailure(Exception e);
+    }
+
+    public void getMemorizameData(String userId, String folderCategory, OnMemorizameDataListener listener) {
+        db.collection(Constants.Memorizame)
+                .document(userId)
+                .collection(folderCategory)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Memorizame> memorizameList = new ArrayList<>();
+                    for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                        Memorizame memorizame = snapshot.toObject(Memorizame.class);
+                        memorizameList.add(memorizame);
+                    }
+                    listener.onSuccess(memorizameList);
+                })
+                .addOnFailureListener(listener::onFailure);
     }
 }

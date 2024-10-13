@@ -26,6 +26,7 @@ import com.uan.brainmher.R;
 import com.uan.brainmher.application.ui.adapters.patient.PatientMemorizameAdapter;
 import com.uan.brainmher.databinding.FragmentMemorizameChildBinding;
 import com.uan.brainmher.domain.entities.Memorizame;
+import com.uan.brainmher.domain.repositories.MemorizameRepository;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public abstract class BaseMemorizameFragment extends Fragment {
     private List<Memorizame> memorizameList = new ArrayList<>();
     private String seleccionRG = "";
     private PatientMemorizameAdapter.ISelectionMemorizame iSelectionMemorizame;
+    private final MemorizameRepository repository = new MemorizameRepository(); // Repositorio
 
     @Nullable
     @Override
@@ -67,19 +69,26 @@ public abstract class BaseMemorizameFragment extends Fragment {
 
     private void initRecycler() {
         binding.recyclerViewMemorizame.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
-        CollectionReference collectionReference = db.collection(Constants.Memorizame);
 
-        collectionReference.document(user.getUid()).collection(getCollectionName()).get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    memorizameList.clear();
-                    for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                        Memorizame memorizame = snapshot.toObject(Memorizame.class);
-                        memorizameList.add(memorizame);
+        // Obtener los datos del repositorio
+        repository.getMemorizameData(
+                FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                getCollectionName(),
+                new MemorizameRepository.OnMemorizameDataListener() {
+                    @Override
+                    public void onSuccess(List<Memorizame> data) {
+                        memorizameList.clear();
+                        memorizameList.addAll(data);
+                        adapter = new PatientMemorizameAdapter(memorizameList, requireActivity(), iSelectionMemorizame);
+                        binding.recyclerViewMemorizame.setAdapter(adapter);
+                        binding.layoutDescriptionMemorizame.setVisibility(
+                                memorizameList.isEmpty() ? View.VISIBLE : View.INVISIBLE);
                     }
-                    adapter = new PatientMemorizameAdapter(memorizameList, requireActivity(), iSelectionMemorizame);
-                    binding.recyclerViewMemorizame.setAdapter(adapter);
-                    binding.layoutDescriptionMemorizame.setVisibility(
-                            memorizameList.isEmpty() ? View.VISIBLE : View.INVISIBLE);
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(requireActivity(), R.string.error_loading_data, Toast.LENGTH_SHORT).show();
+                    }
                 });
     }
 

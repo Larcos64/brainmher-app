@@ -38,6 +38,12 @@
     <string name="lbl_best_score">Mejor puntuación:</string>
     <string name="lbl_level">Nivel:</string>
     <string name="lbl_description">Descripción:</string>
+    <string name="lbl_instructions">Instrucciones:</string>
+    <string name="lbl_description_family">Actividades para conservar recuerdos de tus seres queridos.</string>
+    <string name="lbl_description_home">Actividades para conservar recuerdos de tu hogar.</string>
+    <string name="lbl_description_places">Actividades para conservar recuerdos de los lugares que frecuentas.</string>
+    <string name="lbl_description_pets">Actividades para conservar los recuerdos de tus mascotas.</string>
+    <string name="lbl_instructions_questions">Cuando tu cuidador habilite las actividades, podrás visualizarlas en este apartado.</string>
 
     <string name="description">Descripción</string>
 
@@ -106,6 +112,8 @@
 
     <string name="rate_saved">Calificación guardada.</string>
     <string name="rate_no_saved">Error al calificar.</string>
+
+    <string name="select_answer">Selecciona una respuesta.</string>
 
     // Options
     <string name="male">Masculino</string>

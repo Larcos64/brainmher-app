@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
+import com.uan.brainmher.application.ui.adapters.patient.MemorizamePatientFragmentPageAdapter;
 import com.uan.brainmher.application.ui.adapters.patient.PatientFragmentPageAdapter;
 
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -43,7 +44,7 @@ public class MemorizamePatientFragment extends Fragment {
 
     private void setupTabLayout(View view) {
         ViewPager2 viewPager = view.findViewById(R.id.view_pager_memorizame);
-        PatientFragmentPageAdapter adapter = new PatientFragmentPageAdapter(requireActivity());
+        MemorizamePatientFragmentPageAdapter adapter = new MemorizamePatientFragmentPageAdapter(requireActivity());
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = view.findViewById(R.id.tabs_memorizame);

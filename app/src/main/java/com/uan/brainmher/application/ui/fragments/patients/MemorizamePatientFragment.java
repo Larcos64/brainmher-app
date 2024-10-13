@@ -19,7 +19,7 @@ import com.uan.brainmher.R;
 import com.uan.brainmher.databinding.FragmentPatientMemorizameBinding;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmento con las 4 pestañas de memorizame para módulo de paciente
  */
 public class MemorizamePatientFragment extends Fragment {
 
@@ -51,13 +51,16 @@ public class MemorizamePatientFragment extends Fragment {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
-                    tab.setText("Family");
+                    tab.setText(R.string.tab_family);
                     break;
                 case 1:
-                    tab.setText("Home");
+                    tab.setText(R.string.tab_home);
                     break;
                 case 2:
-                    tab.setText("Places");
+                    tab.setText(R.string.tab_places);
+                    break;
+                case 3:
+                    tab.setText(R.string.tab_pets);
                     break;
             }
         }).attach();

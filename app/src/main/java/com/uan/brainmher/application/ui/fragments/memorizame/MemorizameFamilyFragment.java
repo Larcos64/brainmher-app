@@ -84,22 +84,22 @@ public class MemorizameFamilyFragment extends Fragment {
             case 1:
                 folderCategory = "Family";
                 binding.ivQuestion.setImageResource(R.drawable.img_family_question);
-                binding.titleAddImage.setText("Agregar pregunta de familia");
+                binding.titleAddImage.setText(R.string.add_family_question);
                 break;
             case 2:
                 folderCategory = "Pets";
                 binding.ivQuestion.setImageResource(R.drawable.img_pets_question);
-                binding.titleAddImage.setText("Agregar pregunta de mascotas");
+                binding.titleAddImage.setText(R.string.add_pets_question);
                 break;
             case 3:
                 folderCategory = "Home";
                 binding.ivQuestion.setImageResource(R.drawable.img_home_question);
-                binding.titleAddImage.setText("Agregar pregunta de hogar");
+                binding.titleAddImage.setText(R.string.add_home_question);
                 break;
             case 4:
                 folderCategory = "Places";
                 binding.ivQuestion.setImageResource(R.drawable.img_places_question);
-                binding.titleAddImage.setText("Agregar pregunta de lugar");
+                binding.titleAddImage.setText(R.string.add_places_question);
                 break;
         }
 

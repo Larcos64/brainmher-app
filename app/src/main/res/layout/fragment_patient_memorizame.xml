@@ -5,6 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <!-- MemorizamePatientFragment: Fragmento con las 4 pestañas de memorizame para módulo de paciente -->
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs_memorizame"
         android:layout_width="match_parent"

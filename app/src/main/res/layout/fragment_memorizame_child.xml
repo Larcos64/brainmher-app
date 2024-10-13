@@ -1,6 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMemorizame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_memorizame_recycler" />
+
+        <LinearLayout
+            android:id="@+id/layout_description_memorizame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/twenty">
+
+            <TextView
+                android:id="@+id/lbl_memogame_name"
+                style="@style/StyleCardViewTitles"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thirty"
+                android:gravity="center" />
+
+            <ImageView
+                android:id="@+id/iv_memogame"
+                android:layout_width="@dimen/oneHundredFifty"
+                android:layout_height="@dimen/oneHundredFifty" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/sixteen"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/StyleCardViewSubTitles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/two"
+                    android:text="@string/lbl_description" />
+
+                <TextView
+                    android:id="@+id/lbl_memogame_desc"
+                    style="@style/StyleCardViewDescriptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/StyleCardViewSubTitles"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/twentyFive"
+                    android:layout_marginTop="@dimen/five"
+                    android:text="@string/lbl_instructions" />
+
+                <TextView
+                    android:id="@+id/lbl_memogame_ins"
+                    style="@style/StyleCardViewDescriptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_instructions_questions"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

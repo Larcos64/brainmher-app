@@ -114,6 +114,8 @@
     <string name="rate_no_saved">Error al calificar.</string>
 
     <string name="select_answer">Selecciona una respuesta.</string>
+    <string name="msg_memorizame_success">¡Muy bien, lo lograste! ¿Te gustaría intentarlo otra vez?</string>
+    <string name="msg_memorizame_failed">No pasa nada, vamos a intentarlo de nuevo. ¿Te animas?</string>
 
     // Options
     <string name="male">Masculino</string>

@@ -63,11 +63,13 @@ public class MainCarer extends AppCompatActivity implements IMainCarer {
     @Override
     public void inflateFragment(String fragmentTag) {
         NavController navController = Navigation.findNavController(this, R.id.content_carer);
-        //navController.navigate(R.id.action_homeFragment_to_otherFragment); // Ajustar fragmentos y navegación.
 
         if (fragmentTag.equals(getString(R.string.manage))) {
             Intent intent = new Intent(MainCarer.this, PatientsList.class);
             startActivity(intent);
+        } else if (fragmentTag.equals(getString(R.string.my_care))) {
+            Log.d("Navigation", "Navigating to CareFragment");
+            navController.navigate(R.id.careFragment);
         }
     }
 }

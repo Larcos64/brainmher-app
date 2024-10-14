@@ -12,11 +12,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.uan.brainmher.application.ui.adapters.patient.MemorizamePatientFragmentPageAdapter;
-import com.uan.brainmher.application.ui.adapters.patient.PatientFragmentPageAdapter;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.uan.brainmher.R;
-import com.uan.brainmher.databinding.FragmentPatientMemorizameBinding;
 
 /**
  * Fragmento con las 4 pestañas de memorizame para módulo de paciente

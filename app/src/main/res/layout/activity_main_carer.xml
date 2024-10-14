@@ -27,12 +27,12 @@
 
         <fragment
             android:id="@+id/content_carer"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="androidx.navigation.fragment.NavHostFragment"
             app:defaultNavHost="true"
             app:navGraph="@navigation/carer_navigation"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"></fragment>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             style="@style/StyleBottonNavigation"

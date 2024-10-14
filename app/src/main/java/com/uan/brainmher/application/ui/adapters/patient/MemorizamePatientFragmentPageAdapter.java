@@ -1,19 +1,14 @@
 package com.uan.brainmher.application.ui.adapters.patient;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.uan.brainmher.application.ui.fragments.patients.FamilyChildFragment;
 import com.uan.brainmher.application.ui.fragments.patients.HomeChildFragment;
 import com.uan.brainmher.application.ui.fragments.patients.PetsChildFragment;
 import com.uan.brainmher.application.ui.fragments.patients.PlacesChildFragment;
-//import com.uan.brainmher.application.ui.fragments.home.HomeChildFragment;
-//import com.uan.brainmher.application.ui.fragments.places.PlacesChildFragment;
-//import com.uan.brainmher.application.ui.fragments.pets.PetsChildFragment;
 
 /**
  * Adaptador para gestionar las pestañas de los fragmentos: Family, Home, Places y Pets.

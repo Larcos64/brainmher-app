@@ -60,12 +60,15 @@
     <string name="yes">Si</string>
     <string name="no">No</string>
     <string name="start">Empieza</string>
+    <string name="close">Cerrar</string>
 
     <string name="info">Información</string>
     <string name="emergency">Emergencias</string>
     <string name="my_care">Mi cuidado</string>
     <string name="manage">Gestionar</string>
     <string name="diary">Agenda</string>
+    <string name="exercises">Ejercicios</string>
+    <string name="support">Apoyo</string>
 
     <string name="menu_profile">Perfil</string>
 

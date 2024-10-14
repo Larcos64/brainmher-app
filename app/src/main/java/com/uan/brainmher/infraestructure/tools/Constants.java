@@ -23,7 +23,7 @@ public class Constants {
     //Constants for Patients
     public static final String Memorizame = "Memorizame";
 
-    public static final String Stretching = "Stretching_Exercises";
+    public static final String Stretching = "StretchingExercises";
 
     //Constants for Carer
     public static final String Contacts = "Contacts";

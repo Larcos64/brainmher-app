@@ -237,10 +237,18 @@
         <item name="tabTextAppearance">@style/StyleTextTabs</item>
         <item name="tabRippleColor">@color/colorAccent</item>
         <item name="android:elevation">@dimen/two</item>
+    </style>
+
+    <!-- Strandard style for tabs layout with white color and margin -->
+    <style name="StyleTabLayoutWhiteMargin" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabMode">fixed</item>
+        <item name="tabTextAppearance">@style/StyleTextTabs</item>
+        <item name="tabRippleColor">@color/colorAccent</item>
+        <item name="android:elevation">@dimen/two</item>
         <item name="android:layout_marginTop">@dimen/fiftyFive</item>
     </style>
 
-    <!-- Standard style for button delete in cardview -->
+<!-- Standard style for button delete in cardview -->
     <style name="StyleDeleteCardButton">
         <item name="android:elevation">@dimen/one</item>
         <item name="android:backgroundTint">#6c000000</item>

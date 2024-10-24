@@ -10,4 +10,10 @@
         android:name="com.uan.brainmher.application.ui.fragments.health_professional.TherapyPSFragment"
         android:label="fragment_ps_therapy"
         tools:layout="@layout/fragment_ps_therapy" />
+
+    <fragment
+        android:id="@+id/item_ps_notification"
+        android:name="com.uan.brainmher.application.ui.fragments.health_professional.NotificationPSFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
 </navigation>

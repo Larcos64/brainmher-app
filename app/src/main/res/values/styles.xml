@@ -164,6 +164,16 @@
         <item name="android:elevation">@dimen/two</item>
     </style>
 
+    <!-- Standard style for image button alarm button -->
+    <style name="StyleImageButtonAlarm" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:src">@drawable/ic_access_alarm_black_24dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:clickable">true</item>
+        <item name="android:tintMode">src_in</item>
+        <item name="android:tint">@color/colorPrimaryDark</item>
+    </style>
+
     <!-- Standard style for radio buttons -->
     <style name="StyleRadioButtonForms" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:layout_weight">1</item>

@@ -12,6 +12,7 @@
     <string name="list_patient">Lista de pacientes</string>
     <string name="add_patient">Agregar Paciente</string>
     <string name="execise_name">Nombre del ejercicio</string>
+    <string name="medicine_notification">Notificación Medicamento</string>
 
     // Placeholders, Labels
     <string name="email">Correo electrónico</string>
@@ -29,6 +30,8 @@
     <string name="date_diagnostic">Fecha de diagnóstico</string>
     <string name="diagnostic">Diagnóstico</string>
     <string name="number">Número</string>
+    <string name="hour_format">Hora de inicio: hh:mm</string>
+    <string name="every">Cada:</string>
 
     <string name="lbl_write_question">Escribe una pregunta que corresponda con la imagen.</string>
     <string name="lbl_answer">Escriba una opción de respuesta.</string>
@@ -61,6 +64,8 @@
     <string name="no">No</string>
     <string name="start">Empieza</string>
     <string name="close">Cerrar</string>
+    <string name="alarm_on">Encendida</string>
+    <string name="alarm_off">Apagada</string>
 
     <string name="info">Información</string>
     <string name="emergency">Emergencias</string>
@@ -121,6 +126,8 @@
     <string name="select_answer">Selecciona una respuesta.</string>
     <string name="msg_memorizame_success">¡Muy bien, lo lograste! ¿Te gustaría intentarlo otra vez?</string>
     <string name="msg_memorizame_failed">No pasa nada, vamos a intentarlo de nuevo. ¿Te animas?</string>
+
+    <string name="medicine_reminder">Recuerda que debes tomar o aplicar el medicamento.</string>
 
     // Options
     <string name="male">Masculino</string>

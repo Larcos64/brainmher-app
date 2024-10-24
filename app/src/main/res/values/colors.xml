@@ -18,4 +18,5 @@
     <color name="track_gray">#BDBDBD</color>
 
     <color name="blue">#1e88e5</color>
+    <color name="blueDark">#005cb2</color>
 </resources>

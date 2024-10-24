@@ -155,6 +155,8 @@ public class NotificationPSFragment extends Fragment {
         AutoCompleteTextView editFrequency = dialogView.findViewById(R.id.edit_frequency);
         TextView txtStartHour = dialogView.findViewById(R.id.txt_start_hour);
 
+        txtStartHour.setOnClickListener(v -> setStartHour(txtStartHour));
+
         imgMedicine = dialogView.findViewById(R.id.img_medicine);
 
         Button btnSave = dialogView.findViewById(R.id.btn_save_medicine);
@@ -166,6 +168,28 @@ public class NotificationPSFragment extends Fragment {
         btnCancel.setOnClickListener(v -> alertDialog.dismiss());
 
         btnSave.setOnClickListener(v -> saveMedicine(option, medication, alertDialog, editName, editDescription, editDose, editFrequency, txtStartHour));
+    }
+
+    private void setStartHour(TextView txtStartHour) {
+        // Obtener la hora actual
+        int hour = calendarInstance.get(Calendar.HOUR_OF_DAY);
+        int minute = calendarInstance.get(Calendar.MINUTE);
+
+        // Mostrar el TimePickerDialog
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                (view, selectedHour, selectedMinute) -> {
+                    // Actualizar el Calendar con la hora seleccionada
+                    calendarInstance.set(Calendar.HOUR_OF_DAY, selectedHour);
+                    calendarInstance.set(Calendar.MINUTE, selectedMinute);
+
+                    // Formato de la hora seleccionada para mostrarla en el TextView
+                    String formattedTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendarInstance.getTime());
+
+                    // Asignar el valor al TextView pasado como parámetro
+                    txtStartHour.setText(formattedTime);
+                }, hour, minute, true);  // true para formato 24 horas
+
+        timePickerDialog.show();
     }
 
     private void setupDropdownMenu(AutoCompleteTextView editFrequency) {
@@ -200,8 +224,10 @@ public class NotificationPSFragment extends Fragment {
 
             if (option.equals("create")) {
                 createMedication(medication, uriImage);
+                alertDialog.dismiss();
             } else {
                 updateMedication(medication, uriImage, alertDialog);
+                alertDialog.dismiss();
             }
         } else {
             Toast.makeText(getContext(), "Completa todos los datos", Toast.LENGTH_SHORT).show();

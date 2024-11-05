@@ -314,4 +314,20 @@
         <item name="android:numStars">5</item>
         <item name="android:stepSize">1</item>
     </style>
+
+    <!-- Standard style for buttons in informations -->
+    <style name="StylePrimaryColoredButtonInformation" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:clickable">true</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:padding">@dimen/five</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textSize">@dimen/twentySp</item>
+        <item name="android:enabled">true</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/twenty</item>
+
+        <item name="rippleColor">@color/colorAccent</item>
+    </style>
 </resources>

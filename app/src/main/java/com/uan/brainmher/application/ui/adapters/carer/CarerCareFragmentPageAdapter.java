@@ -6,10 +6,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.uan.brainmher.application.ui.fragments.carer.ExerciseCarerFragment;
+import com.uan.brainmher.application.ui.fragments.carer.InformationCarerFragment;
 
-/**
- * Adaptador para gestionar las pestañas de los fragmentos: Family, Home, Places y Pets.
- */
 public class CarerCareFragmentPageAdapter extends FragmentStateAdapter {
 
     public CarerCareFragmentPageAdapter(@NonNull FragmentActivity fragmentActivity) {
@@ -23,7 +21,7 @@ public class CarerCareFragmentPageAdapter extends FragmentStateAdapter {
             case 0:
                 return new ExerciseCarerFragment();  // motorChildFragmentI passed if needed
             case 1:
-                //return new InformationCarerFragment();
+                return new InformationCarerFragment();
             case 2:
                 //return new WarningCarerFragment();
             default:
@@ -33,6 +31,6 @@ public class CarerCareFragmentPageAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3; // Número total de fragmentos
+        return 2; // Número total de fragmentos
     }
 }

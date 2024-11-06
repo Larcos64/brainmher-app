@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 //import com.uan.brainmher.application.ui.fragments.PhasesEAFragment;
+import com.uan.brainmher.application.ui.fragments.carer.AlzheimerPhasesFragment;
 import com.uan.brainmher.application.ui.fragments.carer.GeneralInformationFragment;
 
 public class AlzheiherInformationAdapter extends FragmentStateAdapter {
@@ -20,7 +21,7 @@ public class AlzheiherInformationAdapter extends FragmentStateAdapter {
             case 0:
                 return new GeneralInformationFragment();
             case 1:
-                //return new PhasesEAFragment();
+                return new AlzheimerPhasesFragment();
             default:
                 throw new IllegalArgumentException("Invalid tab position");
         }

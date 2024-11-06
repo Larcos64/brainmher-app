@@ -17,7 +17,7 @@ public class AlzheimerInformationRepository {
     }
 
     public void getAlzheimerInformation(String type, OnAlzheimerInformationLoaded callback) {
-        db.collection("AlzheimherInformation")
+        db.collection("AlzheimerInformation")
                 .whereEqualTo("type", type)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {

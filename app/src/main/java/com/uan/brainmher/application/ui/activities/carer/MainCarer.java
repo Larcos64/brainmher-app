@@ -47,9 +47,34 @@ public class MainCarer extends AppCompatActivity implements IMainCarer {
         setContentView(binding.getRoot());
 
         //Function to read the items of BottomNavigation
-        BottomNavigationView bottomnNavigationView = findViewById(R.id.navigation_carer);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation_carer);
         NavController navController = Navigation.findNavController(this, R.id.content_carer);
-        NavigationUI.setupWithNavController(bottomnNavigationView, navController);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        // Declara los IDs en variables locales
+        int homeId = R.id.home;
+        int testId = R.id.test;
+        int emergencyId = R.id.emergency;
+        int informationId = R.id.information;
+
+        // Configura el manejo de clics en los elementos del BottomNavigationView
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == homeId) {
+                navController.navigate(R.id.home); // Ajusta según corresponda
+                return true;
+            } else if (itemId == testId) {
+                navController.navigate(R.id.home); // Ajusta según corresponda
+                return true;
+            } else if (itemId == emergencyId) {
+                navController.navigate(R.id.alzheimerInformationFragment); // Ajusta según corresponda
+                return true;
+            } else if (itemId == informationId) {
+                navController.navigate(R.id.alzheimerInformationFragment); // Aquí navegamos a AlzheimerInformationFragment
+                return true;
+            }
+            return false;
+        });
 
         setSupportActionBar(binding.toolbar);
 

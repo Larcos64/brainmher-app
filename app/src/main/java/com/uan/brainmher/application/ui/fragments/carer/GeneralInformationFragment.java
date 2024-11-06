@@ -14,31 +14,30 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.expandable.ExpandableWidgetHelper;
 import com.uan.brainmher.R;
-import com.uan.brainmher.databinding.FragmentInformationCarerBinding;
+import com.uan.brainmher.databinding.FragmentGeneralInformationBinding;
 import com.uan.brainmher.domain.entities.AlzheimerInformation;
-import com.uan.brainmher.domain.entities.CarerInformation;
-import com.uan.brainmher.domain.repositories.InformationCarerRepository;
+import com.uan.brainmher.domain.repositories.AlzheimerInformationRepository;
 
 import java.util.List;
 
-public class InformationCarerFragment extends Fragment {
+public class GeneralInformationFragment extends Fragment {
 
-    private FragmentInformationCarerBinding binding;
-    private InformationCarerRepository repository;
+    private FragmentGeneralInformationBinding binding;
+    private AlzheimerInformationRepository repository;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentInformationCarerBinding.inflate(inflater, container, false);
-        repository = new InformationCarerRepository();
-        loadCareInformation("general"); // Puedes ajustar el tipo según el filtro deseado
+        binding = FragmentGeneralInformationBinding.inflate(inflater, container, false);
+        repository = new AlzheimerInformationRepository();
+        loadAlzheimerInformation("general"); // Ajustar el tipo según el filtro deseado
         return binding.getRoot();
     }
 
-    private void loadCareInformation(String type) {
-        repository.getCarerInformation(type, new InformationCarerRepository.OnInformationCarerLoaded() {
+    private void loadAlzheimerInformation(String type) {
+        repository.getAlzheimerInformation(type, new AlzheimerInformationRepository.OnAlzheimerInformationLoaded() {
             @Override
-            public void onSuccess(List<CarerInformation> informationList) {
+            public void onSuccess(List<AlzheimerInformation> informationList) {
                 displayInformationPanels(informationList);
             }
 
@@ -49,8 +48,8 @@ public class InformationCarerFragment extends Fragment {
         });
     }
 
-    private void displayInformationPanels(List<CarerInformation> informationList) {
-        for (CarerInformation info : informationList) {
+    private void displayInformationPanels(List<AlzheimerInformation> informationList) {
+        for (AlzheimerInformation info : informationList) {
             View panelView = LayoutInflater.from(getContext()).inflate(R.layout.panel_information, binding.container, false);
 
             MaterialButton button = panelView.findViewById(R.id.expand_button);

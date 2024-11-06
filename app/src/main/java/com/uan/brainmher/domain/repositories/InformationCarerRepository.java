@@ -2,7 +2,7 @@ package com.uan.brainmher.domain.repositories;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.uan.brainmher.domain.entities.InformationCarer;
+import com.uan.brainmher.domain.entities.CarerInformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +12,18 @@ public class InformationCarerRepository {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public interface OnInformationCarerLoaded {
-        void onSuccess(List<InformationCarer> informationList);
+        void onSuccess(List<CarerInformation> informationList);
         void onFailure(Exception e);
     }
 
-    public void getInformationCarer(String type, OnInformationCarerLoaded callback) {
-        db.collection("InformationCarer")
+    public void getCarerInformation(String type, OnInformationCarerLoaded callback) {
+        db.collection("CarerInformation")
                 .whereEqualTo("type", type)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    List<InformationCarer> informationList = new ArrayList<>();
+                    List<CarerInformation> informationList = new ArrayList<>();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        InformationCarer info = document.toObject(InformationCarer.class);
+                        CarerInformation info = document.toObject(CarerInformation.class);
                         informationList.add(info);
                     }
                     callback.onSuccess(informationList);

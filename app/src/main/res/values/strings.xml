@@ -66,6 +66,8 @@
     <string name="close">Cerrar</string>
     <string name="alarm_on">Encendida</string>
     <string name="alarm_off">Apagada</string>
+    <string name="general_information">Info. General</string>
+    <string name="phases_ea">Fases E.A.</string>
 
     <string name="info">Información</string>
     <string name="emergency">Emergencias</string>

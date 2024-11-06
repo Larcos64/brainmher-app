@@ -1,15 +1,15 @@
 package com.uan.brainmher.domain.entities;
 
-public class InformationCarer {
+public class CarerInformation {
 
     private String title;
     private String description;
     private String type;
 
-    public InformationCarer() {
+    public CarerInformation() {
     }
 
-    public InformationCarer(String title, String description, String type) {
+    public CarerInformation(String title, String description, String type) {
         this.title = title;
         this.description = description;
         this.type = type;

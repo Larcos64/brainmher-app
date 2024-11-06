@@ -21,4 +21,18 @@
         android:text="Description"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/more_info_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:text="Más información"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/ic_info"
+        android:drawablePadding="4dp"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:autoLink="web"/>
+
 </LinearLayout>

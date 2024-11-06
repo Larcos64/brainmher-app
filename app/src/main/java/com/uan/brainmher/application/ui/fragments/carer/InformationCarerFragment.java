@@ -14,7 +14,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.expandable.ExpandableWidgetHelper;
 import com.uan.brainmher.R;
-import com.uan.brainmher.databinding.FragmentInformationCarerBinding;
+import com.uan.brainmher.databinding.FragmentInformationListBinding;
 import com.uan.brainmher.domain.entities.AlzheimerInformation;
 import com.uan.brainmher.domain.entities.CarerInformation;
 import com.uan.brainmher.domain.repositories.InformationCarerRepository;
@@ -23,13 +23,13 @@ import java.util.List;
 
 public class InformationCarerFragment extends Fragment {
 
-    private FragmentInformationCarerBinding binding;
+    private FragmentInformationListBinding binding;
     private InformationCarerRepository repository;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentInformationCarerBinding.inflate(inflater, container, false);
+        binding = FragmentInformationListBinding.inflate(inflater, container, false);
         repository = new InformationCarerRepository();
         loadCareInformation("general"); // Puedes ajustar el tipo según el filtro deseado
         return binding.getRoot();

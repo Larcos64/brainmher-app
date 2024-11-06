@@ -12,20 +12,20 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.uan.brainmher.R;
-import com.uan.brainmher.databinding.FragmentAlzheimerPhasesBinding;
+import com.uan.brainmher.databinding.FragmentInformationListBinding;
 import com.uan.brainmher.domain.entities.AlzheimerInformation;
 import com.uan.brainmher.domain.repositories.AlzheimerInformationRepository;
 
 import java.util.List;
 
 public class AlzheimerPhasesFragment extends Fragment {
-    private FragmentAlzheimerPhasesBinding binding;
+    private FragmentInformationListBinding binding;
     private AlzheimerInformationRepository repository;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentAlzheimerPhasesBinding.inflate(inflater, container, false);
+        binding = FragmentInformationListBinding.inflate(inflater, container, false);
         repository = new AlzheimerInformationRepository();
         loadAlzheimerInformation("phase"); // Ajustar el tipo según el filtro deseado
         return binding.getRoot();

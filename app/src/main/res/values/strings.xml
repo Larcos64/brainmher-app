@@ -116,6 +116,11 @@
     <string name="image_elimination_failed">Error al eliminar imágen</string>
     <string name="no_cognitive_excercises">No hay ejercicios cognitivos</string>
     <string name="error_loading_data">Error al obtener datos</string>
+    <string name="exercise_assignment">Ejercicio asignado.</string>
+    <string name="failed_exercise_assignment">Asignacion fallida.</string>
+    <string name="failed_management">Gestión fallida</string>
+    <string name="unassigned_exercise">Ejercicio desasignado.</string>
+    <string name="error_to_deallocate">Error al desasignar.</string>
 
     <string name="add_family_question">Agregar Pregunta de Familia</string>
     <string name="add_home_question">Agregar Pregunta de Hogar</string>

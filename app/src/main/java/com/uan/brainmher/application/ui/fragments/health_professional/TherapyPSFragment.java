@@ -75,7 +75,7 @@ public class TherapyPSFragment extends Fragment {
                 case 0:
                     return new CognitiveTherapyPSFragment();
                 case 1:
-                    return new MotorTherapyPSFragment();
+                    return new MotorTherapyPSFragment(args);
                 case 2:
                     return new MemorizameParentFragment();
                 default:

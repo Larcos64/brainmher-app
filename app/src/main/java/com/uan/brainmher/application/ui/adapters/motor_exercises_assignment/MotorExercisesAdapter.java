@@ -51,9 +51,9 @@ public class MotorExercisesAdapter extends FirestoreRecyclerAdapter<MotorExcerci
         final String idDoc = excerciseDocument.getId();
 
         // Binding views with data
-        Glide.with(context).load(model.getUriGifExcercise()).fitCenter().into(holder.binding.physicalExerciseImagevGif);
-        holder.binding.physicalExerciseTxtvName.setText(model.getNameExcercise());
-        holder.binding.physicalExerciseTxtvResume.setText(model.getDescriptionExcercise());
+        Glide.with(context).load(model.getUriGifExercise()).fitCenter().into(holder.binding.physicalExerciseImagevGif);
+        holder.binding.physicalExerciseTxtvName.setText(model.getNameExercise());
+        holder.binding.physicalExerciseTxtvResume.setText(model.getDescriptionExercise());
         holder.binding.dataFinished.setText(model.getFinished());
         holder.binding.dataRatingMotor.setText(String.valueOf(model.getRating()));
         holder.binding.ratingBarMotor.setRating(model.getRating());

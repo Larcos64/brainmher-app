@@ -1,46 +1,28 @@
 package com.uan.brainmher.domain.entities;
 
-public class MotorExcercisesAssignment {
+import java.util.List;
 
-    private String uidPatient;
-    private String uriGifExercise;
+public class MotorExercises {
+
     private int idExercise;
+    private String uriGifExercise;
     private String nameExercise;
     private String descriptionExercise;
     private String longDescriptionExercise;
     private int timeExercise;
-    private String finished;
-    private int rating;
+    private List<String> assignments;
 
-    public MotorExcercisesAssignment() {
+    public MotorExercises() {
     }
 
-    public MotorExcercisesAssignment(String uidPatient, String uriGifExercise, int idExercise, String nameExercise, String descriptionExercise, String longDescriptionExercise, Integer timeExercise, String finished, Integer rating) {
-        this.uidPatient = uidPatient;
-        this.uriGifExercise = uriGifExercise;
+    public MotorExercises(int idExercise, String uriGifExercise, String nameExercise, String descriptionExercise, String longDescriptionExercise, int timeExercise, List<String> assignments) {
         this.idExercise = idExercise;
+        this.uriGifExercise = uriGifExercise;
         this.nameExercise = nameExercise;
         this.descriptionExercise = descriptionExercise;
         this.longDescriptionExercise = longDescriptionExercise;
         this.timeExercise = timeExercise;
-        this.finished = finished;
-        this.rating = rating;
-    }
-
-    public String getUidPatient() {
-        return uidPatient;
-    }
-
-    public void setUidPatient(String uidPatient) {
-        this.uidPatient = uidPatient;
-    }
-
-    public String getUriGifExercise() {
-        return uriGifExercise;
-    }
-
-    public void setUriGifExercise(String uriGifExercise) {
-        this.uriGifExercise = uriGifExercise;
+        this.assignments = assignments;
     }
 
     public int getIdExercise() {
@@ -49,6 +31,14 @@ public class MotorExcercisesAssignment {
 
     public void setIdExercise(int idExercise) {
         this.idExercise = idExercise;
+    }
+
+    public String getUriGifExercise() {
+        return uriGifExercise;
+    }
+
+    public void setUriGifExercise(String uriGifExercise) {
+        this.uriGifExercise = uriGifExercise;
     }
 
     public String getNameExercise() {
@@ -83,19 +73,11 @@ public class MotorExcercisesAssignment {
         this.timeExercise = timeExercise;
     }
 
-    public String getFinished() {
-        return finished;
+    public List<String> getAssignments() {
+        return assignments;
     }
 
-    public void setFinished(String finished) {
-        this.finished = finished;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setAssignments(List<String> assignments) {
+        this.assignments = assignments;
     }
 }

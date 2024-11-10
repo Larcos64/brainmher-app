@@ -78,6 +78,7 @@ public class CognitiveChildFragment extends Fragment {
 
     private void fillRecycler() {
         listCognitiveExcercises.setLayoutManager(new LinearLayoutManager(getContext()));
+        listCognitiveExcercises.setItemAnimator(null);
 
         Query query = repository.getCognitiveAssignmentsQuery(firebaseUser.getUid());
         FirestoreRecyclerOptions<CognitiveExercisesAssignment> options = new FirestoreRecyclerOptions.Builder<CognitiveExercisesAssignment>()

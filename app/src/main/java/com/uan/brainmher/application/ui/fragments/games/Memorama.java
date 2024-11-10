@@ -91,6 +91,10 @@ public class Memorama extends Fragment {
         itemQuince = view.findViewById(R.id.item_quince);
         itemDieciseis = view.findViewById(R.id.item_dieciseis);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+
         return view;
     }
 

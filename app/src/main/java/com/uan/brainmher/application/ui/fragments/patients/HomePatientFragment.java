@@ -19,6 +19,9 @@ public class HomePatientFragment extends Fragment {
     private MotorChildFragment.MotorChildFragmentI motorChildFragmentI;
     private FragmentHomePatientBinding binding;
 
+    public HomePatientFragment() {
+    }
+
     public static HomePatientFragment newInstance(MotorChildFragment.MotorChildFragmentI motorChildFragmentI) {
         return new HomePatientFragment(motorChildFragmentI);
     }

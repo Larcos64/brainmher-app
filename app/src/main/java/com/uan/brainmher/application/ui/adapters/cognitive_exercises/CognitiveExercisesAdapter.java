@@ -19,10 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.card.MaterialCardView;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.uan.brainmher.R;
 import com.uan.brainmher.domain.entities.CognitiveExercisesAssignment;
@@ -109,8 +106,8 @@ public class CognitiveExercisesAdapter extends FirestoreRecyclerAdapter<Cognitiv
 
     private void updateRating(String idDoc, Integer newRating) {
         repository.updateAssignmentRating(idDoc, newRating)
-                .addOnSuccessListener(aVoid -> Toast.makeText(context, "Calificación guardada.", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(context, "Error al guardar calificación.", Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(aVoid -> Toast.makeText(context, R.string.rate_saved, Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(context, R.string.rate_no_saved, Toast.LENGTH_SHORT).show());
     }
 
     @NonNull

@@ -48,9 +48,11 @@
     <dimen name="seventeenSp">17sp</dimen>
     <dimen name="oneHundredNinetyFourDp">194dp</dimen>
 
-    <!-- dimenciones de 5  -->
+    <!-- sp dimentions  -->
     <dimen name="fiveSp">5sp</dimen>
+    <dimen name="tenSp">10sp</dimen>
     <dimen name="fifteenSp">15sp</dimen>
-
     <dimen name="twentySp">20sp</dimen>
+    <dimen name="twentyFiveSp">25sp</dimen>
+    <dimen name="fiftySp">50sp</dimen>
 </resources>

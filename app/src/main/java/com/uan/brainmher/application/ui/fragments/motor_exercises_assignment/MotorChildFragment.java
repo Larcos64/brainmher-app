@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,35 +58,62 @@ public class MotorChildFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        motorExercisesAdapter.startListening();
+        if (motorExercisesAdapter != null && isAdded()) {
+            try {
+                motorExercisesAdapter.startListening();
+            } catch (Exception e) {
+                Log.e("MotorChildFragment", "Error in onResume: " + e.getMessage(), e);
+            }
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        motorExercisesAdapter.startListening();
+        if (motorExercisesAdapter != null && isAdded()) {
+            try {
+                motorExercisesAdapter.startListening();
+            } catch (Exception e) {
+                Log.e("MotorChildFragment", "Error in onStart: " + e.getMessage(), e);
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        if (motorExercisesAdapter != null) {
+            motorExercisesAdapter.stopListening();
+        }
+        super.onPause();
     }
 
     @Override
     public void onStop() {
+        if (motorExercisesAdapter != null) {
+            motorExercisesAdapter.stopListening();
+        }
         super.onStop();
-        motorExercisesAdapter.stopListening();
     }
 
     private void fillRecycler() {
-        binding.rvMotorExercises.setLayoutManager(new LinearLayoutManager(getContext()));
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        try {
+            binding.rvMotorExercises.setLayoutManager(new LinearLayoutManager(getContext()));
+            binding.rvMotorExercises.setItemAnimator(null);
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Query query = db.collection(Constants.MotorExercisesAssignments)
-                .whereEqualTo("uidPatient", firebaseUser.getUid());
+            Query query = db.collection(Constants.MotorExercisesAssignments)
+                    .whereEqualTo("uidPatient", firebaseUser.getUid());
 
-        FirestoreRecyclerOptions<MotorExcercisesAssignment> firestoreRecyclerOptions =
-                new FirestoreRecyclerOptions.Builder<MotorExcercisesAssignment>()
-                        .setQuery(query, MotorExcercisesAssignment.class).build();
+            FirestoreRecyclerOptions<MotorExcercisesAssignment> firestoreRecyclerOptions =
+                    new FirestoreRecyclerOptions.Builder<MotorExcercisesAssignment>()
+                            .setQuery(query, MotorExcercisesAssignment.class).build();
 
-        motorExercisesAdapter = new MotorExercisesAdapter(firestoreRecyclerOptions, getActivity(), motorChildFragmentI);
-        motorExercisesAdapter.notifyDataSetChanged();
-        binding.rvMotorExercises.setAdapter(motorExercisesAdapter);
+            motorExercisesAdapter = new MotorExercisesAdapter(firestoreRecyclerOptions, getActivity(), motorChildFragmentI);
+            binding.rvMotorExercises.setAdapter(motorExercisesAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("fillRecycler ERROR", "Error setting up RecyclerView: " + e.getMessage());
+        }
     }
 
     public interface MotorChildFragmentI {
@@ -94,7 +122,10 @@ public class MotorChildFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        if (motorExercisesAdapter != null) {
+            motorExercisesAdapter.stopListening();
+        }
         super.onDestroyView();
-        binding = null; // Avoid memory leaks by setting the binding to null
+        binding = null;
     }
 }

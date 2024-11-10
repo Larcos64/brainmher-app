@@ -70,13 +70,13 @@ public class MainPatient extends AppCompatActivity {
             int itemId = item.getItemId();
 
             if (itemId == R.id.home_patient) {
-                binding.viewPager.getViewPager().setCurrentItem(0);  // Llamamos al ViewPager2 interno
+                binding.viewPager.getViewPager().setCurrentItem(0);
                 return true;
             } else if (itemId == R.id.memorizame_patient) {
-                binding.viewPager.getViewPager().setCurrentItem(1);  // Llamamos al ViewPager2 interno
+                binding.viewPager.getViewPager().setCurrentItem(1);
                 return true;
             } else if (itemId == R.id.notifications_patient) {
-                binding.viewPager.getViewPager().setCurrentItem(2);  // Llamamos al ViewPager2 interno
+                binding.viewPager.getViewPager().setCurrentItem(2);
                 return true;
             }
 

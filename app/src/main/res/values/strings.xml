@@ -13,6 +13,7 @@
     <string name="add_patient">Agregar Paciente</string>
     <string name="execise_name">Nombre del ejercicio</string>
     <string name="medicine_notification">Notificación Medicamento</string>
+    <string name="title_activity_games">Juegos</string>
 
     // Placeholders, Labels
     <string name="email">Correo electrónico</string>
@@ -68,6 +69,7 @@
     <string name="alarm_off">Apagada</string>
     <string name="general_information">Info. General</string>
     <string name="phases_ea">Fases E.A.</string>
+    <string name="practice">Practicar</string>
 
     <string name="info">Información</string>
     <string name="emergency">Emergencias</string>
@@ -134,6 +136,11 @@
     <string name="msg_memorizame_success">¡Muy bien, lo lograste! ¿Te gustaría intentarlo otra vez?</string>
     <string name="msg_memorizame_failed">No pasa nada, vamos a intentarlo de nuevo. ¿Te animas?</string>
 
+    <string name="win_messege">!Felicitaciones, así se hace!.</string>
+    <string name="win_cont_messege">¿Quieres volver a intentarlo?</string>
+    <string name="reload">Recargar</string>
+    <string name="volver_juego">Volver al menu</string>
+
     <string name="medicine_reminder">Recuerda que debes tomar o aplicar el medicamento.</string>
 
     // Options
@@ -161,4 +168,7 @@
         <item>Uruguay</item>
         <item>Venezuela</item>
     </string-array>
+
+    <string name="exersice_description">Además de proporcionar beneficios al estado físico en general, los ejercicios con cuerda tienen efectos particularmente interesantes para determinadas personas y prácticas deportivas.
+        Los músculos de los brazos y de las piernas (pantorrillas, muslos y glúteos) se desarrollan y fortalecen, perdiendo su flacidez y mejorando su forma, mientras el cuello, los hombros y el pecho se ensanchan y se vuelven firmes.</string>
 </resources>

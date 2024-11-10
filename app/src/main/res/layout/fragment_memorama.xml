@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/rowItem">
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_uno"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_dos"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_tres"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_cuatro"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/rowItem">
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_cinco"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_seis"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_siete"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_ocho"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/rowItem">
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_nueve"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_diez"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_once"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_doce"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/rowItem">
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_trece"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_catorce"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_quince"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/card">
+
+            <ImageView
+                android:id="@+id/item_dieciseis"
+                style="@style/item" />
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</LinearLayout>

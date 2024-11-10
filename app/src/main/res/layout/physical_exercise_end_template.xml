@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:padding="@dimen/tenSp"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/win_messege"
+        android:textAlignment="center"
+        android:textSize="@dimen/twentyFiveSp"
+        android:id="@+id/text_win"
+        android:textColor="@color/colorPrimary"/>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_below="@id/text_win"
+        android:layout_above="@id/txt_restart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/win_gif" />
+
+    <TextView
+        android:id="@+id/txt_restart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ten"
+        android:text="@string/win_cont_messege"
+        android:textAlignment="center"
+        android:textSize="@dimen/twentySp"
+        android:layout_above="@id/cont_layout"
+        android:padding="@dimen/tenSp"
+        android:textColor="@color/colorGray"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/cont_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/five">
+
+        <Button
+            android:id="@+id/physicla_exercise_winp_reload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:text="@string/reload"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/physical_exercise_winp_btnonback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/five"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:text="@string/volver_juego"
+            android:textColor="@color/white"
+            />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -64,9 +64,9 @@ public class HomePatientFragment extends Fragment {
             // Configuración de fragmentos según la pestaña
             switch (position) {
                 case 0:
-                    return new CognitiveChildFragment();  // Primer fragmento
+                    return new CognitiveChildFragment();  // Ejercicios Cognitivos
                 case 1:
-                    return new MotorChildFragment(motorChildFragmentI);  // Segundo fragmento
+                    return new MotorChildFragment(motorChildFragmentI);  // Ejercicios Motrices
                 default:
                     return null;
             }

@@ -1,5 +1,6 @@
 package com.uan.brainmher.application.ui.activities.patient;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,15 +14,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.uan.brainmher.R;
+import com.uan.brainmher.application.ui.activities.Games;
 import com.uan.brainmher.application.ui.adapters.patient.PatientFragmentPageAdapter;
 import com.uan.brainmher.application.ui.helpers.CustomViewPager;
 import com.uan.brainmher.application.ui.helpers.NavigationViewHelper;
+import com.uan.brainmher.application.ui.interfaces.ICommunicateFragment;
 import com.uan.brainmher.databinding.ActivityMainPatientBinding;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainPatient extends AppCompatActivity {
+public class MainPatient extends AppCompatActivity implements ICommunicateFragment {
     private ActivityMainPatientBinding binding;
     private int[] galeria = {R.drawable.motivational_1, R.drawable.motivational_2, R.drawable.motivational_3,
             R.drawable.motivational_4, R.drawable.motivational_5, R.drawable.motivational_6, R.drawable.motivational_7,
@@ -113,5 +116,12 @@ public class MainPatient extends AppCompatActivity {
                 });
             }
         }, 0, DURATION);
+    }
+
+    @Override
+    public void inicarJuego() {
+        Intent pasar = new Intent(MainPatient.this, Games.class);
+        pasar.putExtra("Game", "Memorama");
+        startActivity(pasar);
     }
 }

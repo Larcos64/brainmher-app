@@ -1,42 +1,100 @@
 package com.uan.brainmher.application.ui.fragments.cognitive_exercises_assignment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.uan.brainmher.databinding.FragmentCognitiveChildBinding;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.Query;
+import com.uan.brainmher.R;
+import com.uan.brainmher.application.ui.adapters.cognitive_exercises.CognitiveExercisesAdapter;
+import com.uan.brainmher.application.ui.interfaces.ICommunicateFragment;
+import com.uan.brainmher.domain.entities.CognitiveExercisesAssignment;
+import com.uan.brainmher.domain.repositories.CognitiveExercisesAssignmentRepository;
 
 public class CognitiveChildFragment extends Fragment {
 
-    private FragmentCognitiveChildBinding binding;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private CognitiveExercisesAdapter cognitiveExcercisesAdapter;
+    private RecyclerView listCognitiveExcercises;
+    private ICommunicateFragment interfaceComunicateFragments;
+    private View vista;
+    private Activity activity;
+    private CognitiveExercisesAdapter.ISelectionItem iSelectionItem;
+    private final CognitiveExercisesAssignmentRepository repository = new CognitiveExercisesAssignmentRepository();
 
-    public static CognitiveChildFragment newInstance() {
-        return new CognitiveChildFragment();
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        vista = inflater.inflate(R.layout.fragment_cognitive_child, container, false);
+        listCognitiveExcercises = vista.findViewById(R.id.list_cognitive_excercises);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        eventLogicSelectItem();
+        fillRecycler();
+        return vista;
     }
 
-    public CognitiveChildFragment() {
-        // Required empty public constructor
+    private void eventLogicSelectItem() {
+        iSelectionItem = () -> interfaceComunicateFragments.inicarJuego();
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout using View Binding
-        binding = FragmentCognitiveChildBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+    public void onResume() {
+        super.onResume();
+        if (cognitiveExcercisesAdapter != null) {
+            cognitiveExcercisesAdapter.startListening();
+        }
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // Aquí no se añade lógica adicional, ya que el fragmento debe estar vacío
+    public void onStart() {
+        super.onStart();
+        if (cognitiveExcercisesAdapter != null) {
+            cognitiveExcercisesAdapter.startListening();
+        }
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null; // Evita fugas de memoria
+    public void onStop() {
+        super.onStop();
+        if (cognitiveExcercisesAdapter != null) {
+            cognitiveExcercisesAdapter.stopListening();
+        }
+    }
+
+    private void fillRecycler() {
+        listCognitiveExcercises.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        Query query = repository.getCognitiveAssignmentsQuery(firebaseUser.getUid());
+        FirestoreRecyclerOptions<CognitiveExercisesAssignment> options = new FirestoreRecyclerOptions.Builder<CognitiveExercisesAssignment>()
+                .setQuery(query, CognitiveExercisesAssignment.class)
+                .build();
+
+        cognitiveExcercisesAdapter = new CognitiveExercisesAdapter(options, getActivity(), iSelectionItem);
+        cognitiveExcercisesAdapter.notifyDataSetChanged();
+        listCognitiveExcercises.setAdapter(cognitiveExcercisesAdapter);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof Activity) {
+            activity = (Activity) context;
+            interfaceComunicateFragments = (ICommunicateFragment) activity;
+        }
     }
 }

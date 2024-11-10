@@ -73,13 +73,13 @@ public class TherapyPSFragment extends Fragment {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
-                    return new CognitiveTherapyPSFragment();
+                    return new CognitiveTherapyPSFragment(args);
                 case 1:
                     return new MotorTherapyPSFragment(args);
                 case 2:
                     return new MemorizameParentFragment();
                 default:
-                    return new CognitiveTherapyPSFragment();
+                    return new CognitiveTherapyPSFragment(args);
             }
         }
 

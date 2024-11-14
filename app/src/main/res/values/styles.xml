@@ -352,4 +352,20 @@
         <item name="cardElevation">5dp</item>
         <item name="cardUseCompatPadding">true</item>
     </style>
+
+    <!-- Standard style for layout button actions in card view -->
+    <style name="StyleLayoutButtonActionCardView">
+        <item name="android:layout_marginTop">@dimen/ten</item>
+        <item name="android:layout_marginLeft">@dimen/ten</item>
+        <item name="android:layout_marginBottom">@dimen/ten</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- Standard style for text button in card view -->
+    <style name="StyleTextButtonCardView" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">@dimen/twenty</item>
+        <item name="rippleColor">@color/colorAccent</item>
+    </style>
 </resources>

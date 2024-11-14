@@ -3,6 +3,7 @@ package com.uan.brainmher.application.ui.fragments.games;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uan.brainmher.R;
 import com.uan.brainmher.domain.entities.MemoramaEntity;
-// import com.uan.brainmher.data.ScoreGame;
 import com.uan.brainmher.domain.entities.ScoreGame;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
@@ -298,7 +298,7 @@ public class Memorama extends Fragment {
             }
         }
 
-        DocumentReference docRefAd = db.collection(Constants.scoreGames).document(firebaseUser.getUid());
+        DocumentReference docRefAd = db.collection(Constants.ScoreGames).document(firebaseUser.getUid());
         final double finalPuntuacion = puntuacion;
         docRefAd.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -329,7 +329,7 @@ public class Memorama extends Fragment {
                 }
 
                 //guardar nuevos datos
-                db.collection(Constants.scoreGames).document(firebaseAuth.getUid()).set(scoreGame);
+                db.collection(Constants.ScoreGames).document(firebaseAuth.getUid()).set(scoreGame);
 
             }
         }).addOnFailureListener(new OnFailureListener() {

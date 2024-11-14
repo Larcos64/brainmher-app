@@ -92,6 +92,8 @@
     <string name="tab_pets">Mascotas</string>
     <string name="tab_cognitive_exercises">Ejercicios Cognitivos</string>
     <string name="tab_motor_exercises">Ejercicios Motrices</string>
+    <string name="tab_medicaments">Medicamentos</string>
+    <string name="tab_therapies">Terapias</string>
 
     // Alers, messages
     <string name="val_min_password">Debe contener almenos 7 caracteres</string>
@@ -123,6 +125,7 @@
     <string name="failed_management">Gestión fallida</string>
     <string name="unassigned_exercise">Ejercicio desasignado.</string>
     <string name="error_to_deallocate">Error al desasignar.</string>
+    <string name="no_notifications">No hay notificaciones</string>
 
     <string name="add_family_question">Agregar Pregunta de Familia</string>
     <string name="add_home_question">Agregar Pregunta de Hogar</string>
@@ -142,6 +145,14 @@
     <string name="volver_juego">Volver al menu</string>
 
     <string name="medicine_reminder">Recuerda que debes tomar o aplicar el medicamento.</string>
+    <string name="lbl_frequency">Tomar cada:</string>
+    <string name="lbl_hours">Hora de inicio:</string>
+    <string name="lbl_start_date">Fecha de inicio:</string>
+    <string name="lbl_end_date">Fecha de finalización:</string>
+    <string name="lbl_recibe_date">Fecha de receta:</string>
+    <string name="lbl_dose">Dosis:</string>
+    <string name="btn_show_info">Mostrar</string>
+    <string name="btn_hide_info">Ocultar</string>
 
     // Options
     <string name="male">Masculino</string>

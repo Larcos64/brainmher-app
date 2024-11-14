@@ -15,5 +15,5 @@
         android:id="@+id/item_ps_notification"
         android:name="com.uan.brainmher.application.ui.fragments.health_professional.NotificationPSFragment"
         android:label="fragment_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_notifications_patient" />
 </navigation>

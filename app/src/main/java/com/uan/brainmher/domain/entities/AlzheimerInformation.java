@@ -6,14 +6,17 @@ public class AlzheimerInformation {
     private String description;
     private String type;
     private String link;
+    private int order; // Nuevo campo para ordenamiento
+
     public AlzheimerInformation() {
     }
 
-    public AlzheimerInformation(String title, String description, String type, String link) {
+    public AlzheimerInformation(String title, String description, String type, String link, int order) {
         this.title = title;
         this.description = description;
         this.type = type;
         this.link = link;
+        this.order = order;
     }
 
     public String getTitle() {
@@ -30,5 +33,13 @@ public class AlzheimerInformation {
 
     public String getLink() {
         return link;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

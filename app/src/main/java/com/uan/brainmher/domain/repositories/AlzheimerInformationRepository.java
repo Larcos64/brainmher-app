@@ -19,6 +19,7 @@ public class AlzheimerInformationRepository {
     public void getAlzheimerInformation(String type, OnAlzheimerInformationLoaded callback) {
         db.collection("AlzheimerInformation")
                 .whereEqualTo("type", type)
+                .orderBy("order") // Ordena por el campo 'order' de forma ascendente
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<AlzheimerInformation> informationList = new ArrayList<>();

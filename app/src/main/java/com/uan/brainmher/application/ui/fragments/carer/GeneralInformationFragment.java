@@ -3,6 +3,8 @@ package com.uan.brainmher.application.ui.fragments.carer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +59,10 @@ public class GeneralInformationFragment extends Fragment {
             TextView moreInfoLink = panelView.findViewById(R.id.more_info_link);
 
             button.setText(info.getTitle());
-            descriptionView.setText(info.getDescription());
+
+            // Convertir la descripción en HTML
+            Spanned formattedDescription = Html.fromHtml(info.getDescription(), Html.FROM_HTML_MODE_COMPACT);
+            descriptionView.setText(formattedDescription);
 
             // Configura el enlace si existe una URL
             if (info.getLink() != null && !info.getLink().isEmpty()) {
@@ -86,7 +91,6 @@ public class GeneralInformationFragment extends Fragment {
             binding.container.addView(panelView);
         }
     }
-
 
     @Override
     public void onDestroyView() {

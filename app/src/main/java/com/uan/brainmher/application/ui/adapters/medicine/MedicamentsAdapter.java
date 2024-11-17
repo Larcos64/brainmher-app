@@ -28,19 +28,21 @@ public class MedicamentsAdapter extends FirestoreRecyclerAdapter<MedicationAssig
 
     @Override
     protected void onBindViewHolder(@NonNull MeicamentsViewHolder holder, int position, @NonNull MedicationAssignment model) {
-        final DocumentSnapshot medicamentDocument = getSnapshots().getSnapshot(position);
-        holder.bindData(medicamentDocument.toObject(MedicationAssignment.class));
+        if (model != null) {
+            final DocumentSnapshot medicamentDocument = getSnapshots().getSnapshot(position);
+            holder.bindData(medicamentDocument.toObject(MedicationAssignment.class));
 
-        holder.binding.btnShowHideMedicament.setOnClickListener(view -> {
-            iSelectItemMedicaments.clickSelect(medicamentDocument.toObject(MedicationAssignment.class));
-            if (holder.binding.expandableMedicamentView.getVisibility() == View.GONE) {
-                TransitionManager.beginDelayedTransition(holder.binding.cardActivityMedicaments, new AutoTransition());
-                holder.binding.expandableMedicamentView.setVisibility(View.VISIBLE);
-            } else {
-                TransitionManager.beginDelayedTransition(holder.binding.cardActivityMedicaments, new AutoTransition());
-                holder.binding.expandableMedicamentView.setVisibility(View.GONE);
-            }
-        });
+            holder.binding.btnShowHideMedicament.setOnClickListener(view -> {
+                iSelectItemMedicaments.clickSelect(medicamentDocument.toObject(MedicationAssignment.class));
+                if (holder.binding.expandableMedicamentView.getVisibility() == View.GONE) {
+                    TransitionManager.beginDelayedTransition(holder.binding.cardActivityMedicaments, new AutoTransition());
+                    holder.binding.expandableMedicamentView.setVisibility(View.VISIBLE);
+                } else {
+                    TransitionManager.beginDelayedTransition(holder.binding.cardActivityMedicaments, new AutoTransition());
+                    holder.binding.expandableMedicamentView.setVisibility(View.GONE);
+                }
+            });
+        }
     }
 
     @NonNull

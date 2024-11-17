@@ -81,4 +81,7 @@ dependencies {
 
     // dependence for create of Gif
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.29")
+
+    // ProfileInstaller: Optimize application performance
+    implementation("androidx.profileinstaller:profileinstaller:1.3.1")
 }

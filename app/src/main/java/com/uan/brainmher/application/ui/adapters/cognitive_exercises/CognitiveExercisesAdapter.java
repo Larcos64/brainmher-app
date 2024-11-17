@@ -68,7 +68,7 @@ public class CognitiveExercisesAdapter extends FirestoreRecyclerAdapter<Cognitiv
 
     @Override
     protected void onBindViewHolder(@NonNull final ViewHolder holder, final int position, @NonNull CognitiveExercisesAssignment model) {
-        final DocumentSnapshot cognitiveDocument = getSnapshots().getSnapshot(holder.getAdapterPosition());
+        final DocumentSnapshot cognitiveDocument = getSnapshots().getSnapshot(position);
         final String idDoc = cognitiveDocument.getId();
 
         // Set data to views

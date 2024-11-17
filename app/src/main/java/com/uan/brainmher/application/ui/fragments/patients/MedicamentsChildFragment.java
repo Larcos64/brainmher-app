@@ -75,11 +75,15 @@ public class MedicamentsChildFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        medicamentsAdapter.stopListening();
+        if (medicamentsAdapter != null) {
+            medicamentsAdapter.stopListening();
+        }
     }
 
     private void initRecycler() {
         binding.listNotificationsMedicaments.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.listNotificationsMedicaments.setItemAnimator(null);
+
         Query query = db.collection(Constants.Medicines).document(user.getUid()).collection(Constants.Medicine);
 
         FirestoreRecyclerOptions<MedicationAssignment> options = new FirestoreRecyclerOptions.Builder<MedicationAssignment>()
@@ -98,6 +102,7 @@ public class MedicamentsChildFragment extends Fragment {
         });
 
         binding.listNotificationsMedicaments.setAdapter(medicamentsAdapter);
+        medicamentsAdapter.notifyDataSetChanged();
     }
 
     private void setUpAlarms() {

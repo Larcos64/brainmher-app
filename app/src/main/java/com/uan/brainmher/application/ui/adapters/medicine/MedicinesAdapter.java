@@ -33,21 +33,23 @@ public class MedicinesAdapter extends FirestoreRecyclerAdapter<MedicationAssignm
 
     @Override
     protected void onBindViewHolder(@NonNull MedicinesViewHolder holder, int position, @NonNull MedicationAssignment model) {
-        final DocumentSnapshot medicineDocument = getSnapshots().getSnapshot(holder.getBindingAdapterPosition());
+        if (model != null) {
+            final DocumentSnapshot medicineDocument = getSnapshots().getSnapshot(holder.getBindingAdapterPosition());
 
-        holder.setData(medicineDocument.toObject(MedicationAssignment.class));
+            holder.setData(medicineDocument.toObject(MedicationAssignment.class));
 
-        holder.layout.setOnClickListener(v -> {
-            if (holder.getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
-                onItemClick.click(medicineDocument.toObject(MedicationAssignment.class));
-            }
-        });
+            holder.layout.setOnClickListener(v -> {
+                if (holder.getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
+                    onItemClick.click(medicineDocument.toObject(MedicationAssignment.class));
+                }
+            });
 
-        holder.imageDelete.setOnClickListener(v -> {
-            if (holder.getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
-                onItemDelete.delete(medicineDocument.toObject(MedicationAssignment.class));
-            }
-        });
+            holder.imageDelete.setOnClickListener(v -> {
+                if (holder.getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
+                    onItemDelete.delete(medicineDocument.toObject(MedicationAssignment.class));
+                }
+            });
+        }
     }
 
     @NonNull

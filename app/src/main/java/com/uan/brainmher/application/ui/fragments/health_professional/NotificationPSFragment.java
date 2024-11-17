@@ -81,6 +81,14 @@ public class NotificationPSFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (adapterMedicine != null) {
+            adapterMedicine.startListening();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         adapterMedicine.startListening();
@@ -89,7 +97,9 @@ public class NotificationPSFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        adapterMedicine.stopListening();
+        if (adapterMedicine != null) {
+            adapterMedicine.stopListening();
+        }
     }
 
     private void setupActivityLauncher() {
@@ -114,6 +124,7 @@ public class NotificationPSFragment extends Fragment {
 
     private void setupRecyclerView() {
         binding.rcMedicine.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rcMedicine.setItemAnimator(null);
 
         FirestoreRecyclerOptions<MedicationAssignment> options =
                 notificationsRepository.getMedicationOptions(patient.getPatientUID());
@@ -154,17 +165,44 @@ public class NotificationPSFragment extends Fragment {
         TextInputEditText editDose = dialogView.findViewById(R.id.edit_dose_medicine);
         AutoCompleteTextView editFrequency = dialogView.findViewById(R.id.edit_frequency);
         TextView txtStartHour = dialogView.findViewById(R.id.txt_start_hour);
+        Switch switchState = dialogView.findViewById(R.id.switch_reminder);
 
+        // Configuración inicial del menú desplegable y escucha de eventos
+        setupDropdownMenu(editFrequency);
         txtStartHour.setOnClickListener(v -> setStartHour(txtStartHour));
-
         imgMedicine = dialogView.findViewById(R.id.img_medicine);
+        imgMedicine.setOnClickListener(v -> openGallery());
 
+        // Prellenar campos si la opción es "update"
+        if ("update".equals(option)) {
+            editName.setText(medication.getMedicamentName());
+            editDescription.setText(medication.getMedicamentDescription());
+            editDose.setText(medication.getDose());
+            editFrequency.setText(medication.getFrequency());
+            txtStartHour.setText(medication.getHours());
+
+            // Cargar la imagen existente si hay una URI disponible
+            if (medication.getUriImg() != null) {
+                Glide.with(getContext()).load(medication.getUriImg()).into(imgMedicine);
+            }
+
+            // Manejar el estado del interruptor
+            if ("Activada".equals(medication.getStatement())) {
+                switchState.setChecked(true);
+            } else {
+                switchState.setChecked(false);
+            }
+
+            // Escucha de cambios en el interruptor
+            switchState.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                medication.setStatement(isChecked ? "Activada" : "Desactivada");
+            });
+        }
+
+        // Configuración de los botones Guardar y Cancelar
         Button btnSave = dialogView.findViewById(R.id.btn_save_medicine);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancelar_medicine);
 
-        setupDropdownMenu(editFrequency);
-
-        imgMedicine.setOnClickListener(v -> openGallery());  // Abre la galería al hacer clic
         btnCancel.setOnClickListener(v -> alertDialog.dismiss());
 
         btnSave.setOnClickListener(v -> saveMedicine(option, medication, alertDialog, editName, editDescription, editDose, editFrequency, txtStartHour));
@@ -222,13 +260,12 @@ public class NotificationPSFragment extends Fragment {
             medication.setFrequency(frequency);
             medication.setHours(startHour);
 
-            if (option.equals("create")) {
+            if ("create".equals(option)) {
                 createMedication(medication, uriImage);
-                alertDialog.dismiss();
             } else {
                 updateMedication(medication, uriImage, alertDialog);
-                alertDialog.dismiss();
             }
+            alertDialog.dismiss();
         } else {
             Toast.makeText(getContext(), "Completa todos los datos", Toast.LENGTH_SHORT).show();
         }

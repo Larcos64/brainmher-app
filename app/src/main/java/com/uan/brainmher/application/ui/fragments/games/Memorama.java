@@ -1,6 +1,7 @@
 package com.uan.brainmher.application.ui.fragments.games;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -65,8 +66,27 @@ public class Memorama extends Fragment {
     private FirebaseFirestore db;
     private FirebaseUser firebaseUser;
 
-    public Memorama(Memoramai memoramai) {
-        this.memoramai = memoramai;
+    public Memorama() {
+        // Constructor vacío requerido
+    }
+
+    // Método para configurar el callback
+    public void setCallback(Memoramai callback) {
+        this.memoramai = callback;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (memoramai == null && context instanceof Memoramai) {
+            memoramai = (Memoramai) context; // Fallback si no se configuró explícitamente
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        memoramai = null; // Liberar referencia para evitar fugas de memoria
     }
 
     @Override

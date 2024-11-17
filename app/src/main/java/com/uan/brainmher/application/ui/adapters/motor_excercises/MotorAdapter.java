@@ -56,7 +56,7 @@ public class MotorAdapter extends FirestoreRecyclerAdapter<MotorExercises, Motor
         holder.binding.tvMotorDescription.setText(model.getDescriptionExercise());
         Glide.with(context).load(model.getUriGifExercise()).fitCenter().into(holder.binding.ivMotor);
 
-        final String idDoc = getSnapshots().getSnapshot(holder.getAdapterPosition()).getId();
+        final String idDoc = getSnapshots().getSnapshot(position).getId();
         final MaterialCardView cardMotor = holder.binding.cardMotor;
 
         List<String> listAssignments = model.getAssignments() != null ? model.getAssignments() : new ArrayList<>();

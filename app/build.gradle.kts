@@ -84,4 +84,7 @@ dependencies {
 
     // ProfileInstaller: Optimize application performance
     implementation("androidx.profileinstaller:profileinstaller:1.3.1")
+
+    // HTTP Requests for OneSignal petitions
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }

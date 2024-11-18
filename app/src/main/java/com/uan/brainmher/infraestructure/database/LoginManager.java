@@ -64,7 +64,9 @@ public class LoginManager {
             return;
         }
 
-        final String onesignalId = OneSignal.getUser().getOnesignalId();
+        // Se cambia dado que no funcionan las push notifications con el OneSignal ID
+        // final String onesignalId = OneSignal.getUser().getOnesignalId();
+        final String onesignalId = OneSignal.getUser().getPushSubscription().getId();
         handleRedirection(context, useruID, onesignalId);
     }
 
@@ -84,6 +86,8 @@ public class LoginManager {
                     carer.setPlayerId(onesignalId);
                     db.collection(Constants.Carers).document(uID).set(carer);
                 }
+
+                Log.d("DESDE_LOGIN onesignalId: ", onesignalId);
 
                 role = carer.getRole();
                 if (!role.isEmpty()) {

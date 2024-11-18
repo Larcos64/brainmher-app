@@ -41,11 +41,14 @@ import com.uan.brainmher.domain.entities.MedicationAssignment;
 import com.uan.brainmher.databinding.FragmentPsNotificationBinding;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.domain.repositories.NotificationRepository;
+import com.uan.brainmher.infraestructure.helpers.NotificationHelper;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
 import com.uan.brainmher.infraestructure.tools.Constants;
 
 import java.text.DateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -197,6 +200,8 @@ public class NotificationPSFragment extends Fragment {
             switchState.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 medication.setStatement(isChecked ? "Activada" : "Desactivada");
             });
+        } else {
+            medication.setStatement("Activada");
         }
 
         // Configuración de los botones Guardar y Cancelar
@@ -285,6 +290,13 @@ public class NotificationPSFragment extends Fragment {
                     @Override
                     public void onComplete() {
                         circularProgressUtil.hideProgress();
+
+                        // Enviar notificación usando NotificationHelper
+                        NotificationHelper.createNotification(
+                                Arrays.asList(patient.getPlayerId()), // Lista con el Player ID
+                                "Brainmher",
+                                "Tienes una nueva notificación de medicamento: " + medication.getMedicamentName()
+                        );
                     }
                 },
                 aVoid -> Toast.makeText(getContext(), "Medicamento creado con éxito", Toast.LENGTH_SHORT).show()

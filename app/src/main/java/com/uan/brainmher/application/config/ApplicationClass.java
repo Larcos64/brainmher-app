@@ -21,7 +21,6 @@ public class ApplicationClass extends Application {
 
         // requestPermission will show the native Android notification permission prompt.
         // NOTE: It's recommended to use a OneSignal In-App Message to prompt instead.
-        OneSignal.getNotifications().requestPermission(false, Continue.none());
-
+        OneSignal.getNotifications().requestPermission(true, Continue.none());
     }
 }

@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_medicine"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/fiftyFive">
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView

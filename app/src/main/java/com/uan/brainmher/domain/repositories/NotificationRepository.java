@@ -5,6 +5,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -21,10 +22,14 @@ public class NotificationRepository {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
-    public interface ProgressCallback {
+    public interface StartCallback {
         void onStart();
+    }
+
+    public interface CompleteCallback {
         void onComplete();
     }
+
 
     public FirestoreRecyclerOptions<MedicationAssignment> getMedicationOptions(String patientUID) {
         Query query = db.collection(Constants.Medicines)
@@ -37,33 +42,46 @@ public class NotificationRepository {
     }
 
     public void createMedication(Patient patient, MedicationAssignment medication, Uri imageUri,
-                                 ProgressCallback progressCallback, OnSuccessListener<Void> onSuccessListener) {
+                                 StartCallback onStart, CompleteCallback onComplete, OnFailureListener failureListener) {
+        onStart.onStart();
 
-        progressCallback.onStart();
-
+        // Generar un UUID único para el medicamento
         String uuid = UUID.randomUUID().toString();
         medication.setMedicamentUID(uuid);
 
-        StorageReference imgRef = storageReference.child(Constants.Medicines + "/" + uuid + ".jpg");
-        imgRef.putFile(imageUri).addOnSuccessListener(taskSnapshot ->
-                imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                    medication.setUriImg(uri.toString());
-                    db.collection(Constants.Medicines)
-                            .document(patient.getPatientUID())
-                            .collection(Constants.Medicine)
-                            .document(uuid)
-                            .set(medication)
-                            .addOnSuccessListener(aVoid -> {
-                                progressCallback.onComplete();
-                                onSuccessListener.onSuccess(aVoid);
-                            });
-                })
-        );
+        if (imageUri != null) {
+            // Si hay una imagen, subirla a Firebase Storage
+            StorageReference imgRef = storageReference.child(Constants.Medicines + "/" + uuid + ".jpg");
+            imgRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot ->
+                            imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                medication.setUriImg(uri.toString());
+                                saveMedicationToFirestore(patient, medication, onComplete, failureListener);
+                            })
+                    )
+                    .addOnFailureListener(failureListener); // Error al subir la imagen
+        } else {
+            // Si no hay imagen, guardar el medicamento directamente en Firestore
+            saveMedicationToFirestore(patient, medication, onComplete, failureListener);
+        }
+    }
+
+    // Método auxiliar para guardar el medicamento en Firestore
+    private void saveMedicationToFirestore(Patient patient, MedicationAssignment medication,
+                                           CompleteCallback onComplete, OnFailureListener failureListener) {
+        db.collection(Constants.Medicines)
+                .document(patient.getPatientUID())
+                .collection(Constants.Medicine)
+                .document(medication.getMedicamentUID())
+                .set(medication)
+                .addOnSuccessListener(aVoid -> onComplete.onComplete()) // Operación completada
+                .addOnFailureListener(failureListener); // Error al guardar en Firestore
     }
 
     public void updateMedication(Patient patient, MedicationAssignment medication, Uri newImageUri,
-                                 ProgressCallback progressCallback, OnSuccessListener<Void> onSuccessListener) {
-        progressCallback.onStart();
+                                 StartCallback onStart, CompleteCallback onComplete, OnSuccessListener<Void> onSuccessListener) {
+
+        onStart.onStart();
 
         if (newImageUri != null) {
             // Subir nueva imagen si fue seleccionada
@@ -72,25 +90,48 @@ public class NotificationRepository {
             imgRef.putFile(newImageUri).addOnSuccessListener(taskSnapshot ->
                     imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         medication.setUriImg(uri.toString());
-                        saveMedicationToFirestore(patient, medication, progressCallback, onSuccessListener);
+                        saveMedicationToFirestore(patient, medication, onComplete, onSuccessListener);
                     })
             );
         } else {
             // No se seleccionó nueva imagen, actualizar solo los datos
-            saveMedicationToFirestore(patient, medication, progressCallback, onSuccessListener);
+            saveMedicationToFirestore(patient, medication, onComplete, onSuccessListener);
         }
     }
 
     private void saveMedicationToFirestore(Patient patient, MedicationAssignment medication,
-                                           ProgressCallback progressCallback, OnSuccessListener<Void> onSuccessListener) {
+                                           CompleteCallback onComplete, OnSuccessListener<Void> onSuccessListener) {
         db.collection(Constants.Medicines)
                 .document(patient.getPatientUID())
                 .collection(Constants.Medicine)
                 .document(medication.getMedicamentUID())
                 .set(medication)
                 .addOnSuccessListener(aVoid -> {
-                    progressCallback.onComplete();
+                    onComplete.onComplete();
                     onSuccessListener.onSuccess(aVoid);
                 });
     }
+
+    public void deleteMedication(String patientUID, String medicationUID, StartCallback onStart, CompleteCallback onComplete, OnFailureListener failureListener) {
+        onStart.onStart();
+
+        // Eliminar documento en Firestore
+        db.collection(Constants.Medicines)
+                .document(patientUID)
+                .collection(Constants.Medicine)
+                .document(medicationUID)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    // Al completar la eliminación del documento, eliminar la imagen
+                    StorageReference deleteImage = storageReference.child(Constants.Medicines + "/" + medicationUID + ".jpg");
+                    deleteImage.delete()
+                            .addOnSuccessListener(aVoid2 -> {
+                                // Imagen eliminada con éxito, llamar al callback de completado
+                                onComplete.onComplete();
+                            })
+                            .addOnFailureListener(failureListener); // Error al eliminar la imagen
+                })
+                .addOnFailureListener(failureListener);
+    }
+
 }

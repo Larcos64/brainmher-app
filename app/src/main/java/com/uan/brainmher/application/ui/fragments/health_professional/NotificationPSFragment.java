@@ -14,11 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -28,11 +25,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.uan.brainmher.R;
@@ -40,16 +35,14 @@ import com.uan.brainmher.application.ui.adapters.medicine.MedicinesAdapter;
 import com.uan.brainmher.domain.entities.MedicationAssignment;
 import com.uan.brainmher.databinding.FragmentPsNotificationBinding;
 import com.uan.brainmher.domain.entities.Patient;
+import com.uan.brainmher.domain.repositories.MedicinesRepository;
 import com.uan.brainmher.domain.repositories.NotificationRepository;
 import com.uan.brainmher.infraestructure.helpers.NotificationHelper;
 import com.uan.brainmher.infraestructure.tools.CircularProgressUtil;
-import com.uan.brainmher.infraestructure.tools.Constants;
 
 import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -135,10 +128,55 @@ public class NotificationPSFragment extends Fragment {
         adapterMedicine = new MedicinesAdapter(
                 options,
                 getActivity(),
-                medication -> showUpdateDialog(medication),  // Lambda para la selección
-                medication -> { /* Lógica para eliminar */ });
+                medication -> showUpdateDialog(medication),  // Lambda para la edición
+                medication -> showDeleteConfirmationDialog(medication)); // Lambda para eliminar
         binding.rcMedicine.setAdapter(adapterMedicine);
     }
+
+    // Método para mostrar el diálogo de confirmación de eliminación
+    private void showDeleteConfirmationDialog(final MedicationAssignment medicationAssignment) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.BackgroundRounded);
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_one_textview_two_buttons, null);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+
+        Button btnNo = dialogView.findViewById(R.id.btn1);
+        btnNo.setText(R.string.no);
+        btnNo.setOnClickListener(view -> alertDialog.dismiss());
+
+        Button btnYes = dialogView.findViewById(R.id.btn2);
+        btnYes.setText(R.string.yes);
+        btnYes.setOnClickListener(view -> {
+            deleteMedication(medicationAssignment, alertDialog);
+        });
+
+        TextView tvInformation = dialogView.findViewById(R.id.textView);
+        tvInformation.setText(getString(R.string.elimination_question));
+
+        alertDialog.show();
+    }
+
+    // Método para eliminar el registro y la imagen
+    private void deleteMedication(MedicationAssignment medicationAssignment, AlertDialog alertDialog) {
+        circularProgressUtil.showProgress(getString(R.string.deleting));
+
+        notificationsRepository.deleteMedication(
+                patient.getPatientUID(),
+                medicationAssignment.getMedicamentUID(),
+                () -> circularProgressUtil.showProgress(getString(R.string.deleting)),
+                () -> {
+                    circularProgressUtil.hideProgress();
+                    Toast.makeText(getActivity(), R.string.record_deleted, Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
+                },
+                e -> {
+                    circularProgressUtil.hideProgress();
+                    Toast.makeText(getContext(), R.string.elimination_failed, Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
+                }
+        );
+    }
+
 
     private void setupEventListeners() {
         binding.floatingMedicineAdd.setOnClickListener(v -> showCreateDialog());
@@ -281,25 +319,15 @@ public class NotificationPSFragment extends Fragment {
                 patient,
                 medication,
                 imageUri,
-                new NotificationRepository.ProgressCallback() {
-                    @Override
-                    public void onStart() {
-                        circularProgressUtil.showProgress(getString(R.string.registering));
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        circularProgressUtil.hideProgress();
-
-                        // Enviar notificación usando NotificationHelper
-                        NotificationHelper.createNotification(
-                                Arrays.asList(patient.getPlayerId()), // Lista con el Player ID
-                                "Brainmher",
-                                "Tienes una nueva notificación de medicamento: " + medication.getMedicamentName()
-                        );
-                    }
+                () -> circularProgressUtil.showProgress(getString(R.string.registering)), // StartCallback
+                () -> { // CompleteCallback
+                    circularProgressUtil.hideProgress();
+                    Toast.makeText(getContext(), "Medicamento creado con éxito", Toast.LENGTH_SHORT).show();
                 },
-                aVoid -> Toast.makeText(getContext(), "Medicamento creado con éxito", Toast.LENGTH_SHORT).show()
+                e -> { // OnFailureListener
+                    circularProgressUtil.hideProgress();
+                    Toast.makeText(getContext(), "Error al crear el medicamento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
         );
     }
 
@@ -308,18 +336,11 @@ public class NotificationPSFragment extends Fragment {
                 patient,
                 medication,
                 newImageUri,
-                new NotificationRepository.ProgressCallback() {
-                    @Override
-                    public void onStart() {
-                        circularProgressUtil.showProgress(getString(R.string.updating));
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        circularProgressUtil.hideProgress();
-                        Toast.makeText(getContext(), "Medicamento actualizado con éxito", Toast.LENGTH_SHORT).show();
-                        alertDialog.dismiss();
-                    }
+                () -> circularProgressUtil.showProgress(getString(R.string.updating)), // StartCallback
+                () -> { // CompleteCallback
+                    circularProgressUtil.hideProgress();
+                    Toast.makeText(getContext(), "Medicamento actualizado con éxito", Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
                 },
                 aVoid -> {}
         );

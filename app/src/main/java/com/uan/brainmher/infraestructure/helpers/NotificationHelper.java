@@ -46,7 +46,7 @@ public class NotificationHelper {
         Request request = new Request.Builder()
                 .url("https://onesignal.com/api/v1/notifications")
                 .post(RequestBody.create(json, MediaType.get("application/json; charset=utf-8")))
-                .addHeader("Authorization", "Basic os_v2_app_44tnxyen4vbybev2oy6fwtcbf76bnxho3rcedonsffxy3r4wfxuxcm3aj3ibhhfrwle36g2qlwzjid5iye5hqgbkelbo6rugodz473y") // Cambia esto con tu API Key REST
+                .addHeader("Authorization", "Basic API_KEY") // API Key REST
                 .build();
 
         // Ejecutar la solicitud
@@ -62,6 +62,4 @@ public class NotificationHelper {
             }
         });
     }
-
-
 }

@@ -6,6 +6,7 @@
         android:title="@string/home"
         android:icon="@drawable/ic_home_black_24dp"></item>
 
+    <!--
     <item
         android:id="@+id/test"
         android:title="@string/test"
@@ -15,6 +16,7 @@
         android:id="@+id/emergency"
         android:title="@string/emergency"
         android:icon="@drawable/ic_hospital"></item>
+        -->
 
     <item
         android:id="@+id/information"

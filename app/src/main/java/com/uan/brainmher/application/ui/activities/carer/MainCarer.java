@@ -53,8 +53,8 @@ public class MainCarer extends AppCompatActivity implements IMainCarer {
 
         // Declara los IDs en variables locales
         int homeId = R.id.home;
-        int testId = R.id.test;
-        int emergencyId = R.id.emergency;
+        // int testId = R.id.test;
+        // int emergencyId = R.id.emergency;
         int informationId = R.id.information;
 
         // Configura el manejo de clics en los elementos del BottomNavigationView
@@ -63,13 +63,13 @@ public class MainCarer extends AppCompatActivity implements IMainCarer {
             if (itemId == homeId) {
                 navController.navigate(R.id.home); // Ajusta según corresponda
                 return true;
-            } else if (itemId == testId) {
+            } /* else if (itemId == testId) {
                 navController.navigate(R.id.home); // Ajusta según corresponda
                 return true;
             } else if (itemId == emergencyId) {
                 navController.navigate(R.id.alzheimerInformationFragment); // Ajusta según corresponda
                 return true;
-            } else if (itemId == informationId) {
+            } */ else if (itemId == informationId) {
                 navController.navigate(R.id.alzheimerInformationFragment); // Aquí navegamos a AlzheimerInformationFragment
                 return true;
             }

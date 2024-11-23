@@ -19,6 +19,7 @@ public class InformationCarerRepository {
     public void getCarerInformation(String type, OnInformationCarerLoaded callback) {
         db.collection("CarerInformation")
                 .whereEqualTo("type", type)
+                .orderBy("order") // Ordena por el campo 'order' de forma ascendente
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<CarerInformation> informationList = new ArrayList<>();

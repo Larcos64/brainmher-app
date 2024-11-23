@@ -6,7 +6,7 @@ public class AlzheimerInformation {
     private String description;
     private String type;
     private String link;
-    private int order; // Nuevo campo para ordenamiento
+    private int order;
 
     public AlzheimerInformation() {
     }

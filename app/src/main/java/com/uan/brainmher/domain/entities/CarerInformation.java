@@ -5,6 +5,8 @@ public class CarerInformation {
     private String title;
     private String description;
     private String type;
+    private String link;
+    private int order;
 
     public CarerInformation() {
     }
@@ -13,6 +15,8 @@ public class CarerInformation {
         this.title = title;
         this.description = description;
         this.type = type;
+        this.link = link;
+        this.order = order;
     }
 
     public String getTitle() {
@@ -33,6 +37,9 @@ public class CarerInformation {
 
     public String getType() {
         return type;
+    }
+    public String getLink() {
+        return link;
     }
 
     public void setType(String type) {

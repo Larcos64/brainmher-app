@@ -28,6 +28,7 @@
     <string name="documet_number">Número de documento</string>
     <string name="surnames">Apellido</string>
     <string name="names">Nombre</string>
+    <string name="full_name">Nombre Completo</string>
     <string name="date_diagnostic">Fecha de diagnóstico</string>
     <string name="diagnostic">Diagnóstico</string>
     <string name="number">Número</string>
@@ -70,6 +71,7 @@
     <string name="general_information">Info. General</string>
     <string name="phases_ea">Fases E.A.</string>
     <string name="practice">Practicar</string>
+    <string name="cancel">Cancelar</string>
 
     <string name="info">Información</string>
     <string name="emergency">Emergencias</string>

@@ -20,4 +20,8 @@
 
     <color name="blue">#1e88e5</color>
     <color name="blueDark">#005cb2</color>
+
+    <!-- colors of material desing in the 600 spectrum -->
+    <color name="red">#e53935</color>
+    <color name="redDark">#ab000d</color>
 </resources>

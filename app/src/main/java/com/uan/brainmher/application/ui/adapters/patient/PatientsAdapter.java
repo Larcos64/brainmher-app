@@ -91,7 +91,7 @@ public class PatientsAdapter extends FirestoreRecyclerAdapter<Patient,PatientsAd
             photo = itemView.findViewById(R.id.imagePatient);
             delete = itemView.findViewById(R.id.btn_delete);
             name = itemView.findViewById(R.id.tvPatientName);
-            //identification = itemView.findViewById(R.id.tvPatientId);
+            identification = itemView.findViewById(R.id.tvPatientEmail);
         }
 
         //Set data to views
@@ -99,7 +99,7 @@ public class PatientsAdapter extends FirestoreRecyclerAdapter<Patient,PatientsAd
             this.item = item;
             Glide.with(context).load(item.getUriImg()).fitCenter().into(photo);
             name.setText(item.getFirstName());
-            //identification.setText(item.getIdentification());
+            identification.setText(item.getEmail());
         }
     }
     //endregion

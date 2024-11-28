@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -19,6 +20,8 @@ import com.uan.brainmher.application.ui.adapters.patient.PatientsAdapter;
 import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.domain.entities.Patient;
 import com.uan.brainmher.infraestructure.tools.Constants;
+
+import java.util.Map;
 
 public class PatientsRepository {
 
@@ -51,6 +54,7 @@ public class PatientsRepository {
                 });
     }
 
+
     private void uploadPatientImage(Patient patient, Uri uriImage, OnPatientLoadedListener listener) {
         StorageReference imgRef = firebaseStorage.getReference().child("Users/Patients/" + patient.getPatientUID() + ".jpg");
         imgRef.putFile(uriImage)
@@ -70,6 +74,18 @@ public class PatientsRepository {
                 .addOnFailureListener(listener::onFailure);
     }
 
+    public void updatePatientFields(String patientUID, Map<String, Object> fieldsToUpdate, OnPatientLoadedListener listener) {
+        if (patientUID == null || patientUID.isEmpty()) {
+            listener.onFailure(new IllegalArgumentException("PatientUID is null or empty"));
+            return;
+        }
+
+        db.collection(Constants.Patients).document(patientUID)
+                .update(fieldsToUpdate)
+                .addOnSuccessListener(aVoid -> listener.onSuccess(null)) // No necesitamos devolver un objeto completo aquí
+                .addOnFailureListener(listener::onFailure);
+    }
+
     public void getPatient(String userId, PatientsRepository.OnPatientLoadedListener listener) {
         Log.d("PatientRepository", "Querying Patient data for userId: " + userId);
         db.collection(Constants.Patients)
@@ -81,6 +97,25 @@ public class PatientsRepository {
                         listener.onSuccess(patient);
                     } else {
                         listener.onFailure(new Exception("Carer not found"));
+                    }
+                })
+                .addOnFailureListener(listener::onFailure);
+    }
+
+    public void getPatientById(String patientUID, OnPatientLoadedListener listener) {
+        if (patientUID == null || patientUID.isEmpty()) {
+            listener.onFailure(new IllegalArgumentException("PatientUID is null or empty"));
+            return;
+        }
+
+        db.collection(Constants.Patients).document(patientUID)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Patient patient = documentSnapshot.toObject(Patient.class);
+                        listener.onSuccess(patient);
+                    } else {
+                        listener.onFailure(new Exception("Document does not exist"));
                     }
                 })
                 .addOnFailureListener(listener::onFailure);

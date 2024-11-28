@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/StyleTextViewTitles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="PERFIL DEL PACIENTE"></TextView>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_ps_patient_photo"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/avatar" />
+
+        <TextView
+            style="@style/StyleCardViewDescriptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/full_name"
+            android:textColor="@color/colorPrimaryDark"></TextView>
+
+        <TextView
+            android:id="@+id/tv_ps_patientName"
+            style="@style/StyleCardViewTitles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"></TextView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/StyleCardView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardBackgroundColor="@color/colorBackround">
+
+            <!-- ************************************* -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/ten">
+
+                <!-- Linear layout for view data -->
+                <LinearLayout
+                    android:id="@+id/ll_view_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            style="@style/StyleCardViewDescriptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/names"
+                            android:textColor="@color/colorPrimaryDark"></TextView>
+
+                        <TextView
+                            android:id="@+id/tv_ps_namePatient"
+                            style="@style/StyleCardViewTitles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/names"></TextView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            style="@style/StyleCardViewDescriptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/surnames"
+                            android:textColor="@color/colorPrimaryDark"></TextView>
+
+                        <TextView
+                            android:id="@+id/tv_ps_lastnamePatient"
+                            style="@style/StyleCardViewTitles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/surnames"></TextView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            style="@style/StyleCardViewDescriptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gender"
+                            android:textColor="@color/colorPrimaryDark"></TextView>
+
+                        <TextView
+                            android:id="@+id/tv_ps_genderPatient"
+                            style="@style/StyleCardViewTitles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gender"></TextView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            style="@style/StyleCardViewDescriptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/date_of_birth"
+                            android:textColor="@color/colorPrimaryDark"></TextView>
+
+                        <TextView
+                            android:id="@+id/tv_ps_datebirthPatient"
+                            style="@style/StyleCardViewTitles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/date_of_birth"></TextView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            style="@style/StyleCardViewDescriptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/email"
+                            android:textColor="@color/colorPrimaryDark"></TextView>
+
+                        <TextView
+                            android:id="@+id/tv_ps_emaiPatient"
+                            style="@style/StyleCardViewTitles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/email"></TextView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            style="@style/StyleCardViewDescriptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pass"
+                            android:textColor="@color/colorPrimaryDark"></TextView>
+
+                        <TextView
+                            android:id="@+id/tv_ps_passPatient"
+                            style="@style/StyleCardViewTitles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pass"></TextView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            style="@style/StyleCardViewDescriptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/diagnostic"
+                            android:textColor="@color/colorPrimaryDark"></TextView>
+
+                        <TextView
+                            android:id="@+id/tv_ps_diagnosisPatient"
+                            style="@style/StyleCardViewTitles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/diagnostic"></TextView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            style="@style/StyleCardViewDescriptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/date_diagnostic"
+                            android:textColor="@color/colorPrimaryDark"></TextView>
+
+                        <TextView
+                            android:id="@+id/tv_ps_diagnosisdatePatient"
+                            style="@style/StyleCardViewTitles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/date_diagnostic"></TextView>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <!-- Linear layout for edit fields -->
+                <LinearLayout
+                    android:id="@+id/ll_edit_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_til_name_patient"
+                        style="@style/StyleTextInputLayotTextBoxForms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:endIconMode="clear_text"
+                        app:errorEnabled="true"
+                        app:startIconDrawable="@drawable/ic_face_black">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_txt_name_patient"
+                            style="@style/StyleTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/names"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_til_lastname_patient"
+                        style="@style/StyleTextInputLayotTextBoxForms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:endIconMode="clear_text"
+                        app:errorEnabled="true"
+                        app:startIconDrawable="@drawable/ic_face_black">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_txt_lastname_patient"
+                            style="@style/StyleTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/surnames"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        style="@style/StyleLinearLayoutGenderForms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:startIconDrawable="@drawable/ic_wc_black"></com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            style="@style/StyleLabelGenderForms"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/gender"></TextView>
+                    </LinearLayout>
+
+                    <RadioGroup
+                        android:id="@+id/edit_rg_gender_patient"
+                        style="@style/StyleRadioGroupForms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/edit_rb_female_patient"
+                            style="@style/StyleRadioButtonForms"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/female" />
+
+                        <RadioButton
+                            android:id="@+id/edit_rb_male_patient"
+                            style="@style/StyleRadioButtonForms"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/male" />
+                    </RadioGroup>
+
+                    <LinearLayout
+                        style="@style/StyleLinearLayoutBirthDateForms"
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/StyleTextInputLayotTextBoxForms"
+                            android:id="@+id/edit_til_birthday_patient"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:endIconMode="clear_text"
+                            app:startIconDrawable="@drawable/ic_calendar_black"
+                            app:errorEnabled="true">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_txt_datebirth_patient"
+                                style="@style/StyleTextInputEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:enabled="false"
+                                android:hint="@string/date_of_birth" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/edit_iv_datebirth_patient"
+                            style="@style/StyleCircleImageViewCalendarForms"
+                            android:layout_width="85dp"
+                            android:layout_height="85dp" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/StyleTextInputLayotTextBoxForms"
+                        android:id="@+id/edit_til_email_patient"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/email"
+                        app:endIconMode="clear_text"
+                        app:startIconDrawable="@drawable/ic_mail_black"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_txt_email_patient"
+                            style="@style/StyleTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:enabled="false"
+                            android:layout_height="match_parent"
+                            android:inputType="textEmailAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/StyleTextInputLayotTextBoxForms"
+                        android:id="@+id/edit_til_password_patient"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/pass"
+                        app:endIconMode="password_toggle"
+                        app:startIconDrawable="@drawable/ic_key_black"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_txt_password_patient"
+                            style="@style/StyleTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:enabled="false"
+                            android:layout_height="match_parent"
+                            android:inputType="textPassword" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/StyleTextInputLayotTextBoxForms"
+                        android:id="@+id/edit_til_diagnostic_patient"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/diagnostic"
+                        app:endIconMode="clear_text"
+                        app:startIconDrawable="@drawable/ic_assignment_black"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_txt_diagnostic_patient"
+                            style="@style/StyleTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        style="@style/StyleLinearLayoutBirthDateForms"
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/StyleTextInputLayotTextBoxForms"
+                            android:id="@+id/edit_til_datediagnosis_patient"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/date_diagnostic"
+                            app:endIconMode="clear_text"
+                            app:startIconDrawable="@drawable/ic_calendar_black"
+                            app:errorEnabled="true">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_txt_datediagnosis_patient"
+                                style="@style/StyleTextInputEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:enabled="false"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/edit_iv_datediagnosis_patient"
+                            style="@style/StyleCircleImageViewCalendarForms"
+                            android:layout_width="85dp"
+                            android:layout_height="85dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/ten"
+                    android:layout_marginRight="@dimen/ten"
+                    android:background="@android:color/darker_gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_save"
+                        style="@style/StyleTextButtonCardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five"
+                        android:text="@string/save"
+                        android:visibility="gone"
+                        app:icon="@drawable/ic_save"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_edit_cancel"
+                        style="@style/StyleTextButtonCardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five"
+                        android:text="@string/update"
+                        app:icon="@drawable/ic_edit_black" />
+                    <!--android:onClick="showPopup"-->
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

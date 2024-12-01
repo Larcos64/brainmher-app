@@ -87,6 +87,13 @@
     <string name="motor">Motriz</string>
     <string name="memorizame">Memorizame</string>
     <string name="notifications">Notificaciones</string>
+    <string name="add_event_carer">Agregar evento</string>
+    <string name="view_event_carer">Ver eventos</string>
+    <string name="cancel_event_carer">Cancelar evento</string>
+    <string name="exit">Salir</string>
+    <string name="select_option">Seleccione una opción</string>
+    <string name="events_for_date">Eventos del día:</string>
+    <string name="no_events_for_date">No hay eventos</string>
 
     <string name="tab_family">Familia</string>
     <string name="tab_home">Hogar</string>
@@ -114,7 +121,7 @@
     <string name="message_delete">¿Estas seguro que quieres eliminar a %1$s ?</string>
     <string name="elimination_question">¿Estas seguro de eliminar el registro?</string>
     <string name="alert">Alert</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Eliminar</string>
     <string name="redirecting">Redirigiendo...</string>
     <string name="record_deleted">Registro eliminado</string>
     <string name="elimination_failed">Error al eliminar registro</string>

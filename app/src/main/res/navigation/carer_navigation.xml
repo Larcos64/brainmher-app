@@ -17,6 +17,11 @@
         android:label="CareFragment" />
 
     <fragment
+        android:id="@+id/diaryFragment"
+        android:name="com.uan.brainmher.application.ui.fragments.carer.DiaryFragment"
+        android:label="DiaryFragment" />
+
+    <fragment
         android:id="@+id/alzheimerInformationFragment"
         android:name="com.uan.brainmher.application.ui.fragments.carer.AlzheimerInformationFragment"
         android:label="Alzheimer Information">

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorBackround"
+    android:tag="@string/add_event_carer"
+    style="@style/Theme.MaterialComponents.DayNight.Dialog.Alert.Bridge"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/ten"
+                >
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/StyleTextInputLayotTextBoxForms"
+                    android:id="@+id/til_carer_event_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Nombre del evento *"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_edit_black"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_carer_event_name"
+                        style="@style/StyleTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/StyleTextInputLayotTextBoxForms"
+                    android:id="@+id/til_carer_event_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Descripción"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_account_balance_wallet_black_24dp"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_carer_event_description"
+                        style="@style/StyleTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/StyleTextInputLayotTextBoxForms"
+                    android:id="@+id/til_carer_event_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Ubicación"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_location_city_black"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_carer_event_location"
+                        style="@style/StyleTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="100"
+                    >
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_carer_event_start"
+                        style="@style/StyleTextInputLayotTextBoxForms"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Inicia *"
+                        android:layout_weight="40"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_carer_event_start"
+                            style="@style/StyleTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <ImageButton
+                        android:id="@+id/event_start_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/StyleImageButtonAlarm"
+                        android:layout_weight="10"
+                        />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_carer_event_end"
+                        style="@style/StyleTextInputLayotTextBoxForms"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="40"
+                        android:hint="Termina"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_carer_event_end"
+                            style="@style/StyleTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageButton
+                        android:id="@+id/event_end_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/StyleImageButtonAlarm"
+                        android:layout_weight="10"
+                        />
+                </LinearLayout>
+                <!--
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_carer_event_cancel"
+                    style="@style/StylePrimaryColoredButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="@dimen/ten"
+                    android:text="Cancelar"
+                    android:layout_weight="50"
+                    />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_carer_event_save"
+                    style="@style/StylePrimaryColoredButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="50"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="@dimen/ten"
+                    android:text="@string/save" />
+
+            </LinearLayout>
+            -->
+
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:background="@color/colorPrimaryDark"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:id="@+id/cl_button"
+                android:layout_below="@id/layout_question">
+
+                <Button
+                    android:id="@+id/btn_cancel_event"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:text="Cancelar"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/separator"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    android:textAllCaps="false"/>
+
+                <TextView
+                    android:id="@+id/separator"
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"  />
+
+                <Button android:id="@+id/btn_add_event"
+                    android:text="Guardar"
+                    android:textSize="13sp"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/separator"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textAllCaps="false"/>
+            </androidx.constraintlayout.widget.ConstraintLayout >
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

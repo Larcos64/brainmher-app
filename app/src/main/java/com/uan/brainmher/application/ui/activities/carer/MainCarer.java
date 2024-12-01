@@ -75,6 +75,8 @@ public class MainCarer extends AppCompatActivity implements IMainCarer {
             startActivity(intent);
         } else if (fragmentTag.equals(getString(R.string.my_care))) {
             navController.navigate(R.id.careFragment);
+        }  else if (fragmentTag.equals(getString(R.string.diary))) {
+            navController.navigate(R.id.diaryFragment);
         }
     }
 }

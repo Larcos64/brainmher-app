@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginVertical="@dimen/ten"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:weightSum="100"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="AGENDA"
+                    android:layout_gravity="center"
+                    style="@style/StyleTextViewTitles"
+                    android:layout_weight="80"
+                    ></TextView>
+
+                <ImageView
+                    style="@style/StyleImageButtonAlarm"
+                    android:layout_width="51dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="20"
+                    android:gravity="left"
+                    android:src="@drawable/ic_account_balance_wallet_black_24dp"></ImageView>
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:elevation="@dimen/ten"
+                android:layout_marginHorizontal="@dimen/ten"
+                app:cardCornerRadius="15dp">
+                <CalendarView
+                    android:id="@+id/calendarViewCarer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></CalendarView>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/ten"
+                android:gravity="center"
+                android:text="Seleccione un día del calendario"
+                ></TextView>
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -27,7 +27,7 @@ public class Constants {
 
     //Constants for Carer
     public static final String Contacts = "Contacts";
-    public static final String Numbers = "Numbers";
+    public static final String Events = "Events";
     public static final String ScoreGames = "ScoreGames";
 
     // Constants for Application

@@ -159,6 +159,7 @@
     <string name="btn_show_info">Mostrar</string>
     <string name="btn_hide_info">Ocultar</string>
     <string name="lbl_date_of_assignment">Fecha de asignación:</string>
+    <string name="lbl_medicament_reminder">Recordatorio de Medicación</string>
 
     // Options
     <string name="male">Masculino</string>

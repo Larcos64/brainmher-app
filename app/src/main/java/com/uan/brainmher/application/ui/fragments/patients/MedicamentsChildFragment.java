@@ -122,7 +122,7 @@ public class MedicamentsChildFragment extends Fragment {
                     long intervalMillis = frequencyMap.getOrDefault(assignment.getFrequency(), -1L);
                     if (intervalMillis != -1) {
                         initNotify(assignment.getHours());
-                        startAlarm(requestCode, intervalMillis);
+                        startAlarm(requestCode, intervalMillis, assignment.getMedicamentName());
                     }
                 } else {
                     cancelAlarm(requestCode);
@@ -157,10 +157,11 @@ public class MedicamentsChildFragment extends Fragment {
         notificationData.setStartTime(calendarInstance.getTimeInMillis());
     }
 
-    private void startAlarm(int requestCode, long intervalMillis) {
+    private void startAlarm(int requestCode, long intervalMillis, String medicamentName) {
         Intent intent = new Intent(getContext(), AlertReceiver.class);
         // Agrega datos únicos al Intent si es necesario
         intent.putExtra("requestCode", requestCode);
+        intent.putExtra("medicamentName", medicamentName);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), requestCode, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);

@@ -20,6 +20,12 @@ public class AlertReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        // Obtener el nombre del medicamento del Intent
+        String medicamentName = intent.getStringExtra("medicamentName");
+        if (medicamentName == null || medicamentName.isEmpty()) {
+            medicamentName = "tu medicamento"; // Fallback por si el nombre no está disponible
+        }
+
         // Create the notification manager
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -35,8 +41,8 @@ public class AlertReceiver extends BroadcastReceiver {
         // Build the notification
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.medicine) // Reemplaza con tu ícono de notificación
-                .setContentTitle("Recordatorio de Medicación")
-                .setContentText("Es hora de tomar tu medicamento.")
+                .setContentTitle(context.getString(R.string.lbl_medicament_reminder))
+                .setContentText("Es hora de tomar: " + medicamentName + ".")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 

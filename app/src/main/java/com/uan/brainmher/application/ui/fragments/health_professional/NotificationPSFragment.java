@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -201,6 +202,10 @@ public class NotificationPSFragment extends Fragment {
     }
 
     private void setupDialogViews(View dialogView, String option, MedicationAssignment medication, AlertDialog alertDialog) {
+        TextView title = dialogView.findViewById(R.id.txt_title_add_medicine);
+        LinearLayout layoutActDesatc = dialogView.findViewById(R.id.layout_act_desact);
+        TextView txtStateSwitch = dialogView.findViewById(R.id.txt_switch);
+
         TextInputEditText editName = dialogView.findViewById(R.id.edit_name_medicine);
         TextInputEditText editDescription = dialogView.findViewById(R.id.edit_desciption_medicine);
         TextInputEditText editDose = dialogView.findViewById(R.id.edit_dose_medicine);
@@ -216,11 +221,14 @@ public class NotificationPSFragment extends Fragment {
 
         // Prellenar campos si la opción es "update"
         if ("update".equals(option)) {
+            title.setText(getString(R.string.update_medicine));
+
             editName.setText(medication.getMedicamentName());
             editDescription.setText(medication.getMedicamentDescription());
             editDose.setText(medication.getDose());
             editFrequency.setText(medication.getFrequency());
             txtStartHour.setText(medication.getHours());
+            txtStateSwitch.setText(medication.getStatement());
 
             // Cargar la imagen existente si hay una URI disponible
             if (medication.getUriImg() != null) {
@@ -228,6 +236,7 @@ public class NotificationPSFragment extends Fragment {
             }
 
             // Manejar el estado del interruptor
+            layoutActDesatc.setVisibility(View.VISIBLE);
             if ("Activada".equals(medication.getStatement())) {
                 switchState.setChecked(true);
             } else {
@@ -237,8 +246,10 @@ public class NotificationPSFragment extends Fragment {
             // Escucha de cambios en el interruptor
             switchState.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 medication.setStatement(isChecked ? "Activada" : "Desactivada");
+                txtStateSwitch.setText(isChecked ? "Activada" : "Desactivada");
             });
         } else {
+            title.setText(getString(R.string.add_medicine));
             medication.setStatement("Activada");
         }
 

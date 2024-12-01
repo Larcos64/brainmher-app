@@ -24,8 +24,7 @@
                     android:id="@+id/txt_title_add_medicine"
                     style="@style/StyleTextViewTitles"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Agregar medicamento"></TextView>
+                    android:layout_height="wrap_content"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/img_medicine"

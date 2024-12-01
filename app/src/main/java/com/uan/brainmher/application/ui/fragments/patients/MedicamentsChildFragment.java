@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,6 +117,7 @@ public class MedicamentsChildFragment extends Fragment {
             Map<String, Long> frequencyMap = createFrequencyMap();
             for (QueryDocumentSnapshot document : snapshots) {
                 MedicationAssignment assignment = document.toObject(MedicationAssignment.class);
+                Log.d("ENTRA: ", assignment.getStatement());
                 if ("Activada".equals(assignment.getStatement())) {
                     long intervalMillis = frequencyMap.getOrDefault(assignment.getFrequency(), -1L);
                     if (intervalMillis != -1) {
@@ -163,7 +165,7 @@ public class MedicamentsChildFragment extends Fragment {
         if (calendarInstance.before(Calendar.getInstance())) {
             calendarInstance.add(Calendar.DATE, 1);
         }
-
+        Log.d("SE INICIA ALARMA", "ok");
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, notificationData.getStartTime(), intervalMillis, pendingIntent);
     }
 

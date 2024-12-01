@@ -134,6 +134,9 @@
     <string name="add_places_question">Agregar Pregunta de Lugar</string>
     <string name="add_pets_question">Agregar Pregunta de Mascota</string>
 
+    <string name="add_medicine">Agregar medicamento</string>
+    <string name="update_medicine">Actualizar medicamento</string>
+
     <string name="rate_saved">Calificación guardada.</string>
     <string name="rate_no_saved">Error al calificar.</string>
 

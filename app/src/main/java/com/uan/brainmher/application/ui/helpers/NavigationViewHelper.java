@@ -69,10 +69,17 @@ public class NavigationViewHelper {
         // Configurar el header del NavigationView
         configureHeaderView(activity, navigationView);
 
+        // Obtener el menú del NavigationView
+        String userRole = SharedPreferencesManager.getInstance(activity).getString("user_role", null);
+
+        if ("Patients".equals(userRole)) {
+            // Ocultar el botón de perfil si el rol es "Patients"
+            navigationView.getMenu().findItem(R.id.btn_profile).setVisible(false);
+        }
+
         // Configurar los listeners de los ítems del NavigationView
         navigationView.setNavigationItemSelectedListener(item -> {
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            String userRole = SharedPreferencesManager.getInstance(activity).getString("user_role", null);
 
             if (firebaseUser != null) {
                 String userId = firebaseUser.getUid(); // Obtener el UID directamente de FirebaseAuth

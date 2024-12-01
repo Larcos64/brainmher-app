@@ -55,6 +55,8 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <!-- Registro del BroadcastReceiver para recepción de alarmas -->
+        <receiver android:name=".domain.entities.AlertReceiver"></receiver>
     </application>
 
 </manifest>

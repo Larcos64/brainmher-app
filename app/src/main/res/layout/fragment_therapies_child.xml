@@ -92,7 +92,7 @@
                         android:id="@+id/data_therapy_level"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="18/10/2019"/>
+                        android:text="02/12/2024"/>
 
                 </LinearLayout>
 

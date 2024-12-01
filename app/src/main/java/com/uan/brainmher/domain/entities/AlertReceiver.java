@@ -34,7 +34,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
         // Build the notification
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notifications) // Reemplaza con tu ícono de notificación
+                .setSmallIcon(R.drawable.medicine) // Reemplaza con tu ícono de notificación
                 .setContentTitle("Recordatorio de Medicación")
                 .setContentText("Es hora de tomar tu medicamento.")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

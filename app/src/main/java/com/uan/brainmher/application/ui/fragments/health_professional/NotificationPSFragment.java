@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -277,6 +278,7 @@ public class NotificationPSFragment extends Fragment {
                     // Formato de la hora seleccionada para mostrarla en el TextView
                     String formattedTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendarInstance.getTime());
 
+                    Log.d("formattedTime: ", formattedTime);
                     // Asignar el valor al TextView pasado como parámetro
                     txtStartHour.setText(formattedTime);
                 }, hour, minute, true);  // true para formato 24 horas
@@ -306,6 +308,8 @@ public class NotificationPSFragment extends Fragment {
         String dose = editDose.getText().toString();
         String frequency = editFrequency.getText().toString();
         String startHour = txtStartHour.getText().toString();
+
+        Log.d("startHour: ", startHour);
 
         if (isValidInput(name, description, dose, frequency, startHour)) {
             medication.setMedicamentName(name);

@@ -91,7 +91,7 @@ public class NotificationsPatientFragment extends Fragment {
                 case 0:
                     return new MedicamentsChildFragment();
                 case 1:
-                    return new MedicamentsChildFragment();
+                    return new TherapiesChildFragment();
                 default:
                     throw new IllegalStateException("Invalid position");
             }

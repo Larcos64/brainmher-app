@@ -117,15 +117,15 @@ public class MedicamentsChildFragment extends Fragment {
             Map<String, Long> frequencyMap = createFrequencyMap();
             for (QueryDocumentSnapshot document : snapshots) {
                 MedicationAssignment assignment = document.toObject(MedicationAssignment.class);
-                Log.d("ENTRA: ", assignment.getStatement());
+                int requestCode = assignment.getMedicamentUID().hashCode();
                 if ("Activada".equals(assignment.getStatement())) {
                     long intervalMillis = frequencyMap.getOrDefault(assignment.getFrequency(), -1L);
                     if (intervalMillis != -1) {
                         initNotify(assignment.getHours());
-                        startAlarm(assignment.hashCode(), intervalMillis);
+                        startAlarm(requestCode, intervalMillis);
                     }
                 } else {
-                    cancelAlarm(assignment.hashCode());
+                    cancelAlarm(requestCode);
                 }
             }
         }
@@ -159,23 +159,32 @@ public class MedicamentsChildFragment extends Fragment {
 
     private void startAlarm(int requestCode, long intervalMillis) {
         Intent intent = new Intent(getContext(), AlertReceiver.class);
+        // Agrega datos únicos al Intent si es necesario
+        intent.putExtra("requestCode", requestCode);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), requestCode, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         if (calendarInstance.before(Calendar.getInstance())) {
             calendarInstance.add(Calendar.DATE, 1);
         }
-        Log.d("SE INICIA ALARMA", "ok");
+
+        Log.d("ALARM", "Se inicia la alarma con requestCode: " + requestCode);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, notificationData.getStartTime(), intervalMillis, pendingIntent);
     }
 
+
     private void cancelAlarm(int requestCode) {
         Intent intent = new Intent(getContext(), AlertReceiver.class);
+        // Asegúrate de que el Intent tenga los mismos datos
+        intent.putExtra("requestCode", requestCode);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), requestCode, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         alarmManager.cancel(pendingIntent);
-        Toast.makeText(getContext(), "Alarma cancelada", Toast.LENGTH_SHORT).show();
+        Log.d("ALARM", "Se cancela la alarma con requestCode: " + requestCode);
+        // Toast.makeText(getContext(), "Alarma cancelada: " + requestCode, Toast.LENGTH_SHORT).show();
     }
 
     @Override

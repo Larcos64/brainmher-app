@@ -49,14 +49,10 @@ public class NotificationsPatientFragment extends Fragment {
         PatientFragmentPageAdapter adapter = new PatientFragmentPageAdapter(this);
         viewPager.setAdapter(adapter);
 
-        Log.d("ENTRA viewPager", viewPager.toString());
-
         TabLayout tabLayout = view.findViewById(R.id.tabs_notifications);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
-                    Log.d("ENTRA tab", tab.toString());
-
                     tab.setText(getString(R.string.tab_medicaments));
                     tab.setIcon(R.drawable.ic_local_pharmacy_black);
                     break;

@@ -64,6 +64,12 @@ public class MainPatient extends AppCompatActivity implements ICommunicateFragme
 
         // Start slider
         startSlider();
+
+        // Configurar el Drawer con NavigationViewHelper
+        NavigationViewHelper.configureDrawer(this, binding.drawerLayout, binding.toolbar);
+
+        // Configurar el NavigationView
+        NavigationViewHelper.configureNavigationView(this, binding.navigationView);
     }
 
     // Listener for bottom navigation items

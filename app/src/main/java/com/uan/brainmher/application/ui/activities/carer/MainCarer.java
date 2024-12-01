@@ -2,37 +2,18 @@ package com.uan.brainmher.application.ui.activities.carer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.uan.brainmher.R;
 import com.uan.brainmher.application.ui.activities.patient.PatientsList;
 import com.uan.brainmher.application.ui.helpers.NavigationViewHelper;
-import com.uan.brainmher.domain.entities.Carer;
 import com.uan.brainmher.databinding.ActivityMainCarerBinding;
 import com.uan.brainmher.application.ui.interfaces.IMainCarer;
-import com.uan.brainmher.infraestructure.tools.Constants;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-import com.google.android.material.navigation.NavigationView;
-import com.uan.brainmher.application.ui.activities.general.Login;
-import com.uan.brainmher.application.ui.activities.general.NavigationOptions;
 
 public class MainCarer extends AppCompatActivity implements IMainCarer {
 

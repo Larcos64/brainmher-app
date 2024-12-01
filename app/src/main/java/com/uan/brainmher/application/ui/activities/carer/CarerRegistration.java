@@ -132,6 +132,9 @@ public class CarerRegistration extends AppCompatActivity {
             }
         }, mYear, mMonth, mDay);
 
+        // Limitar las fechas a solo fechas pasadas
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
         datePickerDialog.show();
     }
 

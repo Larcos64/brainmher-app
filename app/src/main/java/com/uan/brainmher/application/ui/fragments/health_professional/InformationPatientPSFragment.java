@@ -97,14 +97,19 @@ public class InformationPatientPSFragment extends Fragment {
 
     private void showDatePicker(OnDateSelectedListener listener) {
         final Calendar calendar = Calendar.getInstance();
-        new DatePickerDialog(requireContext(),
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
                 (view, year, month, dayOfMonth) -> {
                     String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
                     listener.onDateSelected(selectedDate);
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)).show();
+                calendar.get(Calendar.DAY_OF_MONTH));
+
+        // Limitar las fechas a solo fechas pasadas
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+        datePickerDialog.show();
     }
 
     private boolean validateFields() {

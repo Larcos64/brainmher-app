@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/StyleCardView"
+        android:id="@+id/cardActivityTherapy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:strokeColor="@color/colorPrimaryLight"
+        app:strokeWidth="@dimen/two"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_therapy_miniature"
+                    android:layout_width="@dimen/oneHundredFifty"
+                    android:layout_height="@dimen/oneHundredFifty"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/sixteen">
+
+                    <TextView
+                        style="@style/StyleCardViewTitles"
+                        android:id="@+id/lbl_therapy_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/thirty"
+                        android:text="Memorama" />
+
+                    <TextView
+                        style="@style/StyleCardViewSubTitles"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/twentyFive"
+                        android:layout_marginTop="@dimen/two"
+                        android:text="@string/lbl_description"/>
+
+                    <TextView
+                        style="@style/StyleCardViewDescriptions"
+                        android:id="@+id/admin_therapy_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Juego de cartas para estumilar la memoria y mejorar la atención."/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/expandableTherapyView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/sixteen"
+                android:layout_marginRight="@dimen/sixteen"
+                android:layout_marginBottom="@dimen/sixteen">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/twentyFive"
+                    android:layout_marginTop="@dimen/ten"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/StyleCardViewSubTitles"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/lbl_date_of_assignment"/>
+
+                    <TextView
+                        style="@style/StyleCardViewDescriptions"
+                        android:id="@+id/data_therapy_level"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="18/10/2019"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/twentyFive"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/StyleCardViewSubTitles"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/lbl_statement"/>
+
+                    <TextView
+                        style="@style/StyleCardViewDescriptions"
+                        android:id="@+id/data_therapy_statement"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Incompleto"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                style="@style/StyleLayoutButtonActionCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/StyleTextButtonCardView"
+                    android:id="@+id/btn_show_hide_therapy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_show_info"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.core.widget.NestedScrollView>

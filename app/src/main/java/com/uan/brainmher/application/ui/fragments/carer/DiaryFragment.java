@@ -134,16 +134,17 @@ public class DiaryFragment extends Fragment {
         dialogBuilder.setTitle(getString(R.string.events_for_date) + " " + day + "-" + month + "-" + year);
 
         String date = year + "-" + month + "-" + day;
-        loadEventList(dialogBinding.lvCarerEvents, dialogBinding.tvEventCarerList, date);
+        loadEventList(dialogBinding.lvCarerEvents, dialogBinding.tvEventCarerList, date, dialogBinding);
 
         dialogBuilder.setPositiveButton(getString(R.string.exit), null);
         dialogBuilder.create().show();
     }
 
-    private void loadEventList(AdapterView listView, TextView textView, String date) {
+    private void loadEventList(AdapterView listView, TextView textView, String date, FragmentCuViewEventsBinding dialogBinding) {
         carerEventRepository.getEventsByDate(uidCarer, date, events -> {
             if (events.isEmpty()) {
                 textView.setText(R.string.no_events_for_date);
+                listView.setAdapter(null); // Limpia la lista si no hay eventos
             } else {
                 List<String> eventDetails = new ArrayList<>();
                 for (CarerEvent event : events) {
@@ -153,17 +154,23 @@ public class DiaryFragment extends Fragment {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, eventDetails);
                 listView.setAdapter(adapter);
 
-                listView.setOnItemClickListener((parent, view, position, id) -> showDeleteEventDialog(events.get(position)));
+                listView.setOnItemClickListener((parent, view, position, id) ->
+                        showDeleteEventDialog(events.get(position), date, dialogBinding)); // Pasar el binding directamente
             }
         });
     }
 
-    private void showDeleteEventDialog(CarerEvent event) {
+    private void showDeleteEventDialog(CarerEvent event, String date, FragmentCuViewEventsBinding dialogBinding) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle(getString(R.string.delete) + ": " + event.getEventName())
                 .setPositiveButton(R.string.delete, (dialog, which) -> {
-                    carerEventRepository.deleteEvent(uidCarer, event.getEventId());
-                    Toast.makeText(getContext(), R.string.record_deleted, Toast.LENGTH_SHORT).show();
+                    carerEventRepository.deleteEvent(uidCarer, event.getEventId(),
+                            () -> {
+                                Toast.makeText(getContext(), R.string.record_deleted, Toast.LENGTH_SHORT).show();
+                                // Recargar la lista de eventos tras eliminar
+                                loadEventList(dialogBinding.lvCarerEvents, dialogBinding.tvEventCarerList, date, dialogBinding);
+                            },
+                            () -> Toast.makeText(getContext(), R.string.elimination_failed, Toast.LENGTH_SHORT).show());
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .create()

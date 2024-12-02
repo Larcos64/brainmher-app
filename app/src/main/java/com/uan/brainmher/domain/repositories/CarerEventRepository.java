@@ -100,12 +100,18 @@ public class CarerEventRepository {
                 .addOnFailureListener(e -> logError("Error fetching events by date", e));
     }
 
-    public void deleteEvent(String uidCarer, String eventId) {
+    public void deleteEvent(String uidCarer, String eventId, Runnable onSuccess, Runnable onError) {
         db.collection(Constants.Carers).document(uidCarer)
                 .collection(Constants.Events).document(eventId)
                 .delete()
-                .addOnSuccessListener(aVoid -> logInfo("Event deleted successfully"))
-                .addOnFailureListener(e -> logError("Error deleting event", e));
+                .addOnSuccessListener(aVoid -> {
+                    logInfo("Event deleted successfully");
+                    if (onSuccess != null) onSuccess.run();
+                })
+                .addOnFailureListener(e -> {
+                    logError("Error deleting event", e);
+                    if (onError != null) onError.run();
+                });
     }
 
     private void logInfo(String message) {

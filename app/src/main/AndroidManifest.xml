@@ -41,7 +41,7 @@
         <activity android:name=".application.ui.activities.general.Login"
             android:windowSoftInputMode="adjustPan">
         </activity>
-
+        <activity android:name=".application.ui.activities.general.PasswordResetActivity" />
         <activity android:name=".application.ui.activities.carer.CarerRegistration"/>
         <activity android:name=".application.ui.activities.carer.MainCarer" />
         <activity android:name=".application.ui.activities.patient.MainPatient" android:screenOrientation="portrait"/>

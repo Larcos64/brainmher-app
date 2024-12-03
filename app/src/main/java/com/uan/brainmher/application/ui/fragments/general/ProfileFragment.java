@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment {
 
         binding.txtBirthDate.setText(carer.getBirthday());
         binding.txtTelephone.setText(String.valueOf(carer.getPhoneNumber()));
-        binding.txtPassword.setText(carer.getPassword());
+        // binding.txtPassword.setText(carer.getPassword());
         binding.txtEmail.setText(carer.getEmail());
     }
 
@@ -119,11 +119,11 @@ public class ProfileFragment extends Fragment {
         String birthDate = binding.txtBirthDate.getText().toString().trim();
         String phone = binding.txtTelephone.getText().toString().trim();
         String email = binding.txtEmail.getText().toString().trim();
-        String password = binding.txtPassword.getText().toString().trim();
+        // String password = binding.txtPassword.getText().toString().trim();
         String profession = binding.txtProfession.getText().toString().trim();
 
         if (name.isEmpty() || lastName.isEmpty() || residenceCountry.isEmpty() || gender.isEmpty() ||
-                birthDate.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || profession.isEmpty()) {
+                birthDate.isEmpty() || phone.isEmpty() || email.isEmpty() || /* password.isEmpty() ||*/ profession.isEmpty()) {
             return false;
         }
 
@@ -134,7 +134,7 @@ public class ProfileFragment extends Fragment {
         carer.setBirthday(birthDate);
         carer.setPhoneNumber(Long.parseLong(phone));
         carer.setEmail(email);
-        carer.setPassword(password);
+        // carer.setPassword(password);
         carer.setProfession(profession);
 
         return true;

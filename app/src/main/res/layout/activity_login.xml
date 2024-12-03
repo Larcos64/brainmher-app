@@ -81,14 +81,16 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
+        <!-- Botón "Restaurar contraseña" -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_password_recovery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/twenty"
             android:layout_marginVertical="@dimen/five"
             android:paddingVertical="@dimen/ten"
-            android:text="@string/label_register_account"
-            style="@style/StyleTextLabel"/>
+            android:text="@string/reset_password"
+            style="@style/StyleTextButton" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/link_registration"

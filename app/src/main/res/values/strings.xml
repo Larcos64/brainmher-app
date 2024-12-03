@@ -2,9 +2,6 @@
 <resources>
     <string name="app_name">Brainmher</string>
 
-    // Others
-    <string name="label_register_account">¿No tienes cuenta?</string>
-
     // Titles
     <string name="add_carer">Registrar Cuidador</string>
     <string name="lbl_welcome">Bienvenido</string>
@@ -14,6 +11,7 @@
     <string name="execise_name">Nombre del ejercicio</string>
     <string name="medicine_notification">Notificación Medicamento</string>
     <string name="title_activity_games">Juegos</string>
+    <string name="reset_password">Restaurar contraseña</string>
 
     // Placeholders, Labels
     <string name="email">Correo electrónico</string>
@@ -72,6 +70,8 @@
     <string name="phases_ea">Fases E.A.</string>
     <string name="practice">Practicar</string>
     <string name="cancel">Cancelar</string>
+    <string name="send">Enviar</string>
+    <string name="back_to_login">Volver al Login</string>
 
     <string name="info">Información</string>
     <string name="emergency">Emergencias</string>

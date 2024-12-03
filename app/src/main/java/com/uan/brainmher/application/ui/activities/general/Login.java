@@ -37,6 +37,7 @@ public class Login extends AppCompatActivity {
         // Button listeners
         binding.linkRegistration.setOnClickListener(v -> register());
         binding.btnLogin.setOnClickListener(v -> emailPassLogin());
+        binding.btnPasswordRecovery.setOnClickListener(v -> openPasswordRecovery());
     }
 
     private void register() {
@@ -54,6 +55,12 @@ public class Login extends AppCompatActivity {
         if (credentials != null) {
             loginInstance().loginEmailPassword(this, credentials[0], credentials[1]);
         }
+    }
+
+    private void openPasswordRecovery() {
+        // Navega a la pantalla de recuperación de contraseña
+        Intent intent = new Intent(this, PasswordResetActivity.class);
+        startActivity(intent);
     }
 
     private String[] validateFields() {
